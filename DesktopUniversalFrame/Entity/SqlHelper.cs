@@ -19,15 +19,22 @@ namespace DesktopUniversalFrame.Entity
         /// <returns></returns>
         public static int ExcuteModify(string commandText, params MySqlParameter[] parameters)
         {
-            using (MySqlConnection sqlConnection = new MySqlConnection(connectionStr))
+            try
             {
-                sqlConnection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(commandText, sqlConnection))
+                using (MySqlConnection sqlConnection = new MySqlConnection(connectionStr))
                 {
-                    cmd.Parameters.AddRange(parameters);
-                    int result = cmd.ExecuteNonQuery();
-                    return result;
+                    sqlConnection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(commandText, sqlConnection))
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                        int result = cmd.ExecuteNonQuery();
+                        return result;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -39,14 +46,21 @@ namespace DesktopUniversalFrame.Entity
         /// <returns></returns>
         public static object ExcuteScalar(string commandText, params MySqlParameter[] parameters)
         {
-            using (MySqlConnection sqlConnection = new MySqlConnection(connectionStr))
+            try
             {
-                sqlConnection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(commandText, sqlConnection))
+                using (MySqlConnection sqlConnection = new MySqlConnection(connectionStr))
                 {
-                    cmd.Parameters.AddRange(parameters);
-                    return cmd.ExecuteScalar();
+                    sqlConnection.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(commandText, sqlConnection))
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                        return cmd.ExecuteScalar();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

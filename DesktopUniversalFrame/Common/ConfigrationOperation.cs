@@ -14,12 +14,13 @@ namespace DesktopUniversalFrame.Common
     public class ConfigrationOperation
     {
         private Configuration ConfigurationObject;
+        private string exePath = AppDomain.CurrentDomain.BaseDirectory + "DesktopUniversalFrame.dll.config";
 
         /// <summary>
         /// 根据路径获取配置文件
         /// </summary>
         /// <param name="configPath"></param>
-        public ConfigrationOperation(string configPath)
+        public ConfigrationOperation(string configPath = "DesktopUniversalFrame.dll.config")
         {
             ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
             fileMap.ExeConfigFilename = configPath;

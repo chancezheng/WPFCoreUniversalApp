@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:DesktopUniversalFrame"
         xmlns:customControl="clr-namespace:DesktopUniversalFrame.CustomControl"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-        xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel"
+        xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.Login"
         xmlns:component="clr-namespace:Chance.DesktopCustomControl.CustomComponent;assembly=Chance.DesktopCustomControl"
         mc:Ignorable="d"
         Title="Login" x:Name="loginWindow"
@@ -29,15 +29,15 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resource/ControlDictionary.xaml"/>
+                <ResourceDictionary Source="Resource/Dictionary/ControlDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Storyboard x:Key="Start" x:Name="StartStoryboard">
+            <!--<Storyboard x:Key="Start" x:Name="StartStoryboard">
                 <DoubleAnimation Storyboard.TargetName="loginWindow" From="0" To="720" Duration="0:0:3"
                                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)"/>
                 <DoubleAnimation Storyboard.TargetName="loginWindow" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:3"/>
                 <DoubleAnimation Storyboard.TargetName="st" Storyboard.TargetProperty="ScaleX" From="0" To="1" Duration="0:0:3"/>
                 <DoubleAnimation Storyboard.TargetName="st" Storyboard.TargetProperty="ScaleY" From="0" To="1" Duration="0:0:3"/>
-            </Storyboard>
+            </Storyboard>-->
             <Storyboard x:Key="End" x:Name="EndStoryboard">
                 <DoubleAnimation Storyboard.TargetName="loginWindow" From="0" To="720" Duration="0:0:3"
                                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)"/>

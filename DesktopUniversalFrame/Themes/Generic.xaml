@@ -5,7 +5,7 @@
 
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/DesktopUniversalFrame;component/Resource/ColorDictionary.xaml"/>
+        <ResourceDictionary Source="/DesktopUniversalFrame;component/Resource/Dictionary/ColorDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type local:CustomWindow}">
@@ -13,15 +13,28 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomWindow}">
                     <ControlTemplate.Resources>
-                        <!--<Storyboard x:Key="End" x:Name="EndStoryboard">
-                            <DoubleAnimation Storyboard.TargetName="TemplateRoot" From="0" To="720" Duration="0:0:4"
+                        <Storyboard x:Key="Start" x:Name="StartStoryboard">
+                            <DoubleAnimation Storyboard.TargetName="TemplateRoot" From="0" To="720" Duration="0:0:2"
                                              Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)"/>
-                            <DoubleAnimation Storyboard.TargetName="TemplateRoot" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:4"/>
-                            <DoubleAnimation Storyboard.TargetName="st" Storyboard.TargetProperty="ScaleX" From="1" To="0.5" Duration="0:0:4"/>
-                            <DoubleAnimation Storyboard.TargetName="st" Storyboard.TargetProperty="ScaleY" From="1" To="0.5" Duration="0:0:4"/>
-                        </Storyboard>-->
+                            <DoubleAnimation Storyboard.TargetName="TemplateRoot" Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:2"/>
+                            <DoubleAnimation Storyboard.TargetName="st" Storyboard.TargetProperty="ScaleX" From="0.5" To="1" Duration="0:0:2"/>
+                            <DoubleAnimation Storyboard.TargetName="st" Storyboard.TargetProperty="ScaleY" From="0.5" To="1" Duration="0:0:2"/>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="X" Storyboard.TargetName="trt">
+                                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:3.5" Value="10"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:4.5" Value="-10"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
                     </ControlTemplate.Resources>
                     <Grid x:Name="TemplateRoot" Margin="5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="st" ScaleX="1" ScaleY="1"/>
+                                <RotateTransform Angle="0" CenterX="350" CenterY="200"/>
+                                <TranslateTransform x:Name="trt" X="10"/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
                         <Rectangle Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" RadiusX="10" RadiusY="10">
                             <Rectangle.Effect>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="DarkSeaGreen" Opacity="0.8" RenderingBias="Performance"/>
@@ -57,19 +70,23 @@
                                 <Storyboard>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Storyboard.TargetName="TemplateRoot">
                                         <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="450"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:4" Value="800"/>
+                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="450"/>
+                                        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="800"/>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Height" Storyboard.TargetName="TemplateRoot">
                                         <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="450"/>
+                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="450"/>
                                     </DoubleAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard Storyboard="{StaticResource Start}"/>
                         </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

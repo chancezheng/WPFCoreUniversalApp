@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DesktopUniversalFrame.Resource.Dictionary">
+
+    <SolidColorBrush x:Key="LightPink" Color="LightPink"/>
+    <SolidColorBrush x:Key="Green" Color="Green"/>
+    <SolidColorBrush x:Key="BlueViolet" Color="BlueViolet"/>
+    <SolidColorBrush x:Key="Orange" Color="Orange"/>
+    <SolidColorBrush x:Key="Pink" Color="Pink"/>
+    <SolidColorBrush x:Key="Red" Color="Red"/>
+    <SolidColorBrush x:Key="Crimson" Color="Crimson"/>
+    <SolidColorBrush x:Key="MediumSlateBlue" Color="MediumSlateBlue"/>
+    <SolidColorBrush x:Key="DarkSlateBlue" Color="DarkSlateBlue"/>
+    <SolidColorBrush x:Key="RoyalBlue" Color="RoyalBlue"/>
+    <SolidColorBrush x:Key="DodgerBlue" Color="DodgerBlue"/>
+    <SolidColorBrush x:Key="DarkTurquoise" Color="DarkTurquoise"/>
+    <SolidColorBrush x:Key="MediumAquamarine" Color="MediumAquamarine"/>
+    <SolidColorBrush x:Key="SpringGreen" Color="SpringGreen"/>
+    <SolidColorBrush x:Key="PaleGreen" Color="PaleGreen"/>
+    <SolidColorBrush x:Key="Lime" Color="Lime"/>
+    <SolidColorBrush x:Key="Yellow" Color="Yellow"/>
+    <SolidColorBrush x:Key="PaleGoldenrod" Color="PaleGoldenrod"/>
+    <SolidColorBrush x:Key="Gold" Color="Gold"/>
+    <SolidColorBrush x:Key="GoldEnrod" Color="GoldEnrod"/>
+    <SolidColorBrush x:Key="BurlyWood" Color="BurlyWood"/>
+    <SolidColorBrush x:Key="DarkOrange" Color="DarkOrange"/>
+    <SolidColorBrush x:Key="Chocolate" Color="Chocolate"/>
+    <SolidColorBrush x:Key="SandyBrown" Color="SandyBrown"/>
+    <SolidColorBrush x:Key="Coral" Color="Coral"/>
+    <SolidColorBrush x:Key="Tomato" Color="Tomato"/>
+    <SolidColorBrush x:Key="LightCoral" Color="LightCoral"/>
+    <SolidColorBrush x:Key="DarkRed" Color="DarkRed"/>
+    <SolidColorBrush x:Key="DarkGray" Color="DarkGray"/>
+    <SolidColorBrush x:Key="DarkKhaki" Color="DarkKhaki"/>
+    <SolidColorBrush x:Key="Cyan" Color="Cyan"/>
+    <SolidColorBrush x:Key="DarkCyan" Color="DarkCyan"/>
+    <SolidColorBrush x:Key="PaleTurquoise" Color="PaleTurquoise"/>
+    <SolidColorBrush x:Key="MediumTurquoise" Color="MediumTurquoise"/>
+    <SolidColorBrush x:Key="DeepSkyBlue" Color="DeepSkyBlue"/>
+
+</ResourceDictionary>
