@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Chance.DesktopCustomControl">
+      <HintPath>..\..\WPF\DesktopCustomControl\bin\Debug\Chance.DesktopCustomControl.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlConnector">
+      <HintPath>C:\Users\Administrator\.nuget\packages\mysqlconnector\0.61.0\lib\netcoreapp3.0\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism">
+      <HintPath>C:\Users\Administrator\.nuget\packages\prism.core\7.2.0.1422\lib\netcoreapp3.0\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>C:\Users\Administrator\.nuget\packages\prism.wpf\7.2.0.1422\lib\netcoreapp3.0\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
