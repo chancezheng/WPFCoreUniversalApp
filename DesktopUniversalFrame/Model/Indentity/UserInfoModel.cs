@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DesktopUniversalFrame.Common.MappingAttribute;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
@@ -6,6 +7,10 @@ using System.Text;
 
 namespace DesktopUniversalFrame.Model.Indentity
 {
+    /// <summary>
+    /// 用户信息
+    /// </summary>
+    [TableMapping("userinfo")]
     public class UserInfoModel : BaseModel
     {
         [StringLength(maximumLength: 20, MinimumLength = 0)]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DesktopUniversalFrame.Common.MappingAttribute;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,23 +8,27 @@ namespace DesktopUniversalFrame.Model.Indentity
     /// <summary>
     /// 权限类别
     /// </summary>
-    public enum AuthorityModel
+    [TableMapping("authority")]
+    public class AuthorityModel
     {
         /// <summary>
         /// 管理员(最高权限)
         /// </summary>
-        Admin,
+        public string Admin { get; set; }
+
         /// <summary>
         /// Vip
         /// </summary>
-        Vip,
+        public string Vip { get; set; }
+
         /// <summary>
         /// 普通用户
         /// </summary>
-        General,
+        public string General { get; set; }
+
         /// <summary>
         /// 参观者
         /// </summary>
-        Vistor,  
+        public string Vistor { get; set; }
     }
 }
