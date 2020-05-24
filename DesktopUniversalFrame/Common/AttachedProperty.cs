@@ -13,7 +13,6 @@ namespace DesktopUniversalFrame.Common
         {
             return (Style)obj.GetValue(ToolTipStyleProperty);
         }
-
         public static void SetToolTipStyle(DependencyObject obj, Style value)
         {
             obj.SetValue(ToolTipStyleProperty, value);
@@ -22,6 +21,5 @@ namespace DesktopUniversalFrame.Common
         public static readonly DependencyProperty ToolTipStyleProperty =
             DependencyProperty.RegisterAttached("ToolTipStyle", typeof(Style), typeof(AttachedProperty), 
                 new PropertyMetadata(ComponentStyle.GetComponentStyle("toolTip")));
-
     }
 }

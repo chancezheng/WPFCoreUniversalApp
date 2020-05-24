@@ -20,7 +20,7 @@ namespace DesktopUniversalFrame.Entity
         public static T CreateInstance<T>(string asmName = "DesktopUniversalFrame")
         {
             Assembly assembly = Assembly.Load(asmName);
-            Type type = assembly.GetType(typeof(T).Name);
+            Type type = assembly.GetType(typeof(T).FullName);
             T instance = (T)Activator.CreateInstance(type);
             return instance;
         }

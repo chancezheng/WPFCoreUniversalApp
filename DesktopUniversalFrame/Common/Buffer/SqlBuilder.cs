@@ -42,20 +42,23 @@ namespace DesktopUniversalFrame.Common.Buffer
                     break;
                 case SqlOperationType.Insert:
                     {
-                        string columnString = string.Join(',', type.GetProperties().ExceptKey().Select(p => $"{p.Name}"));
-                        string valueString = string.Join(",", type.GetProperties().ExceptKey().Select(p => $"@{p.Name}"));
-                        commandText = $"insert into {type.Name} ({columnString}) values ({valueString})";
+                        string tableName = type.GetAttributeMappingName();
+                        string columnString = string.Join(',', type.GetProperties().Select(p => $"{p.Name}"));
+                        string valueString = string.Join(",", type.GetProperties().Select(p => $"@{p.Name}"));
+                        commandText = $"insert into {tableName} ({columnString}) values ({valueString})";
                     }
                     break;
                 case SqlOperationType.Update:
                     {
+                        string tableName = type.GetAttributeMappingName();
                         string updateStr = string.Join(',', type.GetProperties().ExceptKey().Select(p => $"{p.Name}=@{p.Name}"));
-                        commandText = $"update {type.Name} set {updateStr} where id=@id";
+                        commandText = $"update {tableName} set {updateStr} where id=@id";
                     }
                     break;
                 case SqlOperationType.Delete:
                     {
-                        commandText = $"delete from {type.Name} where id=@id";
+                        string tableName = type.GetAttributeMappingName();
+                        commandText = $"delete from {tableName} where id=@id";
                     }
                     break;
                 default:

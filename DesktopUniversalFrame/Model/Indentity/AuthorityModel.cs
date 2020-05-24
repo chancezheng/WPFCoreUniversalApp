@@ -8,27 +8,26 @@ namespace DesktopUniversalFrame.Model.Indentity
     /// <summary>
     /// 权限类别
     /// </summary>
-    [TableMapping("authority")]
-    public class AuthorityModel
+    public enum AuthorityModel
     {
         /// <summary>
         /// 管理员(最高权限)
         /// </summary>
-        public string Admin { get; set; }
+        Admin,
 
         /// <summary>
         /// Vip
         /// </summary>
-        public string Vip { get; set; }
+        Vip,
 
         /// <summary>
         /// 普通用户
         /// </summary>
-        public string General { get; set; }
+        General,
 
         /// <summary>
         /// 参观者
         /// </summary>
-        public string Vistor { get; set; }
+        Visitor,
     }
 }

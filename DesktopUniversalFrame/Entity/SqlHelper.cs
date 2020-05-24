@@ -63,10 +63,5 @@ namespace DesktopUniversalFrame.Entity
                 throw new Exception(ex.Message);
             }
         }
-
-        //string commandText = "insert into userinfo(username,password) values (@name,@pwd)";
-        //SqlHelper.ExcuteModify(commandText,
-        //    new MySqlParameter("@name", name),
-        //    new MySqlParameter("@pwd", password));
     }
 }
