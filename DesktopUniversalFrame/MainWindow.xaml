@@ -84,19 +84,30 @@
             </component:CustomIconControl>
         </Grid>
         <Grid Grid.Row="2" VerticalAlignment="Center">
-            <!--用户登录-->
-            <userCtl:LoginControl x:Name="Login"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <userCtl:AdvertisingControl Grid.Column="0"/>
+            
+            <!--3D动画-->
+            <userCtl:LoginAnimation3DControl Grid.ColumnSpan="2" Visibility="Visible"/>
+
+            <!--如果你不想要3D动画，可以选择这个，-->
+            <Grid Grid.ColumnSpan="2" Visibility="Collapsed">
+                <!--用户登录-->
+                <userCtl:LoginControl x:Name="Login"
                     Visibility="{Binding UserOperationType,Converter={StaticResource LoginRegisterVisibilityConverter},ConverterParameter=Login}"/>
 
-            <!--用户注册-->
-            <userCtl:RegisterControl x:Name="Register" 
+                <!--用户注册-->
+                <userCtl:RegisterControl x:Name="Register" 
                     Visibility="{Binding UserOperationType,Converter={StaticResource LoginRegisterVisibilityConverter},ConverterParameter=Register}"/>
 
-            <!--忘记密码-->
-            <userCtl:ForgotPasswordControl x:Name="ForgotPassword" 
+                <!--忘记密码-->
+                <userCtl:ForgotPasswordControl x:Name="ForgotPassword" 
                     Visibility="{Binding UserOperationType,Converter={StaticResource LoginRegisterVisibilityConverter},ConverterParameter=ForgotPassword}"/>
+            </Grid>
         </Grid>
-
         <Grid Grid.Row="3">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <TextBlock Text="码云地址：" Style="{StaticResource TextBlockStyle}">

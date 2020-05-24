@@ -18,6 +18,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace DesktopUniversalFrame.ViewModel.Login
 {
@@ -140,7 +141,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
             get { return _forgotPasswordCommand; }
             set { _forgotPasswordCommand = value; }
         }
-       
+
         /// <summary>
         /// 修改密码
         /// </summary>
@@ -180,7 +181,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
         private UserOperationType _userOperationType = UserOperationType.Login;
         private string _returnMain = "注册→";
 
-        
+
         /// <summary>
         /// 注册用户名
         /// </summary>
@@ -189,7 +190,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
             get => _registerName;
             set => SetProperty(ref _registerName, value);
         }
-       
+
         //注册密码
         public string RegisterPassword
         {
@@ -214,7 +215,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
             get => _registerStateInfo;
             set => SetProperty(ref _registerStateInfo, value);
         }
-     
+
         /// <summary>
         /// Modify Button IsEnable?
         /// </summary>
@@ -308,6 +309,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
             ConfigrationOperation = new ConfigrationOperation(exeConfigFilePath);
 
             LoadedWindowCommand = new DelegateCommand<Window>(WindowLoaded);
+            UserControlLoaded = new DelegateCommand<UserControl>(UserCtlLoaded);
             RegisterCommand = new DelegateCommand<ImageButton>(Register);
             LoginCommand = new DelegateCommand<ImageButton>(Login);
             RegisterBackCommand = new DelegateCommand<ToggleButton>(RegisterBack);
@@ -335,17 +337,32 @@ namespace DesktopUniversalFrame.ViewModel.Login
             }
         }
 
+        UserControl LoginAnimation3DCtl;
+        private void UserCtlLoaded(UserControl userControl)
+        {
+            LoginAnimation3DCtl = userControl;
+            AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 0D);
+        }
+
         //注册
         private async void Register(ImageButton btn)
-        {
+        {           
             IsRegisterBtnEnable = false;
             RegisterStateInfo = "正在提交注册信息...";
 
             await Task.Run(() =>
             {
+                if(string.IsNullOrEmpty(RegisterName) || string.IsNullOrEmpty(RegisterPassword))
+                {
+                    RegisterStateInfo = "请先输入用户名和密码";
+                    IsRegisterBtnEnable = true;
+                    return;
+                }
+
                 string commandText = "select username from userinfo where username = @name";
-                string result = SqlHelper.ExcuteScalar(commandText, new MySqlParameter("@name", RegisterName)) as string;
-                if (RegisterName.Equals(result))
+                object result = SqlHelper.ExcuteScalar(commandText, new MySqlParameter("@name", RegisterName));
+
+                if (result != null)
                 {
                     RegisterStateInfo = "用户已存在!";
                     IsRegisterBtnEnable = true;
@@ -364,14 +381,16 @@ namespace DesktopUniversalFrame.ViewModel.Login
                     UserName = RegisterName;
                     UserPassword = RegisterPassword;
                     RegisterStateInfo = "注册成功!";
-
+                  
                     UserOperationType = UserOperationType.Login;
                     ReturnMain = "注册→";
-                }                   
+
+                    Application.Current.Dispatcher.BeginInvoke(() => AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 0D));                  
+                }
                 else
                     RegisterStateInfo = "注册失败!";
                 IsRegisterBtnEnable = true;
-            });
+            });          
         }
 
         //登陆
@@ -406,19 +425,24 @@ namespace DesktopUniversalFrame.ViewModel.Login
         //注册与返回
         private void RegisterBack(ToggleButton regBtn)
         {
+            
             if (ReturnMain == "注册→")
-            {
+            {              
                 RegisterName = string.Empty;
                 RegisterPassword = string.Empty;
                 RegisterStateInfo = string.Empty;
 
                 UserOperationType = UserOperationType.Register;
                 ReturnMain = "←返回";
+
+                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 180D);
             }
             else if (ReturnMain == "←返回")
             {
                 UserOperationType = UserOperationType.Login;
                 ReturnMain = "注册→";
+
+                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 0D);
             }
             else { }
         }
@@ -430,6 +454,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
             {
                 ReturnMain = "←返回";
                 UserOperationType = UserOperationType.ForgotPassword;
+                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 90D);
             }
         }
 
@@ -438,14 +463,23 @@ namespace DesktopUniversalFrame.ViewModel.Login
         {
             IsModifyBtnEnable = false;
             ModifyStateInfo = "正在修改密码...";
-            
+
             await Task.Run(() =>
             {
                 string commandText = $"update userinfo set password='{UserPassword}' where username=@name";
-                SqlHelper.ExcuteModify(commandText, new MySqlParameter("@name", UserName));
+                int result = SqlHelper.ExcuteModify(commandText, new MySqlParameter("@name", UserName));
+                if(result <= 0)
+                {
+                    Thread.Sleep(2000);
+                    ModifyStateInfo = "用户名输入错误";
+                }
+                else
+                {
+                    Thread.Sleep(2000);
+                    ModifyStateInfo = "修改成功";
 
-                Thread.Sleep(2000);
-                ModifyStateInfo = "修改成功";
+                    Application.Current.Dispatcher.BeginInvoke(() => AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 0D));
+                }
                 IsModifyBtnEnable = true;
             });
         }
