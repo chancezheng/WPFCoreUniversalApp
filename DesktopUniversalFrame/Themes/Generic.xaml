@@ -1,4 +1,4 @@
-<ResourceDictionary
+﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:DesktopUniversalFrame.CustomControl">
@@ -88,5 +88,109 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <LinearGradientBrush x:Key="RadioButtonBorderBrush">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Color="DeepSkyBlue" Offset="0.2"/>
+            <GradientStop Color="Yellow" Offset="0.4"/>
+            <GradientStop Color="LimeGreen" Offset="0.6"/>
+            <GradientStop Color="OrangeRed" Offset="0.8"/>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="RadioButtonBackground" StartPoint="0,0.5" EndPoint="1,0.5">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Color="Yellow" Offset="0"/>
+            <GradientStop Color="OrangeRed" Offset="0.25"/>
+            <GradientStop Color="Orange" Offset="0.75"/>
+            <GradientStop Color="LimeGreen" Offset="1"/>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
     
+    <Style TargetType="{x:Type local:CustomRadioButton}">
+        <Setter Property="Width" Value="90"/>
+        <Setter Property="Height" Value="70"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="4"/>
+        <Setter Property="Background" Value="OrangeRed"/>
+        <Setter Property="StrokeThickness" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CustomRadioButton}">
+                    <Border x:Name="border" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{TemplateBinding Content}" Width="20" Margin="5,0,10,0" Foreground="LightYellow" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" TextWrapping="Wrap"/>
+                            <Path Data="{TemplateBinding ShapePath}" Stroke="WhiteSmoke" StrokeThickness="{TemplateBinding StrokeThickness}"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource RadioButtonBorderBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource RadioButtonBackground}"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="BorderStoryBoard">
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <!--边框跑马灯模式-->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="BorderBrush.GradientStops[0].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.8"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="BorderBrush.GradientStops[1].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.8"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="BorderBrush.GradientStops[2].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.8"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.2"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.6"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="BorderBrush.GradientStops[3].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.2"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.8"/>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <!--背景跑马灯模式-->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="Background.GradientStops[0].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.8"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="Background.GradientStops[1].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.8"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="Background.GradientStops[2].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.8"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.2"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.6"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="Background.GradientStops[3].Offset">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.2"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="0.4"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2.0" Value="0.8"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

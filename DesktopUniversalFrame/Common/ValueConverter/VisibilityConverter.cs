@@ -28,4 +28,24 @@ namespace DesktopUniversalFrame.Common.ValueConverter
             throw new NotImplementedException();
         }
     }
+
+    /// <summary>
+    /// 转换器（窗口大小切换时）
+    /// </summary>
+    public class SwitchWindowSizeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int windowState = (int)value;
+            if (windowState == int.Parse(parameter.ToString()))
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

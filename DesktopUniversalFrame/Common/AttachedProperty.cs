@@ -3,8 +3,12 @@ using DesktopUniversalFrame.ViewModel.Login;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interactivity;
+using System.Windows.Media;
 
 namespace DesktopUniversalFrame.Common
 {
@@ -24,19 +28,34 @@ namespace DesktopUniversalFrame.Common
                 new PropertyMetadata(ComponentStyle.GetComponentStyle("toolTip")));
 
 
-        public static UserOperationType GetOperationType(DependencyObject obj)
+        public static bool GetIsWindowPrepareClosing(DependencyObject obj)
         {
-            return (UserOperationType)obj.GetValue(OperationTypeProperty);
+            return (bool)obj.GetValue(IsWindowPrepareClosingProperty);
         }
-
-        public static void SetOperationType(DependencyObject obj, UserOperationType value)
+        public static void SetIsWindowPrepareClosing(DependencyObject obj, bool value)
         {
-            obj.SetValue(OperationTypeProperty, value);
+            obj.SetValue(IsWindowPrepareClosingProperty, value);
         }
+        //Window是否准备关闭
+        public static readonly DependencyProperty IsWindowPrepareClosingProperty =
+            DependencyProperty.RegisterAttached("IsWindowPrepareClosing", typeof(bool), typeof(AttachedProperty), 
+                new PropertyMetadata(false,new PropertyChangedCallback(WindowPrepareClosingChanged)));
+        private static void WindowPrepareClosingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var win = d as Window;
+            Task.Run(() =>
+            {
+                Thread.Sleep(2000);
+                App.Current.Dispatcher.Invoke(()=> { win.Close(); });
+            });
+        }
+    }
 
-        //用户操作(注册、忘记密码、登陆)
-        public static readonly DependencyProperty OperationTypeProperty =
-            DependencyProperty.RegisterAttached("OperationType", typeof(UserOperationType), typeof(AttachedProperty), 
-                new PropertyMetadata(default(UserOperationType)));
+    public class DoubleButtonClick : Behavior<Button>
+    {
+        protected override void OnAttached()
+        {
+            AssociatedObject.Background = Brushes.Transparent;
+        }
     }
 }

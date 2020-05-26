@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resource\Medical\Images\Medical.png" />
     <None Remove="UserCtl\Login\AdvertisingControl.xaml~RF3524167.TMP" />
     <None Remove="ViewModel\UserInfoModel.cs~RF141e8df.TMP" />
   </ItemGroup>
@@ -34,6 +35,12 @@
 
   <ItemGroup>
     <Folder Include="Resource\Effect\" />
+    <Folder Include="Resource\Factory\" />
+    <Folder Include="Views\Factory\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\Medical\Images\Medical.png" />
   </ItemGroup>
 
 </Project>

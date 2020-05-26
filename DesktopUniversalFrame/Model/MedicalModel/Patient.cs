@@ -1,0 +1,87 @@
+﻿using DesktopUniversalFrame.Common.MappingAttribute;
+using DesktopUniversalFrame.Common.ValueConverter;
+using DesktopUniversalFrame.Model.Indentity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+
+namespace DesktopUniversalFrame.Model.MedicalModel
+{
+    /// <summary>
+    /// 病人信息
+    /// </summary>
+    [TableMapping("patientinfo")]
+    public class Patient : BaseModel
+    {
+        public string PatientName { get; set; }
+
+        public int Age { get; set; }
+
+        //0=>男，1=>女，2=>未知
+        public int Gender { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// 样本号
+        /// </summary>
+        public string SampleNumber { get; set; }
+
+        /// <summary>
+        /// 样本条码号
+        /// </summary>
+        public string SampleBarCode { get; set; }
+
+        /// <summary>
+        /// 样本类型
+        /// </summary>
+        public string SampleType { get; set; }
+
+        /// <summary>
+        /// 报告类型
+        /// </summary>
+        public string ReportType { get; set; }
+
+        /// <summary>
+        /// 挂号日期
+        /// </summary>
+        public DateTime RegisterTime { get; set; }
+
+        /// <summary>
+        /// 诊断状态
+        /// </summary>
+        [TypeConverter(typeof(EnumToDiagnoseStateConverter))]
+        public int DiagnoseState { get; set; }
+
+        /// <summary>
+        /// 送检医院
+        /// </summary>
+        public string InspectHospital { get; set; }
+
+        /// <summary>
+        /// 送检科室
+        /// </summary>
+        public string InspectDepartment { get; set; }
+
+        /// <summary>
+        /// 送检医生
+        /// </summary>
+        public string InspectDoctor { get; set; }
+
+        /// <summary>
+        /// 门诊号
+        /// </summary>
+        public string OutDepartment { get; set; }
+
+        /// <summary>
+        /// 导出日期
+        /// </summary>
+        public DateTime ExportTime { get; set; }
+
+        /// <summary>
+        /// 打印日期
+        /// </summary>
+        public DateTime PrintTime { get; set; }
+    }
+}

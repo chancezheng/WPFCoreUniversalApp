@@ -14,6 +14,10 @@ namespace DesktopUniversalFrame
     /// </summary>
     public partial class App : Application
     {
-       
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            //App.Current.StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
+            App.Current.StartupUri = new Uri("Views/MedicalView/MedicalReportWindow.xaml", UriKind.Relative);
+        }
     }
 }
