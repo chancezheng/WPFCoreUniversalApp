@@ -29,5 +29,15 @@ namespace DesktopUniversalFrame.Common.MappingAttribute
         {
             return propertyInfos.Where(p => p.IsDefined(typeof(KeyAttribute), true)).FirstOrDefault();
         }
+
+        /// <summary>
+        /// 除去忽略属性
+        /// </summary>
+        /// <param name="propertyInfos"></param>
+        /// <returns></returns>
+        public static IEnumerable<PropertyInfo>ExcepteIgnoreProperty(this IEnumerable<PropertyInfo> propertyInfos)
+        {
+            return propertyInfos.Where(p => !p.IsDefined(typeof(IgnoreSomePropertyAttribute), true));
+        }
     }
 }

@@ -3,85 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:helix="http://helix-toolkit.org/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Viewbox>
-            <Canvas Width="321" Height="201">
-                <Viewport3D Name="MyAnimatedObject" ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10">
-                    <Viewport3D.Camera>
-                        <PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" />
-                    </Viewport3D.Camera>
-                    <Viewport3D.Children>
-                        <ModelVisual3D>
-                            <ModelVisual3D.Content>
-                                <DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" />
-                            </ModelVisual3D.Content>
-                        </ModelVisual3D>
-                        <ModelVisual3D>
-                            <ModelVisual3D.Content>
-                                <DirectionalLight Color="#FFFFFF" Direction="0.612372,-0.5,-0.612372" />
-                            </ModelVisual3D.Content>
-                        </ModelVisual3D>
-                        <ModelVisual3D>
-                            <ModelVisual3D.Content>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                         TriangleIndices="0,1,2 3,4,5 "
-                                         Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 "
-                                         TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 "
-                                         Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " />
-                                    </GeometryModel3D.Geometry>
-
-                                    <GeometryModel3D.Material>
-                                        <MaterialGroup>
-                                            <DiffuseMaterial>
-                                                <DiffuseMaterial.Brush>
-                                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                        <LinearGradientBrush.GradientStops>
-                                                            <GradientStop Color="Yellow" Offset="0" />
-                                                            <GradientStop Color="Red" Offset="0.25" />
-                                                            <GradientStop Color="Blue" Offset="0.75" />
-                                                            <GradientStop Color="LimeGreen" Offset="1" />
-                                                        </LinearGradientBrush.GradientStops>
-                                                    </LinearGradientBrush>
-                                                </DiffuseMaterial.Brush>
-                                            </DiffuseMaterial>
-                                        </MaterialGroup>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.Transform>
-                                        <RotateTransform3D>
-                                            <RotateTransform3D.Rotation>
-                                                <AxisAngleRotation3D x:Name="myAngleRotation" Axis="0,1,0" Angle="0" />
-                                            </RotateTransform3D.Rotation>
-                                        </RotateTransform3D>
-                                    </GeometryModel3D.Transform>
-                                </GeometryModel3D>
-                            </ModelVisual3D.Content>
-                        </ModelVisual3D>
-                    </Viewport3D.Children>
-
-                    <Viewport3D.Triggers>
-                        <EventTrigger RoutedEvent="Viewport3D.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation 
-                                       Storyboard.TargetName="myAngleRotation" 
-                                       Storyboard.TargetProperty="Angle" 
-                                       From="0" To="-90" Duration="0:0:4" AutoReverse="True"  RepeatBehavior="Forever"/>
-                                    <!--<Vector3DAnimation 
-                                       Storyboard.TargetName="myAngleRotation" 
-                                       Storyboard.TargetProperty="Axis" 
-                                       From="0,3,0" To="1,0,1" Duration="0:0:4" AutoReverse="True"  RepeatBehavior="Forever"/>-->
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Viewport3D.Triggers>
-                </Viewport3D>
-            </Canvas>
-
-        </Viewbox>
+        <Grid.Background>
+            <ImageBrush ImageSource="/DesktopUniversalFrame;component/Resource/Medical/Images/background.png"/>
+        </Grid.Background>
+        <helix:HelixViewport3D InfiniteSpin="True" ShowViewCube="False">
+            <helix:DefaultLights/>
+            <helix:SphereVisual3D Fill="Red" Radius="4">
+                <helix:SphereVisual3D.Material>
+                    <DiffuseMaterial>
+                        <DiffuseMaterial.Brush>
+                            <ImageBrush ImageSource="/DesktopUniversalFrame;component/Resource/Medical/Images/about.png" 
+                                        Stretch="Fill" TileMode="Tile" ViewportUnits="Absolute"/>
+                        </DiffuseMaterial.Brush>
+                    </DiffuseMaterial>
+                </helix:SphereVisual3D.Material>
+                <helix:SphereVisual3D.Transform>
+                    <Transform3DGroup>
+                        <RotateTransform3D x:Name="SphereRotateTransform3D">
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D Axis="0,0,1" Angle="-90" x:Name="SphereRotate"/>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                        <TranslateTransform3D OffsetX="5" OffsetY="-2"/>
+                    </Transform3DGroup>
+                </helix:SphereVisual3D.Transform>
+            </helix:SphereVisual3D>
+        </helix:HelixViewport3D>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="UserControl.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="SphereRotate" Storyboard.TargetProperty="Angle"                           
+                                         From="0" To="-360"
+                                         RepeatBehavior="Forever" Duration="0:0:5" AutoReverse="False"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
     </Grid>
     
 </UserControl>

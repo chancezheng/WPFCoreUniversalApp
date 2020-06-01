@@ -3,132 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:helix="http://helix-toolkit.org/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Width="100" Height="100">
-        <Viewport3D>
-            <Viewport3D.Camera>
-                <PerspectiveCamera LookDirection="0,0,-1" UpDirection="0,1,0" Position="0,0,2" FieldOfView="40">
-                <!--<PerspectiveCamera Position="0,0,-3" LookDirection="0,0,-1" FieldOfView="90">-->
-                    <!--<PerspectiveCamera.Transform>
-                        <Transform3DGroup>
-                            <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" x:Name="CameraTranslateZm"/>
-                            <RotateTransform3D x:Name="CameraTransform3D">
-                                <RotateTransform3D.Rotation>
-                                    <AxisAngleRotation3D x:Name="CameraAngle" Angle="0" Axis="0 1 0"/>
-                                </RotateTransform3D.Rotation>
-                            </RotateTransform3D>
-                        </Transform3DGroup>
-                    </PerspectiveCamera.Transform>-->
-                    <!--</PerspectiveCamera>-->
-                </PerspectiveCamera>
-            </Viewport3D.Camera>
-
-            <Viewport3D.Children>
-                <!--<ContainerUIElement3D>
-                    <Viewport2DVisual3D>
-                        <Viewport2DVisual3D.Geometry>
-                            <MeshGeometry3D Positions="-200,150,200  -200,-150,200  200,-150,200  200,150,200" 
-                                            TriangleIndices="0 1 2  0 2 3" TextureCoordinates="0 0  0 1  1 1  1 0"/>
-                        </Viewport2DVisual3D.Geometry>
-                        <Viewport2DVisual3D.Material>
-                            <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True"/>
-                        </Viewport2DVisual3D.Material>
-                        <Viewport2DVisual3D.Visual>
-                            <Image Source="/Resource/Medical/Images/Medical.png"/>
-                        </Viewport2DVisual3D.Visual>
-                    </Viewport2DVisual3D>
-
-                    <ModelVisual3D>
-                        <ModelVisual3D.Content>
-                            <DirectionalLight Color="#FFFFFF"/>
-                        </ModelVisual3D.Content>
-                    </ModelVisual3D>                 
-                    <ContainerUIElement3D.Transform>
-                        <RotateTransform3D x:Name="loginRotateTransform3D">
-                            <RotateTransform3D.Rotation>
-                                <AxisAngleRotation3D x:Name="loginAxisAngleRotation3D" Axis="0,1,0" Angle="0"/>
-                            </RotateTransform3D.Rotation>
-                        </RotateTransform3D>
-                    </ContainerUIElement3D.Transform>
-                </ContainerUIElement3D>-->
-                <ModelVisual3D>
-                    <ModelVisual3D.Content>
-                        <Model3DGroup x:Name="cube1TransformGroup">
-                            <Model3DGroup.Transform>
-                                <Transform3DGroup>
-                                    <TranslateTransform3D/>
-                                    <MatrixTransform3D/>
-                                    <RotateTransform3D x:Name="loginRotateTransform3D">
-                                        <RotateTransform3D.Rotation>
-                                            <AxisAngleRotation3D Axis="0,1,0" Angle="0"/>
-                                        </RotateTransform3D.Rotation>
-                                    </RotateTransform3D>
-                                    <ScaleTransform3D ScaleX="1" ScaleY="1"/>
-                                </Transform3DGroup>
-                            </Model3DGroup.Transform>
-                            <Model3DGroup.Children>
-                                <DirectionalLight Color="#FFFFFF" Direction="3,-4,5"/>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="0.293893 -0.5 0.404509  0.475528 -0.5 0.154509  0 0.5 0  0.475528 -0.5 0.154509  0 0.5 0  0 0.5 0  0.475528 -0.5 0.154509  0.475528 -0.5 -0.154509  0 0.5 0  0.475528 -0.5 -0.154509  0 0.5 0  0 0.5 0  0.475528 -0.5 -0.154509  0.293893 -0.5 -0.404509  0 0.5 0  0.293893 -0.5 -0.404509  0 0.5 0  0 0.5 0  0.293893 -0.5 -0.404509  0 -0.5 -0.5  0 0.5 0  0 -0.5 -0.5  0 0.5 0  0 0.5 0  0 -0.5 -0.5  -0.293893 -0.5 -0.404509  0 0.5 0  -0.293893 -0.5 -0.404509  0 0.5 0  0 0.5 0  -0.293893 -0.5 -0.404509  -0.475528 -0.5 -0.154509  0 0.5 0  -0.475528 -0.5 -0.154509  0 0.5 0  0 0.5 0  -0.475528 -0.5 -0.154509  -0.475528 -0.5 0.154509  0 0.5 0  -0.475528 -0.5 0.154509  0 0.5 0  0 0.5 0  -0.475528 -0.5 0.154509  -0.293892 -0.5 0.404509  0 0.5 0  -0.293892 -0.5 0.404509  0 0.5 0  0 0.5 0  -0.293892 -0.5 0.404509  0 -0.5 0.5  0 0.5 0  0 -0.5 0.5  0 0.5 0  0 0.5 0  0 -0.5 0.5  0.293893 -0.5 0.404509  0 0.5 0  0.293893 -0.5 0.404509  0 0.5 0  0 0.5 0  " 
-                                                        Normals="0.7236065,0.4472139,0.5257313  0.2763934,0.4472138,0.8506507  0.5308242,0.4294462,0.7306172  0.2763934,0.4472138,0.8506507  0,0.4294458,0.9030925  0.5308242,0.4294462,0.7306172  0.2763934,0.4472138,0.8506507  -0.2763934,0.4472138,0.8506507  0,0.4294458,0.9030925  -0.2763934,0.4472138,0.8506507  -0.5308242,0.4294462,0.7306172  0,0.4294458,0.9030925  -0.2763934,0.4472138,0.8506507  -0.7236065,0.4472139,0.5257313  -0.5308242,0.4294462,0.7306172  -0.7236065,0.4472139,0.5257313  -0.858892,0.429446,0.279071  -0.5308242,0.4294462,0.7306172  -0.7236065,0.4472139,0.5257313  -0.8944269,0.4472139,0  -0.858892,0.429446,0.279071  -0.8944269,0.4472139,0  -0.858892,0.429446,-0.279071  -0.858892,0.429446,0.279071  -0.8944269,0.4472139,0  -0.7236065,0.4472139,-0.5257313  -0.858892,0.429446,-0.279071  -0.7236065,0.4472139,-0.5257313  -0.5308242,0.4294462,-0.7306172  -0.858892,0.429446,-0.279071  -0.7236065,0.4472139,-0.5257313  -0.2763934,0.4472138,-0.8506507  -0.5308242,0.4294462,-0.7306172  -0.2763934,0.4472138,-0.8506507  0,0.4294458,-0.9030925  -0.5308242,0.4294462,-0.7306172  -0.2763934,0.4472138,-0.8506507  0.2763934,0.4472138,-0.8506507  0,0.4294458,-0.9030925  0.2763934,0.4472138,-0.8506507  0.5308249,0.4294459,-0.7306169  0,0.4294458,-0.9030925  0.2763934,0.4472138,-0.8506507  0.7236068,0.4472141,-0.5257306  0.5308249,0.4294459,-0.7306169  0.7236068,0.4472141,-0.5257306  0.8588922,0.4294461,-0.27907  0.5308249,0.4294459,-0.7306169  0.7236068,0.4472141,-0.5257306  0.8944269,0.4472139,0  0.8588922,0.4294461,-0.27907  0.8944269,0.4472139,0  0.858892,0.429446,0.279071  0.8588922,0.4294461,-0.27907  0.8944269,0.4472139,0  0.7236065,0.4472139,0.5257313  0.858892,0.429446,0.279071  0.7236065,0.4472139,0.5257313  0.5308242,0.4294462,0.7306172  0.858892,0.429446,0.279071  "                   
-                                                        TriangleIndices="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 ">
-                                        </MeshGeometry3D>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,1">
-                                                    <GradientStop Color="Yellow" Offset="0" />
-                                                    <GradientStop Color="Red" Offset="0.25" />
-                                                    <GradientStop Color="Blue" Offset="0.75" />
-                                                    <GradientStop Color="LimeGreen" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
-
-                                    <GeometryModel3D.Transform>
-                                        <RotateTransform3D x:Name="myAngleRotation">
-                                            <RotateTransform3D.Rotation>
-                                                <AxisAngleRotation3D  Axis="0,1,0" Angle="0" />
-                                            </RotateTransform3D.Rotation>
-                                        </RotateTransform3D>
-                                    </GeometryModel3D.Transform>
-                                </GeometryModel3D>
-                            </Model3DGroup.Children>
-                        </Model3DGroup>
-                    </ModelVisual3D.Content>
-                </ModelVisual3D>
-            </Viewport3D.Children>
-
-            <Viewport3D.Triggers>
-                <EventTrigger RoutedEvent="Viewport3D.Loaded">
-                    <BeginStoryboard x:Name="StartStoryboard">
-                        <Storyboard>
-                            <Rotation3DAnimation Storyboard.TargetName="myAngleRotation" Storyboard.TargetProperty="Rotation"
-                                                 Duration="0:0:1" AutoReverse="False" RepeatBehavior="Forever">
-                                <Rotation3DAnimation.From>
-                                    <AxisAngleRotation3D Axis="0,1,0" Angle="0"/>
-                                </Rotation3DAnimation.From>
-                                <Rotation3DAnimation.To>
-                                    <AxisAngleRotation3D Axis="0,1,0" Angle="180"/>
-                                </Rotation3DAnimation.To>
-                            </Rotation3DAnimation>
-                            <!--<Rotation3DAnimation Storyboard.TargetName="CameraTransform3D" Storyboard.TargetProperty="Rotation"
-                                                 Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever">
-                                <Rotation3DAnimation.From>
-                                    <AxisAngleRotation3D Axis="0,1,0" Angle="0"/>
-                                </Rotation3DAnimation.From>
-                                <Rotation3DAnimation.To>
-                                    <AxisAngleRotation3D Axis="0,1,0" Angle="180"/>
-                                </Rotation3DAnimation.To>
-                            </Rotation3DAnimation>-->
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Viewport3D.Triggers>
-        </Viewport3D>
+        <Grid.Resources>
+            <LinearGradientBrush x:Key="FillColor" StartPoint="0,0.5" EndPoint="0.5,0.5">
+                <GradientStop Color="BlueViolet" Offset="0.2"/>
+                <GradientStop Color="LimeGreen" Offset="0.4"/>
+                <GradientStop Color="Yellow" Offset="0.6"/>
+                <GradientStop Color="Orange" Offset="0.8"/>
+            </LinearGradientBrush>
+        </Grid.Resources>
+        <helix:HelixViewport3D InfiniteSpin="True" ZoomExtentsWhenLoaded="True" ShowViewCube="False" >
+            <helix:SunLight/>
+            <helix:TubeVisual3D Path="{Binding Ring1}" Fill="Yellow" Diameter="0.5" ThetaDiv="20" IsPathClosed="True"/>
+            <helix:TubeVisual3D Path="{Binding Ring2}" Fill="LimeGreen" Diameter="0.5" ThetaDiv="20" IsPathClosed="True"/>
+            <helix:TubeVisual3D Path="{Binding Ring3}" Fill="OrangeRed" Diameter="0.5" ThetaDiv="20" IsPathClosed="True"/>
+        </helix:HelixViewport3D>
     </Grid>
 </UserControl>

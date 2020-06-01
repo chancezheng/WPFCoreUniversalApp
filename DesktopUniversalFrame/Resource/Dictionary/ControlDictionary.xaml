@@ -1,14 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converter="clr-namespace:DesktopUniversalFrame.Common.ValueConverter">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Chance.DesktopCustomControl;component/Resource/Dictionary/ControlDictionary.xaml"/>
-        <ResourceDictionary Source="/DesktopUniversalFrame;component/Resource/Dictionary/ViewDictionary.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
     
     <!--转换器-->
     <converter:LoginRegisterVisibilityConverter x:Key="LoginRegisterVisibilityConverter"/>
+    <converter:SubmitPatientInfoButtonIsEnabled x:Key="SubmitPatientInfoButtonIsEnabled"/>
+    <converter:SubmitPatientInfoButtonBackground x:Key="SubmitPatientInfoButtonBackground"/>
 
     <!--Color-->
     <SolidColorBrush x:Key="ForegroundBrush" Color="WhiteSmoke"/>

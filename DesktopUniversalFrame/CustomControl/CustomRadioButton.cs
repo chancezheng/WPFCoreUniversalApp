@@ -58,5 +58,17 @@ namespace DesktopUniversalFrame.CustomControl
         }
         public static readonly DependencyProperty ShapePathProperty =
             DependencyProperty.Register("ShapePath", typeof(Geometry), typeof(CustomRadioButton), new PropertyMetadata(default(Geometry)));
+
+
+        /// <summary>
+        /// 开启跑马灯
+        /// </summary>
+        public bool StartRunningLight
+        {
+            get { return (bool)GetValue(StartRunningLightProperty); }
+            set { SetValue(StartRunningLightProperty, value); }
+        }
+        public static readonly DependencyProperty StartRunningLightProperty =
+            DependencyProperty.Register("StartRunningLight", typeof(bool), typeof(CustomRadioButton), new PropertyMetadata(true));
     }
 }

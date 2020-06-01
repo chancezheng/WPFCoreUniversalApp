@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resource\Medical\Images\about.png" />
+    <None Remove="Resource\Medical\Images\background.png" />
     <None Remove="Resource\Medical\Images\Medical.png" />
     <None Remove="UserCtl\Login\AdvertisingControl.xaml~RF3524167.TMP" />
     <None Remove="ViewModel\UserInfoModel.cs~RF141e8df.TMP" />
@@ -40,7 +42,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resource\Medical\Images\Medical.png" />
+    <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.12.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0-ci1494" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="ShowMeTheXAML" Version="1.1.0-ci73" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\Medical\Images\about.png" />
+    <Resource Include="Resource\Medical\Images\background.png" />
+    <Resource Include="Resource\Medical\Images\medical.png" />
   </ItemGroup>
 
 </Project>

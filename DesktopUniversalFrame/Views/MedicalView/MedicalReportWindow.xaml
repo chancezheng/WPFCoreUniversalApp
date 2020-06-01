@@ -4,49 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.MedicalViewModel"
-        xmlns:medicalCtl="clr-namespace:DesktopUniversalFrame.UserCtl.Medical"
-        xmlns:customCtl="clr-namespace:DesktopUniversalFrame.CustomControl"
+        xmlns:medicalCtl="clr-namespace:DesktopUniversalFrame.UserCtl.Medical"     
+        xmlns:rule="clr-namespace:DesktopUniversalFrame.Entity.CustomValidationRules"
+        xmlns:medicalModel="clr-namespace:DesktopUniversalFrame.Model.MedicalModel"
         xmlns:common="clr-namespace:DesktopUniversalFrame.Common"
+        xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+        xmlns:e="clr-namespace:DesktopUniversalFrame.Entity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:chanceCustomCtl="clr-namespace:Chance.DesktopCustomControl.CustomComponent;assembly=Chance.DesktopCustomControl"
         mc:Ignorable="d" x:Name="medicalMainWindow"
         Title="医疗报告系统" Height="800" Width="1500"
-        WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
-        WindowState="Normal" WindowStartupLocation="CenterScreen"
-        Style="{DynamicResource MainWindow}" Background="{DynamicResource TitleBackground}"
-        common:AttachedProperty.IsWindowPrepareClosing="False">
+        ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource NoneWindow}" Background="{DynamicResource TitleBackground}">
 
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Resource/Dictionary/ControlDictionary.xaml"/>
-                <ResourceDictionary Source="../../Resource/Dictionary/ViewDictionary.xaml"/>
-                <ResourceDictionary Source="../../Resource/Dictionary/WindowDictionary.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <Storyboard x:Key="CloseStoryboard" Storyboard.TargetName="st">
-                <DoubleAnimation Duration="0:0:2" From="1" To="0.2" Storyboard.TargetProperty="ScaleX"/>
-                <DoubleAnimation Duration="0:0:2" From="1" To="0.2" Storyboard.TargetProperty="ScaleY"/>
-            </Storyboard>
-            <LinearGradientBrush x:Key="TitleBackground">
-                <GradientStop Color="BlueViolet" Offset="0.2"/>
-                <GradientStop Color="LimeGreen" Offset="0.4"/>
-                <GradientStop Color="Yellow" Offset="0.6"/>
-                <GradientStop Color="Orange" Offset="0.8"/>
-            </LinearGradientBrush>
-            <Style x:Key="HelpBtn" TargetType="{x:Type ToggleButton}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ToggleButton}">
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="Red" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
+        <vm:MedicalReportViewModel x:Key="MedicalReportViewModel"/>
+        <e:MyCommands x:Key="aaa" Command="{Binding Path=ContextMenuItemSelectedCommand}"/>
+        <common:BindingProxy x:Key="DataContextProxy" Data="{Binding}"/>
+        <medicalModel:PatientExtention x:Key="PatientExtention"/>
+        <Storyboard x:Key="CloseStoryboard" Storyboard.TargetName="st">
+            <DoubleAnimation Duration="0:0:2" From="1" To="0.2" Storyboard.TargetProperty="ScaleX"/>
+            <DoubleAnimation Duration="0:0:2" From="1" To="0.2" Storyboard.TargetProperty="ScaleY"/>
+        </Storyboard>
+        <LinearGradientBrush x:Key="TitleBackground">
+            <GradientStop Color="BlueViolet" Offset="0.2"/>
+            <GradientStop Color="LimeGreen" Offset="0.4"/>
+            <GradientStop Color="Yellow" Offset="0.6"/>
+            <GradientStop Color="Orange" Offset="0.8"/>
+        </LinearGradientBrush>
+        <Style x:Key="DefaultTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}" />
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
     </Window.Resources>
 
     <Window.RenderTransform>
@@ -57,6 +51,11 @@
         <vm:MedicalReportViewModel/>
     </Window.DataContext>
 
+    <!--数据验证-->
+    <i:Interaction.Behaviors>
+        <rule:ValidationExceptionBehavior/>
+    </i:Interaction.Behaviors>
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
@@ -64,9 +63,9 @@
         <i:EventTrigger EventName="MouseMove">
             <i:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
         </i:EventTrigger>
-        <i:EventTrigger EventName="MouseLeftButtonUp" SourceName="TitleBorder">
+        <!--<i:EventTrigger EventName="MouseLeftButtonUp" SourceName="TitleBorder">
             <i:InvokeCommandAction Command="{Binding MaxWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
-        </i:EventTrigger>
+        </i:EventTrigger>-->
     </i:Interaction.Triggers>
 
     <Grid>
@@ -76,7 +75,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -85,10 +84,20 @@
                 CornerRadius="10,10,0,0" Background="{StaticResource TitleBackground}">
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Image Source="/Resource/Medical/Images/Medical.png" Width="25" Height="25" Margin="10,0,10,0"/>
+                    <Image Source="/Resource/Medical/Images/medical.png" Width="25" Height="25" Margin="10,0,10,0"/>
                     <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorLevel=1,AncestorType=Window},Path=Title}"
-                           Style="{DynamicResource TextBlockStyle}" HorizontalAlignment="Left"/>
-                    <ToggleButton x:Name="helpTb" Content="关于" FontSize="14" Margin="50,0,0,0" Style="{StaticResource ToggleButtonText}" FontWeight="Normal"/>
+                           Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,50,0"/>
+                    <Menu IsMainMenu="True" FontSize="16" Foreground="White" Background="BlueViolet">
+                        <MenuItem Header="设置" Height="30">
+                            <MenuItem Header="账号"/>
+                            <MenuItem Header="主题"/>
+                        </MenuItem>
+                        <MenuItem Header="帮助" Height="30">
+                            <MenuItem Header="项目地址"/>
+                            <MenuItem Header="反馈"/>
+                            <MenuItem Header="关于" x:Name="about" IsCheckable="True"/>
+                        </MenuItem>
+                    </Menu>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Command="{Binding MinWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}" Style="{DynamicResource MinCaptionButtonStyle}" ToolTip="最小化"/>
@@ -103,60 +112,81 @@
 
         <!--Logo-->
         <Grid Grid.Row="1" Grid.Column="0">
-            <medicalCtl:MedicalLogo3DControl ToolTip="消息通知"/>
+            <medicalCtl:MedicalLogo3DControl/>
         </Grid>
 
         <!--功能选择栏-->
         <Grid Grid.Row="2" Grid.Column="0">
-            <ScrollViewer HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical" Width="100" HorizontalAlignment="Center" Margin="0,0,5,0">
-                    <customCtl:CustomRadioButton Content="挂号" ShapePath="M 0,30 L 40 30 M 20,10 L 20 50"/>
-                    <customCtl:CustomRadioButton Content="诊断" StrokeThickness="3" Margin="0,10,0,10">
-                        <customCtl:CustomRadioButton.ShapePath>
-                            <GeometryGroup>
-                                <EllipseGeometry Center="20,30" RadiusX="3" RadiusY="3"/>
-                                <EllipseGeometry Center="20,30" RadiusX="8" RadiusY="8"/>
-                                <EllipseGeometry Center="20,30" RadiusX="20" RadiusY="12"/>
-                            </GeometryGroup>
-                        </customCtl:CustomRadioButton.ShapePath>
-                    </customCtl:CustomRadioButton>
-                    <customCtl:CustomRadioButton Content="复核" StrokeThickness="5" ShapePath="M 3,45 A 20,20 300 1 0 3,20 L 2,8 M 3,23 15,25"/>
-                    <customCtl:CustomRadioButton Content="报告" StrokeThickness="3" Margin="0,10,0,10">
-                        <customCtl:CustomRadioButton.ShapePath>
-                            <GeometryGroup FillRule="Nonzero">
-                                <RectangleGeometry Rect="5,10,30,5" RadiusX="1" RadiusY="1"/>
-                                <RectangleGeometry Rect="5,12,30,40" RadiusX="3" RadiusY="3"/>
-                                <LineGeometry StartPoint="15,22" EndPoint="25,22"/>
-                                <LineGeometry StartPoint="12,32" EndPoint="28,32"/>
-                                <LineGeometry StartPoint="10,42" EndPoint="30,42"/>
-                                <RectangleGeometry Rect="5,49,30,5" RadiusX="1" RadiusY="1"/>
-                            </GeometryGroup>
-                        </customCtl:CustomRadioButton.ShapePath>
-                    </customCtl:CustomRadioButton>
-                    <customCtl:CustomRadioButton Content="更多" StrokeThickness="6">
-                        <customCtl:CustomRadioButton.ShapePath>
-                            <GeometryGroup FillRule="Nonzero">
-                                <EllipseGeometry Center="5,30" RadiusX="3" RadiusY="3"/>
-                                <EllipseGeometry Center="20,30" RadiusX="3" RadiusY="3"/>
-                                <EllipseGeometry Center="35,30" RadiusX="3" RadiusY="3"/>
-                            </GeometryGroup>
-                        </customCtl:CustomRadioButton.ShapePath>
-                    </customCtl:CustomRadioButton>
-                </StackPanel>
+            <ScrollViewer Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" 
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding ReportFunctionInfo}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander x:Name="ep" Header="{Binding Function}" HorizontalAlignment="Stretch"
+                                  Foreground="BlueViolet" FontSize="20" FontWeight="DemiBold">
+                                <ItemsControl ItemsSource="{Binding FunctionItems}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <RadioButton x:Name="rb" Width="190" Height="40" Margin="0,5,4,5" BorderThickness="0"
+                                                     Background="BlueViolet" materialDesign:ButtonAssist.CornerRadius="5" 
+                                                     Style="{DynamicResource MaterialDesignRaisedDarkButton}"
+                                                     Command="{Binding Source={StaticResource MedicalReportViewModel}, Path=(vm:MedicalReportViewModel.FunctionTabSwitch)}" 
+                                                     CommandParameter="{Binding ElementName=rb}" Tag="{Binding Operation}" Cursor="Hand">
+                                                <Grid Width="150">
+                                                    <Grid.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TranslateTransform X="0" x:Name="translate"/>
+                                                        </TransformGroup>
+                                                    </Grid.RenderTransform>
+                                                    <TextBlock Text="{Binding Operation}"  Margin="120,0,0,0"/>
+                                                    <materialDesign:PackIcon  Kind="{Binding Icon}" Foreground="White" HorizontalAlignment="Left"/>
+                                                </Grid>
+                                            </RadioButton>
+                                            <DataTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="DarkViolet" TargetName="rb"/>
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard x:Name="TranslateStoryboard">
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetName="translate" 
+                                                             Storyboard.TargetProperty="X" Duration="0:0:0.2" To="5"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="False">
+                                                    <Trigger.EnterActions>
+                                                        <StopStoryboard BeginStoryboardName="TranslateStoryboard"/>
+                                                    </Trigger.EnterActions>
+                                                </Trigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Expander>
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="LightGray" TargetName="ep"/>
+                                </Trigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </Grid>
-        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" BorderThickness="5,0,0,0" HorizontalAlignment="Right">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <LinearGradientBrush.GradientStops>
-                        <GradientStop Color="DeepSkyBlue" Offset="0.2"/>
-                        <GradientStop Color="Yellow" Offset="0.4"/>
-                        <GradientStop Color="LimeGreen" Offset="0.6"/>
-                        <GradientStop Color="OrangeRed" Offset="0.8"/>
-                    </LinearGradientBrush.GradientStops>
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-        </Border>
+        
+        <!--分割线-->
+        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" BorderThickness="5,0,0,0" HorizontalAlignment="Right" BorderBrush="LimeGreen"/>
 
         <!--信息栏-->
         <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
@@ -164,156 +194,132 @@
                 <RowDefinition />
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding PatientsInformation}" ColumnHeaderHeight="50" RowHeaderWidth="0" 
-                      IsReadOnly="True" AutoGenerateColumns="False" AllowDrop="True" BorderThickness="0,0,0,1" BorderBrush="DeepSkyBlue"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid ItemsSource="{Binding PatientsInformation}" RowHeaderWidth="0" x:Name="PatientDataGrid" SelectionUnit="FullRow"
+                      BorderThickness="0,0,0,1" BorderBrush="DeepSkyBlue" IsReadOnly="True" SelectionMode="Extended"
+                      AutoGenerateColumns="False" CanUserSortColumns="True" CanUserAddRows="False" HeadersVisibility="All">
+                <behavior:Interaction.Triggers>
+                    <behavior:EventTrigger EventName="SelectionChanged">
+                        <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand,Source={StaticResource MedicalReportViewModel}}" 
+                                                      CommandParameter="{Binding ElementName=PatientDataGrid}"/>
+                    </behavior:EventTrigger>
+                    <behavior:EventTrigger EventName="LoadingRow">
+                        <behavior:InvokeCommandAction Command="{Binding LoadingRowCommand,Source={StaticResource MedicalReportViewModel}}" 
+                                                      CommandParameter="{Binding ElementName=PatientDataGrid}"/>
+                    </behavior:EventTrigger>
+                </behavior:Interaction.Triggers>
+                <DataGrid.ContextMenu>
+                    <ContextMenu HasDropShadow="True" x:Name="contextMenu"
+                                 materialDesign:ShadowAssist.ShadowEdges="All"
+                                 materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                        <MenuItem x:Name="watch" Header="查看"
+                                  Command="{Binding Source={StaticResource DataContextProxy},Path=Data.ContextMenuItemSelectedCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=MenuItem},Path=PlacementTarget.DataContext}">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Eye"/>
+                            </MenuItem.Icon>
+                            <!--<behavior:Interaction.Triggers>
+                                <behavior:EventTrigger EventName="Click">
+                                    <behavior:InvokeCommandAction 
+                                    Command="{StaticResource aaa}"/>
+                                </behavior:EventTrigger>
+                            </behavior:Interaction.Triggers>-->
+                        </MenuItem>
+                        <MenuItem x:Name="register" Header="登记" Height="40">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Register"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem x:Name="editor" Header="编辑" Height="40">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Edit"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator Background="#594A4A4A"/>
+                        <MenuItem x:Name="update" Header="刷新" Height="40">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="RefreshCircle"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem x:Name="delete" Header="删除" Height="40">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="RubbishBinCircle"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="姓名" Width="100">
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox HorizontalAlignment="Center" x:Name="SelectedAllChk" Content="全选"
+                                      IsChecked="{Binding Path=IsSelectedAllItems,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                      Style="{DynamicResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                      Command="{Binding DataContext.SelectedAllCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+                                      CommandParameter="{Binding ElementName=SelectedAllChk}">
+                            </CheckBox>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PatientName}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}" />
+                                <CheckBox IsChecked="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" x:Name="ItemChk"
+                                          Style="{DynamicResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" HorizontalAlignment="Left"
+                                          Command="{Binding DataContext.SelectedThisCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+                                          CommandParameter="{Binding ElementName=ItemChk}" Margin="2,0,0,0"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="年龄" Width="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Age}"  Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="性别" Width="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Gender}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="电话" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PhoneNumber}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="样本号" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SampleNumber}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="样本类型" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SampleType}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="条形码" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SampleBarCode}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="报告类型" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ReportType}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="挂号日期" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RegisterTime}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="状态" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding DiagnoseState}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="送检医院" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding InspectHospital}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="送检科室" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding InspectDepartment}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="送检医生" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding InspectDoctor}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="门诊号" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding OutDepartment}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="导出日期" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ExportTime}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="打印日期" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PrintTime}" Foreground="#4A4A4A" Style="{DynamicResource TextBlockStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <materialDesign:DataGridTextColumn Header="姓名" Binding="{Binding PatientName}"/>
+                    <materialDesign:DataGridTextColumn Header="年龄" Binding="{Binding Age}"/>
+                    <materialDesign:DataGridTextColumn Header="性别" Binding="{Binding Gender}"/>
+                    <materialDesign:DataGridTextColumn Header="电话" Binding="{Binding PhoneNumber}"/>
+                    <materialDesign:DataGridTextColumn Header="样本号" Binding="{Binding SampleNumber}"/>
+                    <materialDesign:DataGridTextColumn Header="样本类型" Binding="{Binding SampleType}"/>
+                    <materialDesign:DataGridTextColumn Header="条形码" Binding="{Binding SampleBarCode}"/>
+                    <materialDesign:DataGridTextColumn Header="报告类型" Binding="{Binding ReportType}"/>
+                    <materialDesign:DataGridTextColumn Header="挂号日期" Binding="{Binding RegisterTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                    <materialDesign:DataGridTextColumn Header="状态" Binding="{Binding DiagnoseState}"/>
+                    <materialDesign:DataGridTextColumn Header="送检医院" Binding="{Binding InspectHospital}"/>
+                    <materialDesign:DataGridTextColumn Header="送检科室" Binding="{Binding InspectDepartment}"/>
+                    <materialDesign:DataGridTextColumn Header="送检医生" Binding="{Binding InspectDoctor}"/>
+                    <materialDesign:DataGridTextColumn Header="门诊号" Binding="{Binding OutDepartment}"/>
+                    <materialDesign:DataGridTextColumn Header="导出日期" Binding="{Binding ExportTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                    <materialDesign:DataGridTextColumn Header="打印日期" Binding="{Binding PrintTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Center">
-                <TextBlock Text="选中"/>
-                <TextBlock Text="0"/>
-                <TextBlock Text="条，"/>
-                <TextBlock Text="总共"/>
-                <TextBlock Text="4"/>
-                <TextBlock Text="条"/>
+                <TextBlock Text="选中" Foreground="White"/>
+                <TextBlock Text="{Binding SelectedCount}" Foreground="White"/>
+                <TextBlock Text="条，总共" Foreground="White"/>
+                <TextBlock Text="{Binding PatientsInformation.Count}"  Foreground="White"/>
+                <TextBlock Text="条" Foreground="White"/>
             </StackPanel>
         </Grid>
 
-        <chanceCustomCtl:CustomPopupEx x:Name="popVersion" IsOpen="{Binding ElementName=helpTb,Path=IsChecked,Mode=TwoWay}" AllowsTransparency="True" Topmost="False"
+        <!--关于-->
+        <chanceCustomCtl:CustomPopupEx x:Name="popVersion" IsOpen="{Binding ElementName=about,Path=IsChecked}" AllowsTransparency="True" Topmost="False"
                                        PopupAnimation="Scroll" Placement="Center" PlacementTarget="{Binding ElementName=medicalMainWindow}">
             <Grid>
                 <Border Margin="5" Width="500" Height="400" Style="{DynamicResource popup}"/>
-                <Border Background="OrangeRed" Width="500" Height="400" CornerRadius="10">
+                <Border Width="500" Height="400" CornerRadius="10" Background="DimGray">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition/>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="关于医疗报告系统" FontSize="16" Style="{DynamicResource TextBlockStyle}" Margin="5,5,0,0" 
-                                   VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <Button Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,5,0" Content="PopupClose"
+                        <TextBlock Text="关于医疗报告系统" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="White"/>
+                        <Button Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,0,0"
                                 Command="{Binding PopupCloseCommand}" CommandParameter="{Binding ElementName=popVersion}" 
-                                Style="{DynamicResource CaptionButtonStyle}" ToolTip="关闭"/>
-                        <medicalCtl:HelpVersionControl Background="DarkSlateGray" Grid.Row="1"/>
-                        <TextBlock Grid.Row="2" Width="280" TextWrapping="Wrap" Style="{DynamicResource TextBlockStyle}"
+                                Style="{DynamicResource CaptionButtonStyle}" ToolTip="关闭">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="WindowClose"/>
+                            </Button.Content>
+                        </Button>
+                        <medicalCtl:HelpVersionControl Grid.Row="1"/>
+                        <TextBlock Grid.Row="2" Width="280" TextWrapping="Wrap" Foreground="White"
                                    Text="WPFCoreUniversalApp-Medical 版本1.0.1 ©2020 Chance保留所有权利"/>
                     </Grid>
                 </Border>
             </Grid>
         </chanceCustomCtl:CustomPopupEx>
+        
     </Grid>
 </Window>

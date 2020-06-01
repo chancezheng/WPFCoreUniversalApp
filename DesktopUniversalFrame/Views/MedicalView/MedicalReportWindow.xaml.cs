@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,5 +23,29 @@ namespace DesktopUniversalFrame.Views.MedicalView
         {
             InitializeComponent();
         }
+
+        private void watch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// 报告系统功能
+    /// </summary>
+    public class ReportFunctionInfo
+    {       
+        public string Function { get; set; }
+
+        public List<FunctionItems> FunctionItems { get; set; }
+    }
+
+    /// <summary>
+    /// 挂号功能
+    /// </summary>
+    public class FunctionItems
+    {
+        public PackIconKind Icon { get; set; }
+        public string Operation { get; set; }
     }
 }

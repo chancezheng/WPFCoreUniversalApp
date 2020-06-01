@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         Title="Login" x:Name="loginWindow"
         Width="800" Height="450" ResizeMode="NoResize"
-        WindowState="Normal" WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
+        WindowState="Normal" WindowStyle="None"  Background="{DynamicResource BackgroundBrush}"
         WindowStartupLocation="CenterScreen" AllowsTransparency="True">
 
     <Window.DataContext>
@@ -78,9 +78,6 @@
                                          ToolTip="关闭" ToolTipService.ShowDuration="1000" Margin="0,0,20,0"
                                          HorizontalAlignment="Right" Background="BlueViolet" Foreground="WhiteSmoke"
                                          Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=loginWindow}">
-                <component:CustomIconControl.Resources>
-                    <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource toolTip}"/>
-                </component:CustomIconControl.Resources>
             </component:CustomIconControl>
         </Grid>
         <Grid Grid.Row="2" VerticalAlignment="Center">

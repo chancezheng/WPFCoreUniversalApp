@@ -1,10 +1,14 @@
-﻿using DesktopUniversalFrame.ViewModel.Login;
+﻿using Chance.DesktopCustomControl.CustomComponent;
+using DesktopUniversalFrame.ViewModel.Login;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace DesktopUniversalFrame.Common.ValueConverter
 {
@@ -41,6 +45,43 @@ namespace DesktopUniversalFrame.Common.ValueConverter
                 return Visibility.Visible;
             else
                 return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 按钮是否可用(提交病人挂号信息)
+    /// </summary>
+    public class SubmitPatientInfoButtonIsEnabled : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            foreach (var item in values)
+            {
+                if (string.IsNullOrEmpty(item as string))
+                    return false;
+            }
+            return true;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 按钮背景色(提交病人挂号信息)
+    /// </summary>
+    public class SubmitPatientInfoButtonBackground : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value == true ? Brushes.LimeGreen : Brushes.DarkGray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

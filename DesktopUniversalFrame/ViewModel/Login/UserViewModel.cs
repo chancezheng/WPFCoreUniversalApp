@@ -9,6 +9,7 @@ using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -505,6 +506,12 @@ namespace DesktopUniversalFrame.ViewModel.Login
             //p.StandardInput.WriteLine(new StringBuilder("start " + url + "&exit"));
             //p.StandardInput.AutoFlush = true;
             //p.WaitForExit();
+
+            //if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            //{
+            //    string url = url.Replace("&", "^&");
+            //    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+            //}
         }
     }
 }

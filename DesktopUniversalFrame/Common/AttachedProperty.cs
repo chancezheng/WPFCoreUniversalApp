@@ -45,17 +45,9 @@ namespace DesktopUniversalFrame.Common
             var win = d as Window;
             Task.Run(() =>
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1200);
                 App.Current.Dispatcher.Invoke(()=> { win.Close(); });
             });
-        }
-    }
-
-    public class DoubleButtonClick : Behavior<Button>
-    {
-        protected override void OnAttached()
-        {
-            AssociatedObject.Background = Brushes.Transparent;
         }
     }
 }

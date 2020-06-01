@@ -3,6 +3,7 @@ using DesktopUniversalFrame.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace DesktopUniversalFrame.Common.Buffer
@@ -19,7 +20,7 @@ namespace DesktopUniversalFrame.Common.Buffer
 
         public static string GetSql(SqlOperationType _operationType)
         {
-            if(operationType != _operationType)
+            if (operationType != _operationType)
             {
                 operationType = _operationType;
                 GetCommandSql();
@@ -36,7 +37,8 @@ namespace DesktopUniversalFrame.Common.Buffer
                 case SqlOperationType.Select:
                     {
                         string tableName = type.GetAttributeMappingName();
-                        string columnName = string.Join(',', type.GetProperties().ExceptKey().Select(p => $"{p.GetAttributeMappingName()}"));
+                        string columnName = GetColumnString(type);
+                        //string columnName = string.Join(',', type.GetProperties().ExceptKey().Select(p => $"{p.GetAttributeMappingName()}"));
                         commandText = $"select {columnName} from {tableName} where {type.GetProperties().GetKeyInfo().Name} = @id";
                     }
                     break;
@@ -64,6 +66,15 @@ namespace DesktopUniversalFrame.Common.Buffer
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// 返回修改的字段集合
+        /// </summary>
+        /// <returns></returns>
+        private static string GetColumnString(Type type)
+        {
+            return string.Join(',', type.GetProperties().ExceptKey().ExcepteIgnoreProperty().Select(p => $"{p.GetAttributeMappingName()}"));
         }
     }
 }
