@@ -46,4 +46,4 @@ WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式，准备�
 ### 医疗报告系统效果图(布局完成，功能模块一部分)
 ![医疗报告系统界面效果](DesktopUniversalFrame/Resource/Effect/MedicalPredium.gif)
 
-### 项目才刚开始，只是心里有个雏形就开始写了。如果您觉得这个项目对你来说用得上，麻烦老哥点个Start。希望与各位还在坚持PC开发的小伙伴一起交流学习，有什么问题可以随时在下方留言，本项目最终目的是要做出一款满足实际工作业务需求控件和视图。至于有的小伙伴说的为什么不用现成的框架，我个人觉得不方便，我更倾向于自己开发，不过可以参考它的写法，比如比较好的（MaterialDesignInXamlToolkit,microsoft-ui-xaml，Prism）。好了，就扯到这里吧，我去继续撸码了！
+### 与之前相比，现在引入了Microsoft.Xaml.Behaviors.Wpf(命令绑定)、helixTookit.Core.Wpf(3D)、MaterialDesignXamlToolkit(控件)，后面有时间的话把动画在Xaml和后台的写法单独弄一块。如果您觉得这个项目对你来说用得上，麻烦老哥点个Start。希望与各位还在PC开发的小伙伴一起交流学习，有什么问题可以随时在下方留言，本项目最终目的是要做出一款满足实际工作业务需求控件和视图。好了，就扯到这里吧，我去继续撸码了！
