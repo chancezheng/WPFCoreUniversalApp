@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.MedicalViewModel"
         xmlns:medicalCtl="clr-namespace:DesktopUniversalFrame.UserCtl.Medical"     
@@ -11,6 +10,7 @@
         xmlns:medicalModel="clr-namespace:DesktopUniversalFrame.Model.MedicalModel"
         xmlns:common="clr-namespace:DesktopUniversalFrame.Common"
         xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:e="clr-namespace:DesktopUniversalFrame.Entity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:chanceCustomCtl="clr-namespace:Chance.DesktopCustomControl.CustomComponent;assembly=Chance.DesktopCustomControl"
@@ -41,6 +41,11 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
         </Style>
+        <materialDesign:DialogHost x:Key="Dialog" IsOpen="True">
+            <materialDesign:DialogHost.DialogContent>
+                我是谁
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Window.Resources>
 
     <Window.RenderTransform>
@@ -51,22 +56,17 @@
         <vm:MedicalReportViewModel/>
     </Window.DataContext>
 
-    <!--数据验证-->
-    <i:Interaction.Behaviors>
-        <rule:ValidationExceptionBehavior/>
-    </i:Interaction.Behaviors>
-
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="MouseMove">
-            <i:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
-        </i:EventTrigger>
-        <!--<i:EventTrigger EventName="MouseLeftButtonUp" SourceName="TitleBorder">
-            <i:InvokeCommandAction Command="{Binding MaxWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
-        </i:EventTrigger>-->
-    </i:Interaction.Triggers>
+    <behavior:Interaction.Triggers>
+        <behavior:EventTrigger EventName="Loaded">
+            <behavior:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
+        </behavior:EventTrigger>
+        <behavior:EventTrigger EventName="MouseMove">
+            <behavior:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
+        </behavior:EventTrigger>
+        <!--<behavior:EventTrigger EventName="MouseLeftButtonUp" SourceName="TitleBorder">
+            <behavior:InvokeCommandAction Command="{Binding MaxWindowCommand}" CommandParameter="{Binding ElementName=medicalMainWindow}"/>
+        </behavior:EventTrigger>-->
+    </behavior:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -194,7 +194,7 @@
                 <RowDefinition />
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding PatientsInformation}" RowHeaderWidth="0" x:Name="PatientDataGrid" SelectionUnit="FullRow"
+            <DataGrid ItemsSource="{Binding PatientsInformation}" RowHeaderWidth="0" x:Name="PatientDataGrid" 
                       BorderThickness="0,0,0,1" BorderBrush="DeepSkyBlue" IsReadOnly="True" SelectionMode="Extended"
                       AutoGenerateColumns="False" CanUserSortColumns="True" CanUserAddRows="False" HeadersVisibility="All">
                 <behavior:Interaction.Triggers>
@@ -211,36 +211,29 @@
                     <ContextMenu HasDropShadow="True" x:Name="contextMenu"
                                  materialDesign:ShadowAssist.ShadowEdges="All"
                                  materialDesign:ShadowAssist.ShadowDepth="Depth5">
-                        <MenuItem x:Name="watch" Header="查看"
-                                  Command="{Binding Source={StaticResource DataContextProxy},Path=Data.ContextMenuItemSelectedCommand}"
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=MenuItem},Path=PlacementTarget.DataContext}">
+                        <MenuItem x:Name="watch" Header="查看"> 
+                                  <!--Command="{Binding Path=PlacementTarget.DataContext.ContextMenuItemSelectedCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"-->
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Eye"/>
                             </MenuItem.Icon>
-                            <!--<behavior:Interaction.Triggers>
-                                <behavior:EventTrigger EventName="Click">
-                                    <behavior:InvokeCommandAction 
-                                    Command="{StaticResource aaa}"/>
-                                </behavior:EventTrigger>
-                            </behavior:Interaction.Triggers>-->
                         </MenuItem>
-                        <MenuItem x:Name="register" Header="登记" Height="40">
+                        <MenuItem x:Name="register" Header="登记">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Register"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem x:Name="editor" Header="编辑" Height="40">
+                        <MenuItem x:Name="editor" Header="编辑">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Edit"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator Background="#594A4A4A"/>
-                        <MenuItem x:Name="update" Header="刷新" Height="40">
+                        <MenuItem x:Name="update" Header="刷新">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="RefreshCircle"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem x:Name="delete" Header="删除" Height="40">
+                        <MenuItem x:Name="delete" Header="删除">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="RubbishBinCircle"/>
                             </MenuItem.Icon>

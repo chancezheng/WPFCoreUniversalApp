@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:common="clr-namespace:DesktopUniversalFrame.Common"  
         xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.MedicalViewModel"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -27,19 +27,19 @@
         </ControlTemplate>
     </Window.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="MouseMove">
-            <i:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=registrationWin}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=registrationWin}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+    <behavior:Interaction.Triggers>
+        <behavior:EventTrigger EventName="MouseMove">
+            <behavior:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=registrationWin}"/>
+        </behavior:EventTrigger>
+        <behavior:EventTrigger EventName="Loaded">
+            <behavior:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=registrationWin}"/>
+        </behavior:EventTrigger>
+    </behavior:Interaction.Triggers>
 
     <!--数据验证-->
-    <i:Interaction.Behaviors>
+    <behavior:Interaction.Behaviors>
         <rule:ValidationExceptionBehavior/>
-    </i:Interaction.Behaviors>
+    </behavior:Interaction.Behaviors>
 
     <Window.DataContext>
         <vm:RegistrationViewModel/>
@@ -60,7 +60,7 @@
                 <materialDesign:PackIcon Kind="WindowClose"/>
             </Button.Content>
         </Button>
-        <Grid x:Name="infoGrid" Grid.Row="1" VerticalAlignment="Center">
+        <Grid x:Name="infoGrid" Grid.Row="1" VerticalAlignment="Center" IsHitTestVisible="{Binding IsUIVisible}">
             <Grid.BindingGroup>
                 <BindingGroup NotifyOnValidationError="True">
                     <BindingGroup.ValidationRules>
@@ -97,7 +97,8 @@
                          materialDesign:HintAssist.HelperText="不能为空"
                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
                 <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="PatientRegister.PatientName" Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <rule:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
@@ -107,13 +108,13 @@
             <TextBlock Grid.Row="2" Grid.Column="0" Text="年龄："/>
             <TextBox Grid.Row="2" Grid.Column="1" MaxLength="3"
                          materialDesign:HintAssist.Hint="请输入年龄" 
-                         materialDesign:HintAssist.HelperText="1-150之间"                        
+                         materialDesign:HintAssist.HelperText="1-150之间"                      
                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
                 <TextBox.Text>
-                    <Binding Path="Age" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                    <Binding Path="PatientRegister.Age" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <rule:TextValidationRule ValidationType="Int" MinValue="1" MaxValue="150"
-                                                         ValidatesOnTargetUpdated="True" ValidationStep="ConvertedProposedValue"/>
+                                                     ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -134,22 +135,22 @@
                          materialDesign:HintAssist.HelperText="长度8-11之间" 
                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
                 <TextBox.Text>
-                    <Binding Path="Age" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                    <Binding Path="PatientRegister.PhoneNumber" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <rule:TextValidationRule ValidationType="String" MinLength="8" MaxLength="11"
-                                                         ValidatesOnTargetUpdated="True" ValidationStep="ConvertedProposedValue"/>
+                                                     ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
             <TextBlock Grid.Row="8" Grid.Column="0" Text="样本号："/>
-            <TextBox Grid.Row="8" Grid.Column="1" Text="xcc564566"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PatientRegister.SampleNumber}"/>
             <TextBlock Grid.Row="10" Grid.Column="0" Text="样本类型："/>
-            <TextBox Grid.Row="10" Grid.Column="1" Text="上皮细胞"/>
+            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding PatientRegister.SampleType}"/>
             <TextBlock Grid.Row="12" Grid.Column="0" Text="条码号："/>
-            <TextBox Grid.Row="12" Grid.Column="1" Text="Csdqwwqd"/>
+            <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding PatientRegister.SampleBarCode}"/>
             <TextBlock Grid.Row="14" Grid.Column="0" Text="报告类型："/>
-            <TextBox Grid.Row="14" Grid.Column="1" Text="DNA"/>
+            <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding PatientRegister.ReportType}"/>
 
             <TextBlock Grid.Row="0" Grid.Column="2" Text="状态：" x:Name="state"/>
             <ComboBox Grid.Row="0" Grid.Column="3" SelectedIndex="0"
@@ -161,35 +162,29 @@
                 <ComboBoxItem Content="已复核"/>
             </ComboBox>
             <TextBlock Grid.Row="2" Grid.Column="2" Text="送检医院："/>
-            <TextBox Grid.Row="2" Grid.Column="3" Text="武汉协和"/>
+            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding PatientRegister.InspectHospital}"/>
             <TextBlock Grid.Row="4" Grid.Column="2" Text="送检科室："/>
-            <TextBox Grid.Row="4" Grid.Column="3" Text="牙科"/>
+            <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding PatientRegister.InspectDepartment}"/>
             <TextBlock Grid.Row="6" Grid.Column="2" Text="送检医生："/>
-            <TextBox Grid.Row="6" Grid.Column="3" Text="Doctor李"/>
+            <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding PatientRegister.InspectDoctor}"/>
             <TextBlock Grid.Row="8" Grid.Column="2" Text="门诊号："/>
-            <TextBox Grid.Row="8" Grid.Column="3" Text="123123"/>
+            <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding PatientRegister.OutDepartment}"/>
             <TextBlock Grid.Row="10" Grid.Column="2" Text="挂号日期："/>
-            <TextBox Grid.Row="10" Grid.Column="3" Text="123123"/>
+            <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding PatientRegister.RegisterTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
             <TextBlock Grid.Row="12" Grid.Column="2" Text="导出日期："/>
-            <TextBox Grid.Row="12" Grid.Column="3" Text="123123"/>
+            <TextBox Grid.Row="12" Grid.Column="3" Text="{Binding PatientRegister.ExportTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
             <TextBlock Grid.Row="14" Grid.Column="2" Text="打印日期："/>
-            <TextBox Grid.Row="14" Grid.Column="3" Text="123123"/>
+            <TextBox Grid.Row="14" Grid.Column="3" Text="{Binding PatientRegister.PrintTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
         </Grid>
         <Button x:Name="submitInfo" Grid.Row="2" Width="300" Height="40" FontWeight="Bold" BorderBrush="Transparent"
-                IsEnabled="{Binding HasValidationError}" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Cursor="Hand">
+                IsEnabled="{Binding HasValidationError}" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Cursor="Hand"
+                Visibility="{Binding IsUIVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
             <Button.Content>
                 <DockPanel>
                     <materialDesign:PackIcon Kind="CheckCircle" Height="30" Width="30" VerticalAlignment="Center"/>
                     <TextBlock Text="提交" Margin="5,0,0,0" VerticalAlignment="Center"/>
                 </DockPanel>
             </Button.Content>
-            <!--<Button.GeometryData>
-                    <GeometryGroup>
-                        <EllipseGeometry Center="30,20" RadiusX="17" RadiusY="17"/>
-                        <LineGeometry StartPoint="20,20" EndPoint="30,30"/>
-                        <LineGeometry StartPoint="28,30" EndPoint="40,12"/>
-                    </GeometryGroup>
-            </Button.GeometryData>-->
             <Button.Background>
                 <Binding Converter="{StaticResource SubmitPatientInfoButtonBackground}" ElementName="submitInfo" Path="IsEnabled"/>
             </Button.Background>

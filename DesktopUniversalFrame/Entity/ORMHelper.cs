@@ -30,7 +30,7 @@ namespace DesktopUniversalFrame.Entity
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    foreach (var prop in type.GetProperties().ExceptKey().ExcepteIgnoreProperty())
+                    foreach (var prop in type.GetProperties().ExcepteIgnoreProperty())
                     {
                         var ss = reader[prop.GetAttributeMappingName()];
                         prop.SetValue(t, reader[prop.GetAttributeMappingName()] is DBNull ? null : reader[prop.GetAttributeMappingName()]);

@@ -37,7 +37,7 @@ namespace DesktopUniversalFrame.Common.Buffer
                 case SqlOperationType.Select:
                     {
                         string tableName = type.GetAttributeMappingName();
-                        string columnName = GetColumnString(type);
+                        string columnName = GetColumnString(type, true);
                         //string columnName = string.Join(',', type.GetProperties().ExceptKey().Select(p => $"{p.GetAttributeMappingName()}"));
                         commandText = $"select {columnName} from {tableName} where {type.GetProperties().GetKeyInfo().Name} = @id";
                     }
@@ -72,9 +72,12 @@ namespace DesktopUniversalFrame.Common.Buffer
         /// 返回修改的字段集合
         /// </summary>
         /// <returns></returns>
-        private static string GetColumnString(Type type)
+        private static string GetColumnString(Type type, bool hasKey)
         {
-            return string.Join(',', type.GetProperties().ExceptKey().ExcepteIgnoreProperty().Select(p => $"{p.GetAttributeMappingName()}"));
+            if(hasKey)
+                return string.Join(',', type.GetProperties().ExcepteIgnoreProperty().Select(p => $"{p.GetAttributeMappingName()}"));
+            else
+                return string.Join(',', type.GetProperties().ExceptKey().ExcepteIgnoreProperty().Select(p => $"{p.GetAttributeMappingName()}"));
         }
     }
 }

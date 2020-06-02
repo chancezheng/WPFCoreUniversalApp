@@ -1,4 +1,5 @@
-﻿using DesktopUniversalFrame.Entity;
+﻿using DesktopUniversalFrame.Common;
+using DesktopUniversalFrame.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -24,9 +24,9 @@ namespace DesktopUniversalFrame.Views.MedicalView
             InitializeComponent();
         }
 
-        private void watch_Click(object sender, RoutedEventArgs e)
+        private void Sample2_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
-
+            Console.WriteLine("SAMPLE 2: Closing dialog with parameter: " + (eventArgs.Parameter ?? ""));
         }
     }
 

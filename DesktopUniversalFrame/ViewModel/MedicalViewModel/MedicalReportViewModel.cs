@@ -4,6 +4,7 @@ using DesktopUniversalFrame.Common;
 using DesktopUniversalFrame.Entity;
 using DesktopUniversalFrame.Entity.CustomValidationRules;
 using DesktopUniversalFrame.Model.MedicalModel;
+using DesktopUniversalFrame.Views.InterfaceView;
 using DesktopUniversalFrame.Views.MedicalView;
 using MaterialDesignThemes.Wpf;
 using Prism.Commands;
@@ -17,7 +18,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -25,10 +29,11 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 
 namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 {
-    public class MedicalReportViewModel : WindowCommandBaseModel, IValidationExceptionHandle
+    public class MedicalReportViewModel : WindowCommandBaseModel, IWindowService
     {
 
         #region Command
@@ -100,7 +105,6 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         #region Data
 
-        private bool _hasValidationError = false;
         private ObservableCollection<PatientExtention> _patientsInformation;
         private ObservableCollection<ReportFunctionInfo> _reportFunctionInfo = new ObservableCollection<ReportFunctionInfo>
         {
@@ -148,15 +152,6 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         private bool? _isSelectedAllItems;
         private int _selectedCount;
 
-
-        /// <summary>
-        /// 验证有无错误
-        /// </summary>
-        public bool HasValidationError
-        {
-            get => _hasValidationError;
-            set => SetProperty(ref _hasValidationError, value);
-        }
 
         /// <summary>
         /// 病人信息集合
@@ -207,7 +202,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             SelectedThisCommand = new DelegateCommand<CheckBox>(SelectedThisItem);
             ContextMenuItemSelectedCommand = new DelegateCommand<MenuItem>(ContextMenuItemSelected);
 
-            GetPatientData();
+            PatientsInformation = GetPatientData();
         }
 
         private void Loaded(Window win)
@@ -223,16 +218,27 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             #endregion
 
             ContextMenu contextMenu = win.FindName("contextMenu") as ContextMenu;
+            foreach (var item in contextMenu.Items)
+            {
+                if (item is MenuItem)
+                {
+                    (item as MenuItem).Click += delegate { ContextMenuItemSelected(item as MenuItem); };
+                }
+            }
         }
 
         //获取病人信息数据
-        private void GetPatientData()
+        private ObservableCollection<PatientExtention> GetPatientData()
         {
-            PatientsInformation = new ObservableCollection<PatientExtention>();
-            for (int i = 1; i < 5; i++)
+            ObservableCollection<PatientExtention> patientsInformation = new ObservableCollection<PatientExtention>();
+            for (int i = 1; i < 10; i++)
             {
-                PatientsInformation.Add(ORMHelper.QueryData<PatientExtention>($"{i}"));
+                var p = ORMHelper.QueryData<PatientExtention>($"{i}");
+                if (p != null)
+                    patientsInformation.Add(p);
             }
+
+            return patientsInformation;
         }
 
         //功能选择器
@@ -242,9 +248,10 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             {
                 case "挂号":
                     {
-                        Registration registration = new Registration();
-                        registration.Owner = Window.GetWindow(rb) as MedicalReportWindow;
-                        registration.Show();
+                        RegistrationViewModel registrationViewModel = new RegistrationViewModel();
+                        registrationViewModel.PatientRegister = new PatientExtention();
+                        registrationViewModel.IsUIVisible = true;
+                        ShowWindow(registrationViewModel, rb);
                     }
                     break;
                 case "导入":
@@ -303,10 +310,10 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             SelectedCount = PatientsInformation.Count(item => item.IsSelected);
         }
 
+        private static int selectedIndex = -1;
         private void SelectionChanged(DataGrid dg)
         {
-            var index = dg.SelectedIndex;
-
+            selectedIndex = dg.SelectedIndex;
         }
 
         private void ContextMenuItemSelected(MenuItem item)
@@ -315,38 +322,95 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             {
                 case "watch":
                     {
-
+                        if (selectedIndex < 0)
+                        {
+                            MessageDialog.Show("未选中行");
+                            return;
+                        }
+                        RegistrationViewModel registrationViewModel = new RegistrationViewModel();
+                        registrationViewModel.PatientRegister = PatientsInformation[selectedIndex];
+                        registrationViewModel.IsUIVisible = false;
+                        ShowWindow(registrationViewModel, item);
                     }
                     break;
                 case "register":
                     {
-
+                        RegistrationViewModel registrationViewModel = new RegistrationViewModel();
+                        registrationViewModel.PatientRegister = new PatientExtention();
+                        registrationViewModel.IsUIVisible = true;
+                        ShowWindow(registrationViewModel, item);
                     }
                     break;
                 case "editor":
                     {
-
+                        if (selectedIndex < 0)
+                        {
+                            MessageDialog.Show("未选中行");
+                            return;
+                        }
+                        RegistrationViewModel registrationViewModel = new RegistrationViewModel();
+                        registrationViewModel.PatientRegister = PatientsInformation[selectedIndex];
+                        registrationViewModel.IsUIVisible = true;
+                        ShowWindow(registrationViewModel, item);
+                        
                     }
                     break;
                 case "update":
                     {
-
+                        Refresh();
+                        selectedIndex = -1;
                     }
                     break;
                 case "delete":
                     {
-
+                        ORMHelper.Delete<PatientExtention>(PatientsInformation[selectedIndex]);
+                        Refresh();
                     }
                     break;
                 default:
                     break;
-            }
+            }           
         }
 
         #endregion
 
+        #region 挂号功能
+
+        #endregion
+
         /// <summary>
-        /// 异步委托开启线程
+        /// 刷新
+        /// </summary>
+        private async void Refresh()
+        {          
+            ObservableCollection<PatientExtention> tsNew = new ObservableCollection<PatientExtention>();            
+            await Task.Factory.StartNew(() =>
+            {
+                tsNew = GetPatientData();
+                PatientsInformation = null;
+                Thread.Sleep(200);
+                PatientsInformation = tsNew;
+            });
+
+            //CommandManager.InvalidateRequerySuggested();
+            //Task.Factory.StartNew(() => Console.WriteLine(123), new CancellationTokenSource().Token, 
+            //    TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext()).Wait();
+        }
+
+        /// <summary>
+        /// 开启窗口
+        /// </summary>
+        public void ShowWindow(object ViewModel, FrameworkElement frameworkElement)
+        {
+            Registration registration = new Registration();
+            registration.DataContext = ViewModel;
+            registration.Owner = Window.GetWindow(frameworkElement) as MedicalReportWindow;
+            registration.Show();
+            //registration.ShowDialog();
+        }
+
+        /// <summary>
+        /// 异步更新UI
         /// </summary>
         /// <param name="action"></param>
         public static void Action(Action action)
