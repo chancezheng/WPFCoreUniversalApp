@@ -1,6 +1,7 @@
 ﻿using Chance.DesktopCustomControl.CustomComponent;
 using Chance.DesktopCustomControl.CustomView.MsgDlg;
 using DesktopUniversalFrame.Common;
+using DesktopUniversalFrame.Common.ValueConverter;
 using DesktopUniversalFrame.Entity;
 using DesktopUniversalFrame.Entity.CustomValidationRules;
 using DesktopUniversalFrame.Model.MedicalModel;
@@ -352,7 +353,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         registrationViewModel.PatientRegister = PatientsInformation[selectedIndex];
                         registrationViewModel.IsUIVisible = true;
                         ShowWindow(registrationViewModel, item);
-                        
+
                     }
                     break;
                 case "update":
@@ -369,7 +370,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                     break;
                 default:
                     break;
-            }           
+            }
         }
 
         #endregion
@@ -382,8 +383,8 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         /// 刷新
         /// </summary>
         private async void Refresh()
-        {          
-            ObservableCollection<PatientExtention> tsNew = new ObservableCollection<PatientExtention>();            
+        {
+            ObservableCollection<PatientExtention> tsNew = new ObservableCollection<PatientExtention>();
             await Task.Factory.StartNew(() =>
             {
                 tsNew = GetPatientData();
@@ -406,7 +407,6 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             registration.DataContext = ViewModel;
             registration.Owner = Window.GetWindow(frameworkElement) as MedicalReportWindow;
             registration.Show();
-            //registration.ShowDialog();
         }
 
         /// <summary>

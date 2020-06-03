@@ -4,6 +4,8 @@ using DesktopUniversalFrame.Model.Indentity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 using System.Text;
 
 namespace DesktopUniversalFrame.Model.MedicalModel
@@ -11,15 +13,17 @@ namespace DesktopUniversalFrame.Model.MedicalModel
     /// <summary>
     /// 病人信息
     /// </summary>
-    [TableMapping("patientinfo")]
+    //[TableMapping("patientinfo")]
+    [Table("patientinfo")]   
+    [Serializable]
     public class Patient : BaseModel
     {
         public string PatientName { get; set; }
 
         public int Age { get; set; }
 
-        //0=>男，1=>女，2=>未知
-        public int Gender { get; set; }
+        [TypeConverter(typeof(GenderIntConverter))]
+        public Gender Gender { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -47,12 +51,12 @@ namespace DesktopUniversalFrame.Model.MedicalModel
         /// 挂号日期
         /// </summary>
         public DateTime RegisterTime { get; set; }
-
+        
         /// <summary>
         /// 诊断状态
         /// </summary>
         [TypeConverter(typeof(EnumToDiagnoseStateConverter))]
-        public int DiagnoseState { get; set; }
+        public DiagnoseState DiagnoseState { get; set; }
 
         /// <summary>
         /// 送检医院

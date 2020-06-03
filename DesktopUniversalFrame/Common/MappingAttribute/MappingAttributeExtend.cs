@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using System.Text;
 
@@ -18,7 +19,12 @@ namespace DesktopUniversalFrame.Common.MappingAttribute
         /// <returns></returns>
         public static string GetAttributeMappingName<T>(this T type) where T : MemberInfo
         {
-            if (type.IsDefined(typeof(AbstracMappingAttribute), true))
+            if (type.IsDefined(typeof(TableAttribute), true))
+            {
+                TableAttribute tableAttribute = type.GetCustomAttribute<TableAttribute>();
+                return tableAttribute.Name;
+            }
+            else if (type.IsDefined(typeof(AbstracMappingAttribute), true))
             {
                 AbstracMappingAttribute attribute = type.GetCustomAttribute<AbstracMappingAttribute>();
                 return attribute.GetMappingName();

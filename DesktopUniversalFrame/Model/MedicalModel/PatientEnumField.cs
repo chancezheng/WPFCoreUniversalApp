@@ -24,4 +24,14 @@ namespace DesktopUniversalFrame.Model.MedicalModel
         /// </summary>
         Reviewered
     }
+
+    /// <summary>
+    /// 性别
+    /// </summary>
+    public enum Gender
+    {
+        Male,
+        Female,
+        Unknow,
+    }
 }

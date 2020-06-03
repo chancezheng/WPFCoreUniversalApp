@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:customControl="clr-namespace:DesktopUniversalFrame.CustomControl"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.Login"
         xmlns:userCtl="clr-namespace:DesktopUniversalFrame.UserCtl.Login"
         xmlns:component="clr-namespace:Chance.DesktopCustomControl.CustomComponent;assembly=Chance.DesktopCustomControl"
@@ -48,14 +48,14 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=loginWindow}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="MouseMove">
-            <i:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=loginWindow}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+    <behavior:Interaction.Triggers>
+        <behavior:EventTrigger EventName="Loaded">
+            <behavior:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=loginWindow}"/>
+        </behavior:EventTrigger>
+        <behavior:EventTrigger EventName="MouseMove">
+            <behavior:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=loginWindow}"/>
+        </behavior:EventTrigger>
+    </behavior:Interaction.Triggers>
     
     <!--小于号 &lt;大于号 &gt; &符号&amp;引号"&quot;-->
     <Grid x:Name="RootGrid">

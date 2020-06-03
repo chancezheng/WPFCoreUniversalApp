@@ -5,6 +5,9 @@ using System.Windows;
 
 namespace DesktopUniversalFrame.Common
 {
+    /// <summary>
+    /// 数据代理
+    /// </summary>
     public class BindingProxy : Freezable
     {
         protected override Freezable CreateInstanceCore() => new BindingProxy();

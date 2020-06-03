@@ -2,6 +2,7 @@
 using DesktopUniversalFrame.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,10 +24,49 @@ namespace DesktopUniversalFrame.Common.Buffer
             if (operationType != _operationType)
             {
                 operationType = _operationType;
-                GetCommandSql();
+                GetSql();
+                //GetCommandSql();
             }
 
             return commandText;
+        }
+
+        private static void GetSql()
+        {            
+            Type type = typeof(T);
+            switch (operationType)
+            {
+                case SqlOperationType.Select:
+                    {
+                        string tableName = type.GetAttributeMappingName();
+                        string columnName = GetColumnString(type, true);
+                        commandText = $"select {columnName} from {tableName} where {type.GetProperties().GetKeyInfo().Name} = @id";
+                    }
+                    break;
+                case SqlOperationType.Insert:
+                    {
+                        string tableName = type.GetAttributeMappingName();
+                        string columnString = string.Join(',', type.GetProperties().Select(p => $"{p.Name}"));
+                        string valueString = string.Join(",", type.GetProperties().Select(p => $"@{p.Name}"));
+                        commandText = $"insert into {tableName} ({columnString}) values ({valueString})";
+                    }
+                    break;
+                case SqlOperationType.Update:
+                    {
+                        string tableName = type.GetAttributeMappingName();
+                        string updateStr = string.Join(',', type.GetProperties().ExceptKey().Select(p => $"{p.Name}=@{p.Name}"));
+                        commandText = $"update {tableName} set {updateStr} where id=@id";
+                    }
+                    break;
+                case SqlOperationType.Delete:
+                    {
+                        string tableName = type.GetAttributeMappingName();
+                        commandText = $"delete from {tableName} where id=@id";
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private static void GetCommandSql()
@@ -65,7 +105,7 @@ namespace DesktopUniversalFrame.Common.Buffer
                     break;
                 default:
                     break;
-            }
+            }           
         }
 
         /// <summary>
