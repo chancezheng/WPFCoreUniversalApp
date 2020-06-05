@@ -39,15 +39,15 @@ namespace DesktopUniversalFrame.Common.Buffer
                 case SqlOperationType.Select:
                     {
                         string tableName = type.GetAttributeMappingName();
-                        string columnName = GetColumnString(type, true);
+                        string columnName = GetColumnString(type, false);
                         commandText = $"select {columnName} from {tableName} where {type.GetProperties().GetKeyInfo().Name} = @id";
                     }
                     break;
                 case SqlOperationType.Insert:
                     {
                         string tableName = type.GetAttributeMappingName();
-                        string columnString = string.Join(',', type.GetProperties().Select(p => $"{p.Name}"));
-                        string valueString = string.Join(",", type.GetProperties().Select(p => $"@{p.Name}"));
+                        string columnString = GetColumnString(type, false);
+                        string valueString = string.Join(",", type.GetProperties().ExceptKey().ExcepteIgnoreProperty().Select(p => $"@{p.Name}"));
                         commandText = $"insert into {tableName} ({columnString}) values ({valueString})";
                     }
                     break;

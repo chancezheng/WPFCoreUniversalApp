@@ -18,7 +18,7 @@ namespace DesktopUniversalFrame.Common.MappingAttribute
         /// <returns></returns>
         public static IEnumerable<PropertyInfo> ExceptKey(this IEnumerable<PropertyInfo> propertyInfos)
         {
-            return propertyInfos.Where(p => !p.IsDefined(typeof(DataObjectFieldAttribute), true));
+            return propertyInfos.Where(p => !p.IsDefined(typeof(PrimaryKeyAttribute), true));
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace DesktopUniversalFrame.Common.MappingAttribute
         /// <returns></returns>
         public static PropertyInfo GetKeyInfo(this IEnumerable<PropertyInfo> propertyInfos)
         {
-            return propertyInfos.Where(p => p.IsDefined(typeof(DataObjectFieldAttribute), true)).FirstOrDefault();
+            return propertyInfos.Where(p => p.IsDefined(typeof(PrimaryKeyAttribute), true)).FirstOrDefault();
         }
 
         /// <summary>

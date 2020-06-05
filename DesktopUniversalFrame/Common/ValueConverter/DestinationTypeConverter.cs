@@ -19,16 +19,6 @@ namespace DesktopUniversalFrame.Common.ValueConverter
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            //int res = int.Parse(value.ToString());
-            //if (res == 0)
-            //    return DiagnoseState.Undiagnose;
-            //else if (res == 1)
-            //    return DiagnoseState.Diagnosed;
-            //else if (res == 2)
-            //    return DiagnoseState.Reviewered;
-            //else
-            //    return null;
-
             var diagnoseState = DiagnoseState.Undiagnose;
             if (Enum.TryParse(typeof(DiagnoseState), value.ToString(), out var state))
                 diagnoseState = (DiagnoseState)(state ?? 0);
@@ -38,16 +28,6 @@ namespace DesktopUniversalFrame.Common.ValueConverter
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            //DiagnoseState diagnoseState = (DiagnoseState)value;
-            //if (diagnoseState == DiagnoseState.Undiagnose)
-            //    return 0;
-            //else if (diagnoseState == DiagnoseState.Diagnosed)
-            //    return 1;
-            //else if (diagnoseState == DiagnoseState.Reviewered)
-            //    return 2;
-            //else
-            //    return null;
-
             return (int)value;
         }
     }

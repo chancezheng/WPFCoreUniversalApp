@@ -30,7 +30,7 @@ namespace DesktopUniversalFrame.Entity
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    foreach (var prop in type.GetProperties().ExcepteIgnoreProperty())
+                    foreach (var prop in type.GetProperties().ExceptKey().ExcepteIgnoreProperty())
                     {
                         var ss = reader[prop.GetAttributeMappingName()];
                         prop.SetValue(t, reader[prop.GetAttributeMappingName()] is DBNull ? null : reader[prop.GetAttributeMappingName()]);
@@ -49,10 +49,11 @@ namespace DesktopUniversalFrame.Entity
         public static bool InsertData<T>(T t) where T : BaseModel
         {
             Type type = typeof(T);
-            //设定主键值
-            type.GetProperties().GetKeyInfo().SetValue(t, Guid.NewGuid().ToString());
+            //设定主键值Guid
+            //type.GetProperties().GetKeyInfo().SetValue(t, Guid.NewGuid().ToString());
+            //type.GetProperties().GetKeyInfo().SetValue(t, Guid.NewGuid().ToString());
             string commandText = SqlBuilder<T>.GetSql(SqlOperationType.Insert);
-            var parameterList = type.GetProperties().Select(p => new MySqlParameter($"@{p.Name}", p.GetValue(t) ?? DBNull.Value));
+            var parameterList = type.GetProperties().ExceptKey().ExcepteIgnoreProperty().Select(p => new MySqlParameter($"@{p.Name}", p.GetValue(t) ?? DBNull.Value));
 
             return ExecutedSql<bool>(commandText, parameterList.ToArray(), cmd =>
             {

@@ -201,7 +201,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush" Value="{StaticResource RadioButtonBorderBrush}"/>
                             <Setter Property="Background" Value="{StaticResource RadioButtonBackground}"/>
-                            <Setter Property="Effect" Value="{StaticResource effect}"/>
+                            <Setter Property="Effect" Value="{StaticResource DropShadowEffect}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

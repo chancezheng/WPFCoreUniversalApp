@@ -1,4 +1,5 @@
-﻿using DesktopUniversalFrame.Entity;
+﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
+using DesktopUniversalFrame.Entity;
 using DesktopUniversalFrame.Entity.CustomValidationRules;
 using DesktopUniversalFrame.Model.MedicalModel;
 using Prism.Commands;
@@ -7,10 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 {
-    public class RegistrationViewModel: WindowCommandBaseModel, IValidationExceptionHandle
+    public class RegistrationViewModel: MedicalReportViewModel, IValidationExceptionHandle
     {
         private bool _hasValidationError = false;
         private PatientExtention _patientRegister;
@@ -45,9 +47,31 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         }
 
 
+        private DelegateCommand<Button> _submitPatientInfoCommand;
+        public DelegateCommand<Button> SubmitPatientInfoCommand
+        {
+            get { return _submitPatientInfoCommand; }
+            set { _submitPatientInfoCommand = value; }
+        }
+
+
+
         public RegistrationViewModel()
         {
             LoadedWindowCommand = new DelegateCommand<Window>(Loaded);
+            SubmitPatientInfoCommand = new DelegateCommand<Button>(SubmitPatientInfo);
+        }
+
+        private void SubmitPatientInfo(Button btn)
+        {
+            bool isInsert = ORMHelper.InsertData(PatientRegister);           
+            if (isInsert)
+            {
+                Action(Refresh);
+                //MessageDialog.Show("成功插入一条数据");
+            }
+            else
+                MessageDialog.Show("Failed");
         }
 
         private void Loaded(Window win)

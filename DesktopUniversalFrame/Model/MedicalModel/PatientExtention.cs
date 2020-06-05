@@ -10,11 +10,11 @@ namespace DesktopUniversalFrame.Model.MedicalModel
 {
     /// <summary>
     /// Patient扩展类
-    /// 数据据交互时忽略此类
+    /// 数据库交互时忽略此类
     /// </summary>   
     public class PatientExtention : Patient, INotifyPropertyChanged
     {
-        [IgnoreSomeProperty("Ignore")]
+        //[IgnoreSomeProperty("Ignore")]
         private bool _isSelected;
 
 

@@ -1,5 +1,4 @@
-﻿using Chance.DesktopCustomControl.CustomComponent;
-using Chance.DesktopCustomControl.CustomView.MsgDlg;
+﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
 using DesktopUniversalFrame.Common;
 using DesktopUniversalFrame.Common.ValueConverter;
 using DesktopUniversalFrame.Entity;
@@ -382,7 +381,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         /// <summary>
         /// 刷新
         /// </summary>
-        private async void Refresh()
+        protected async void Refresh()
         {
             ObservableCollection<PatientExtention> tsNew = new ObservableCollection<PatientExtention>();
             await Task.Factory.StartNew(() =>

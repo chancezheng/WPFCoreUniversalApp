@@ -1,5 +1,4 @@
-﻿using Chance.DesktopCustomControl.CustomComponent;
-using Chance.DesktopCustomControl.CustomView.MsgDlg;
+﻿using DesktopUniversalCustomControl.CustomComponent;
 using DesktopUniversalFrame.Common;
 using DesktopUniversalFrame.Entity;
 using DesktopUniversalFrame.Model.Indentity;
@@ -425,8 +424,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
 
         //注册与返回
         private void RegisterBack(ToggleButton regBtn)
-        {
-            
+        {          
             if (ReturnMain == "注册→")
             {              
                 RegisterName = string.Empty;
@@ -443,7 +441,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
                 UserOperationType = UserOperationType.Login;
                 ReturnMain = "注册→";
 
-                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 0D);
+                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 0D, 1D);
             }
             else { }
         }
@@ -455,7 +453,7 @@ namespace DesktopUniversalFrame.ViewModel.Login
             {
                 ReturnMain = "←返回";
                 UserOperationType = UserOperationType.ForgotPassword;
-                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 90D);
+                AnimationView.JoinRotation3DAnimation(LoginAnimation3DCtl, 90D, 1D);
             }
         }
 

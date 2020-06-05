@@ -18,7 +18,7 @@
 
 
     <!--Effect-->
-    <DropShadowEffect x:Key="effect" BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray"></DropShadowEffect>
+    <DropShadowEffect x:Key="DropShadowEffect" BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray"></DropShadowEffect>
     <OuterGlowBitmapEffect x:Key="bitmapEffect" GlowColor="DarkBlue" GlowSize="10" Opacity="0.7"></OuterGlowBitmapEffect>
 
     
@@ -47,7 +47,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Effect" Value="{StaticResource effect}" />
+                            <Setter Property="Effect" Value="{StaticResource DropShadowEffect}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -3,18 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-             xmlns:component="clr-namespace:Chance.DesktopCustomControl.CustomComponent;assembly=Chance.DesktopCustomControl"
+             xmlns:component="clr-namespace:DesktopUniversalCustomControl.CustomComponent;assembly=DesktopUniversalCustomControl"
              mc:Ignorable="d" x:Name="loginCtl"         
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Resource/Dictionary/ControlDictionary.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
@@ -33,7 +24,7 @@
         </Grid.RowDefinitions>
         <component:CustomTextControl Grid.Row="0" Grid.Column="1" x:Name="userName" TextPlaceHolder="用户名" InputScope="EmailUserName"
                                          Text="{Binding UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextInputType="digitOrLetterLine"
-                                         Width="300" BorderBrush="BlueViolet" BorderThickness="2" CornerRadius="10"/>
+                                         Width="300" BorderBrush="BlueViolet" BorderThickness="2" CornerRadius="10" Foreground="#4A4A4A"/>
         <component:CustomPasswordBox Grid.Row="2" Grid.Column="1" x:Name="pwd" PasswordPlaceHolder="密码" Width="300" 
                                          Password="{Binding UserPassword,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                          IsEyeVisible="True" MaxLength="16"/>

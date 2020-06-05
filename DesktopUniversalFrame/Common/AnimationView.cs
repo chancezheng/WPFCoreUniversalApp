@@ -23,10 +23,10 @@ namespace DesktopUniversalFrame.Common
         /// 开启Rotation3DAnimation
         /// </summary>
         /// <param name="control"></param>
-        public static void JoinRotation3DAnimation(Control control, double toAngle)
+        public static void JoinRotation3DAnimation(Control control, double toAngle, double time = 3D)
         {
             DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.Duration = TimeSpan.FromSeconds(3);
+            doubleAnimation.Duration = TimeSpan.FromSeconds(time);
             //doubleAnimation.From = fromAngle;
             doubleAnimation.To = toAngle;
             AxisAngleRotation3D axisAngleRotation3D = control.FindName("loginAxisAngleRotation3D") as AxisAngleRotation3D;

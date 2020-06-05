@@ -10,10 +10,9 @@
         xmlns:medicalModel="clr-namespace:DesktopUniversalFrame.Model.MedicalModel"
         xmlns:common="clr-namespace:DesktopUniversalFrame.Common"
         xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:e="clr-namespace:DesktopUniversalFrame.Entity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:chanceCustomCtl="clr-namespace:Chance.DesktopCustomControl.CustomComponent;assembly=Chance.DesktopCustomControl"
+        xmlns:customCtl="clr-namespace:DesktopUniversalFrame.CustomControl"
         mc:Ignorable="d" x:Name="medicalMainWindow"
         Title="医疗报告系统" Height="800" Width="1500"
         ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"
@@ -287,7 +286,7 @@
         </Grid>
 
         <!--关于-->
-        <chanceCustomCtl:CustomPopupEx x:Name="popVersion" IsOpen="{Binding ElementName=about,Path=IsChecked}" AllowsTransparency="True" Topmost="False"
+        <customCtl:CustomPopupEx x:Name="popVersion" IsOpen="{Binding ElementName=about,Path=IsChecked}" AllowsTransparency="True" Topmost="False"
                                        PopupAnimation="Scroll" Placement="Center" PlacementTarget="{Binding ElementName=medicalMainWindow}">
             <Grid>
                 <Border Margin="5" Width="500" Height="400" Style="{DynamicResource popup}"/>
@@ -312,7 +311,7 @@
                     </Grid>
                 </Border>
             </Grid>
-        </chanceCustomCtl:CustomPopupEx>
+        </customCtl:CustomPopupEx>
         
     </Grid>
 </Window>

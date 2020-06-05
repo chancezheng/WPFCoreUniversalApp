@@ -1,5 +1,5 @@
-﻿using Chance.DesktopCustomControl.CustomComponent;
-using DesktopUniversalFrame.Common;
+﻿using DesktopUniversalFrame.Common;
+using DesktopUniversalFrame.CustomControl;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;

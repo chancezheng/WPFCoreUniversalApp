@@ -1,5 +1,4 @@
-﻿using Chance.DesktopCustomControl.CustomComponent;
-using DesktopUniversalFrame.ViewModel.Login;
+﻿using DesktopUniversalFrame.ViewModel.Login;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
