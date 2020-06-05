@@ -12,7 +12,7 @@
         xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
         xmlns:e="clr-namespace:DesktopUniversalFrame.Entity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:customCtl="clr-namespace:DesktopUniversalFrame.CustomControl"
+        xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent;assembly=DesktopUniversalCustomControl"
         mc:Ignorable="d" x:Name="medicalMainWindow"
         Title="医疗报告系统" Height="800" Width="1500"
         ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"
@@ -20,7 +20,6 @@
 
     <Window.Resources>
         <vm:MedicalReportViewModel x:Key="MedicalReportViewModel"/>
-        <e:MyCommands x:Key="aaa" Command="{Binding Path=ContextMenuItemSelectedCommand}"/>
         <common:BindingProxy x:Key="DataContextProxy" Data="{Binding}"/>
         <medicalModel:PatientExtention x:Key="PatientExtention"/>
         <Storyboard x:Key="CloseStoryboard" Storyboard.TargetName="st">
@@ -147,7 +146,7 @@
                                                             <TranslateTransform X="0" x:Name="translate"/>
                                                         </TransformGroup>
                                                     </Grid.RenderTransform>
-                                                    <TextBlock Text="{Binding Operation}"  Margin="120,0,0,0"/>
+                                                    <TextBlock Text="{Binding Operation}" Background="Transparent" Width="80" TextAlignment="Right" Margin="60,0,0,0"/>
                                                     <materialDesign:PackIcon  Kind="{Binding Icon}" Foreground="White" HorizontalAlignment="Left"/>
                                                 </Grid>
                                             </RadioButton>

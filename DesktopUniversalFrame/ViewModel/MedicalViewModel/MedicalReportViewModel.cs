@@ -112,32 +112,32 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                 Function = "挂号",FunctionItems =
                 new List<FunctionItems>{
                     new FunctionItems { Icon = PackIconKind.Plus, Operation = "挂号"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导入"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导出"},
+                    new FunctionItems { Icon = PackIconKind.Import, Operation = "导入"},
+                    new FunctionItems { Icon = PackIconKind.Export, Operation = "导出"},
                 },
             },
             new ReportFunctionInfo{
                 Function = "诊断",FunctionItems =
                 new List<FunctionItems>{
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "诊断"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导入"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导出"},
+                    new FunctionItems { Icon = PackIconKind.LocalActivity, Operation = "本地诊断"},
+                    new FunctionItems { Icon = PackIconKind.Cloud, Operation = "云诊断"},
+                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "自动诊断"},
                 },
             },
             new ReportFunctionInfo{
                 Function = "复核",FunctionItems =
                 new List<FunctionItems>{
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "复核"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导入"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导出"},
+                    new FunctionItems { Icon = PackIconKind.Check, Operation = "本地复核"},
+                    new FunctionItems { Icon = PackIconKind.Cloud, Operation = "云复核"},
+                    new FunctionItems { Icon = PackIconKind.CheckAll, Operation = "自动复核"},
                 },
             },
             new ReportFunctionInfo{
                 Function = "报告",FunctionItems =
                 new List<FunctionItems>{
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "报告"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导入"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "导出"},
+                    new FunctionItems { Icon = PackIconKind.Printer, Operation = "打印"},
+                    new FunctionItems { Icon = PackIconKind.Pdf, Operation = "PDF"},
+                    new FunctionItems { Icon = PackIconKind.FileWord, Operation = "Word"},
                 },
             },
            new ReportFunctionInfo{
@@ -231,13 +231,11 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         private ObservableCollection<PatientExtention> GetPatientData()
         {
             ObservableCollection<PatientExtention> patientsInformation = new ObservableCollection<PatientExtention>();
-            for (int i = 1; i < 10; i++)
+            var ss = ORMHelper.QueryData<PatientExtention>();
+            foreach (var item in ss)
             {
-                var p = ORMHelper.QueryData<PatientExtention>($"{i}");
-                if (p != null)
-                    patientsInformation.Add(p);
+                patientsInformation.Add(item);
             }
-
             return patientsInformation;
         }
 
@@ -363,6 +361,11 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                     break;
                 case "delete":
                     {
+                        if (selectedIndex < 0)
+                        {
+                            MessageDialog.Show("未选中行");
+                            return;
+                        }
                         ORMHelper.Delete<PatientExtention>(PatientsInformation[selectedIndex]);
                         Refresh();
                     }

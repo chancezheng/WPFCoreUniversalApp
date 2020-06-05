@@ -36,6 +36,12 @@ namespace DesktopUniversalFrame.Common.Buffer
             Type type = typeof(T);
             switch (operationType)
             {
+                case SqlOperationType.SelectAll:
+                    {
+                        string tableName = type.GetAttributeMappingName();
+                        commandText = $"select * from {tableName}";
+                    }
+                    break;
                 case SqlOperationType.Select:
                     {
                         string tableName = type.GetAttributeMappingName();

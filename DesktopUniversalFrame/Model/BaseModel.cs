@@ -26,5 +26,6 @@ namespace DesktopUniversalFrame.Model
         Insert = 2,
         Update = 3,
         Delete = 4,
+        SelectAll = 5,
     }
 }

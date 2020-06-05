@@ -4,6 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Authors>Chance_写代码的厨子</Authors>
+    <Company>Freejober</Company>
+    <Description>WPF（.NetCore3.1）基于MVVM+2D、3D的通用模板运用，适用于医疗和工业</Description>
+    <PackageProjectUrl>https://gitee.com/ChanceZXY/WPFCoreUniversalApp</PackageProjectUrl>
+    <PackageIcon>logo.jpg</PackageIcon>
+    <RepositoryUrl>https://github.com/chancezheng/WPFCoreUniversalApp</RepositoryUrl>
+    <PackageTags>WPF+2D+3D/XAML</PackageTags>
+    <PackageReleaseNotes>第一版</PackageReleaseNotes>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.1</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <StartupObject>DesktopUniversalFrame.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +28,10 @@
     <None Remove="Resource\Medical\Images\Medical.png" />
     <None Remove="UserCtl\Login\AdvertisingControl.xaml~RF3524167.TMP" />
     <None Remove="ViewModel\UserInfoModel.cs~RF141e8df.TMP" />
+    <None Include="C:\Users\Administrator\Desktop\logo.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

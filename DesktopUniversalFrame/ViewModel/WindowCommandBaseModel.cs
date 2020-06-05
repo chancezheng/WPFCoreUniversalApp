@@ -1,5 +1,5 @@
-﻿using DesktopUniversalFrame.Common;
-using DesktopUniversalFrame.CustomControl;
+﻿using DesktopUniversalCustomControl.CustomComponent;
+using DesktopUniversalFrame.Common;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;

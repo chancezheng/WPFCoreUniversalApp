@@ -144,13 +144,13 @@
                 </TextBox.Text>
             </TextBox>
             <TextBlock Grid.Row="8" Grid.Column="0" Text="样本号："/>
-            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PatientRegister.SampleNumber}"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PatientRegister.SampleNumber,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="10" Grid.Column="0" Text="样本类型："/>
-            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding PatientRegister.SampleType}"/>
+            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding PatientRegister.SampleType,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="12" Grid.Column="0" Text="条码号："/>
-            <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding PatientRegister.SampleBarCode}"/>
+            <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding PatientRegister.SampleBarCode,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="14" Grid.Column="0" Text="报告类型："/>
-            <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding PatientRegister.ReportType}"/>
+            <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding PatientRegister.ReportType,UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Grid.Row="0" Grid.Column="2" Text="状态：" x:Name="state"/>
             <ComboBox Grid.Row="0" Grid.Column="3" SelectedIndex="0"
@@ -162,13 +162,13 @@
                 <ComboBoxItem Content="已复核"/>
             </ComboBox>
             <TextBlock Grid.Row="2" Grid.Column="2" Text="送检医院："/>
-            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding PatientRegister.InspectHospital}"/>
+            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding PatientRegister.InspectHospital,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="4" Grid.Column="2" Text="送检科室："/>
-            <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding PatientRegister.InspectDepartment}"/>
+            <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding PatientRegister.InspectDepartment,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="6" Grid.Column="2" Text="送检医生："/>
-            <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding PatientRegister.InspectDoctor}"/>
+            <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding PatientRegister.InspectDoctor,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="8" Grid.Column="2" Text="门诊号："/>
-            <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding PatientRegister.OutDepartment}"/>
+            <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding PatientRegister.OutDepartment,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="10" Grid.Column="2" Text="挂号日期："/>
             <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding PatientRegister.RegisterTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
             <TextBlock Grid.Row="12" Grid.Column="2" Text="导出日期："/>

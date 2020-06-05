@@ -1,4 +1,5 @@
-﻿using DesktopUniversalFrame.Common.Buffer;
+﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
+using DesktopUniversalFrame.Common.Buffer;
 using DesktopUniversalFrame.Common.MappingAttribute;
 using DesktopUniversalFrame.Model;
 using MySql.Data.MySqlClient;
@@ -17,6 +18,31 @@ namespace DesktopUniversalFrame.Entity
     {
         private static string connectionStr = ConfigurationManager.ConnectionStrings["connectionStr"].ConnectionString;
 
+        //查询所有
+        public static List<T> QueryData<T>()
+        {
+            Type type = typeof(T);
+            string commandText = SqlBuilder<T>.GetSql(SqlOperationType.SelectAll);
+            T t = Activator.CreateInstance<T>();
+            var param = new MySqlParameter[] { };
+            List<T> list = new List<T>();
+
+            return ExecutedSql(commandText, param, cmd =>
+            {
+                var reader = cmd.ExecuteReader();               
+                while (reader.Read())
+                {
+                    t = Activator.CreateInstance<T>();
+                    foreach (var prop in type.GetProperties().ExceptKey().ExcepteIgnoreProperty())
+                    {
+                        prop.SetValue(t, reader[prop.GetAttributeMappingName()] is DBNull ? null : reader[prop.GetAttributeMappingName()]);
+                    }
+                    list.Add(t);                
+                }
+                return list;
+            });
+        }
+
         //数据查询
         public static T QueryData<T>(string id)
         {
@@ -32,7 +58,6 @@ namespace DesktopUniversalFrame.Entity
                 {
                     foreach (var prop in type.GetProperties().ExceptKey().ExcepteIgnoreProperty())
                     {
-                        var ss = reader[prop.GetAttributeMappingName()];
                         prop.SetValue(t, reader[prop.GetAttributeMappingName()] is DBNull ? null : reader[prop.GetAttributeMappingName()]);
                     }
 
@@ -109,7 +134,8 @@ namespace DesktopUniversalFrame.Entity
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                MessageDialog.Show(ex.Message);
+                return default(T);
             }
         }
     }
