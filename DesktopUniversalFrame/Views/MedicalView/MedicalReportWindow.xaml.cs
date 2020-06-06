@@ -42,5 +42,7 @@ namespace DesktopUniversalFrame.Views.MedicalView
     {
         public PackIconKind Icon { get; set; }
         public string Operation { get; set; }
+
+        public string Code { get; set; }
     }
 }

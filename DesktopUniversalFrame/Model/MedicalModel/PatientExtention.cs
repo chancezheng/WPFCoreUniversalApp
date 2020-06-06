@@ -16,6 +16,7 @@ namespace DesktopUniversalFrame.Model.MedicalModel
     {
         //[IgnoreSomeProperty("Ignore")]
         private bool _isSelected;
+        private int _indexOfItem;
 
 
         /// <summary>
@@ -28,11 +29,26 @@ namespace DesktopUniversalFrame.Model.MedicalModel
             set
             {
                 if (_isSelected == value) return;
-
                 _isSelected = value;
                 OnPropertyChanged("IsSelected");
             }
         }
+
+        /// <summary>
+        /// 子项序号
+        /// </summary>       
+        [IgnoreSomeProperty("Ignore")]
+        public int IndexOfItem
+        {
+            get => _indexOfItem;
+            set 
+            {
+                if (_indexOfItem == value) return;
+                _indexOfItem = value;
+                OnPropertyChanged();
+            } 
+        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -67,7 +67,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             bool isInsert = ORMHelper.InsertData(PatientRegister);           
             if (isInsert)
             {
-                Action(Refresh);
+                //Action(Refresh);
                 //MessageDialog.Show("成功插入一条数据");
             }
             else

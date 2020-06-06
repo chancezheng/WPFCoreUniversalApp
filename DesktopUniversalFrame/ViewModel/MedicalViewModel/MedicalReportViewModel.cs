@@ -1,22 +1,32 @@
 ﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
 using DesktopUniversalFrame.Common;
+using DesktopUniversalFrame.Common.MappingAttribute;
 using DesktopUniversalFrame.Common.ValueConverter;
 using DesktopUniversalFrame.Entity;
 using DesktopUniversalFrame.Entity.CustomValidationRules;
+using DesktopUniversalFrame.Entity.FileUtils;
 using DesktopUniversalFrame.Model.MedicalModel;
 using DesktopUniversalFrame.Views.InterfaceView;
 using DesktopUniversalFrame.Views.MedicalView;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using Prism.Commands;
 using Prism.Modularity;
+using Prism.Regions;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +40,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 {
@@ -111,9 +122,10 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             new ReportFunctionInfo{
                 Function = "挂号",FunctionItems =
                 new List<FunctionItems>{
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "挂号"},
-                    new FunctionItems { Icon = PackIconKind.Import, Operation = "导入"},
-                    new FunctionItems { Icon = PackIconKind.Export, Operation = "导出"},
+                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "挂号", Code = "Registration.register"},
+                    new FunctionItems { Icon = PackIconKind.FileExcel, Operation = "Excel模板", Code = "Registration.excel"},
+                    new FunctionItems { Icon = PackIconKind.Import, Operation = "导入", Code = "Registration.import"},
+                    new FunctionItems { Icon = PackIconKind.Export, Operation = "导出", Code = "Registration.export"},
                 },
             },
             new ReportFunctionInfo{
@@ -191,6 +203,20 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         #endregion
 
+        #region Fileds
+
+        private static int selectedIndex = -1;
+        private static int indexItem = 1;
+        private List<string> execelModelTitle = new List<string>
+        {
+            "姓名","年龄","性别","电话",
+            "样本号","样本类型","条码号","报告类型","状态",
+            "送检医院","送检科室","送检医生","门诊号",
+            "挂号日期(yyyy/MM/dd)","导出日期(yyyy/MM/dd)","打印日期(yyyy/MM/dd)",
+        };
+
+        #endregion
+
 
         public MedicalReportViewModel()
         {
@@ -200,9 +226,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             SelectionChangedCommand = new DelegateCommand<DataGrid>(SelectionChanged);
             SelectedAllCommand = new DelegateCommand<CheckBox>(SelectedAll);
             SelectedThisCommand = new DelegateCommand<CheckBox>(SelectedThisItem);
-            ContextMenuItemSelectedCommand = new DelegateCommand<MenuItem>(ContextMenuItemSelected);
-
-            PatientsInformation = GetPatientData();
+            //ContextMenuItemSelectedCommand = new DelegateCommand<MenuItem>(ContextMenuItemSelected);
         }
 
         private void Loaded(Window win)
@@ -225,6 +249,8 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                     (item as MenuItem).Click += delegate { ContextMenuItemSelected(item as MenuItem); };
                 }
             }
+
+            PatientsInformation = GetPatientData();
         }
 
         //获取病人信息数据
@@ -232,8 +258,10 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         {
             ObservableCollection<PatientExtention> patientsInformation = new ObservableCollection<PatientExtention>();
             var ss = ORMHelper.QueryData<PatientExtention>();
+
             foreach (var item in ss)
             {
+                item.IndexOfItem = indexItem++;
                 patientsInformation.Add(item);
             }
             return patientsInformation;
@@ -244,7 +272,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         {
             switch (rb.Tag.ToString())
             {
-                case "挂号":
+                case "Registration.register":
                     {
                         RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                         registrationViewModel.PatientRegister = new PatientExtention();
@@ -252,15 +280,19 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         ShowWindow(registrationViewModel, rb);
                     }
                     break;
-                case "导入":
+                case "Registration.excel":
                     {
-                        var ss = PatientsInformation.Count(item => item.IsSelected);
-                        MessageBox.Show(ss.ToString());
+                        CreateExcelModel();
                     }
                     break;
-                case "导出":
+                case "Registration.import":
                     {
-
+                        ImportExcelData();
+                    }
+                    break;
+                case "Registration.export":
+                    {
+                        ExportExcelData();
                     }
                     break;
                 default:
@@ -272,7 +304,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         private void LoadingRow(DataGrid dg)
         {
-            DataGridCheckBoxColumn dataGridCheckBoxColumn = new DataGridCheckBoxColumn();
+            //DataGridCheckBoxColumn dataGridCheckBoxColumn = new DataGridCheckBoxColumn();
             //e.Row.MouseLeftButtonUp += (s, e) =>
             //{
             //    (sender as DataGrid).SelectedIndex = (s as DataGridRow).GetIndex();
@@ -307,13 +339,13 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
             SelectedCount = PatientsInformation.Count(item => item.IsSelected);
         }
-
-        private static int selectedIndex = -1;
+      
         private void SelectionChanged(DataGrid dg)
         {
             selectedIndex = dg.SelectedIndex;
         }
 
+        //菜单选择
         private void ContextMenuItemSelected(MenuItem item)
         {
             switch (item.Name)
@@ -379,6 +411,211 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         #region 挂号功能
 
+        ///创建Excel模板
+        private void CreateExcelModel()
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel文件|*.xls;*.xlsx;*.csv";
+                saveFileDialog.DefaultExt = ".xlsx";
+                saveFileDialog.Title = "Excel模板";
+                saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "Excel模板";
+                //saveFileDialog.CheckFileExists = true;
+                saveFileDialog.CheckPathExists = true;
+                saveFileDialog.FileName = "Excel模板" + DateTime.Now.ToString("yyyy年MM月dd日HH时mm分ss秒");
+
+                if (saveFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                {
+                    FileOutputUtil.OutputDir = Directory.GetParent(saveFileDialog.FileName);
+                    //设置许可证，不设置的异常仅在连接调试器时引发，因此您不必在生产/发布环境中配置此异常
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (var package = new ExcelPackage())
+                    {
+                        //Add a new worksheet to the empty workbook
+                        var workSheet = package.Workbook.Worksheets.Add("病人信息统计表");
+                        //Add the headers
+                        for (int i = 1; i <= execelModelTitle.Count; i++)
+                        {
+                            workSheet.Cells[1, i].Value = execelModelTitle[i - 1];                           
+                        }
+
+                        //设置表头样式
+                        using (var range = workSheet.Cells[1,1,1,execelModelTitle.Count])
+                        {
+                            range.Style.Font.Bold = true;
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.BlueViolet);
+                            range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                        }
+                        //设置单元格格式
+                        //workSheet.Cells["B2:B5"].Style.Numberformat.Format = "#,##0";
+                        //workSheet.Cells["D2"].Style.Numberformat.Format = "#,##0";
+                        //workSheet.Cells["N2:N4"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+                        //workSheet.Cells["O2:N"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+                        //workSheet.Cells["P2:N"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+
+                        //Auto Calculaye
+                        //workSheet.Calculate();
+
+                        //Autofit columns for all cells
+                        workSheet.Cells.AutoFitColumns();
+                        //Change the sheet view to show it in page layout mode
+                        workSheet.View.PageLayoutView = true;
+                        var xlsxFile = FileOutputUtil.GetFileInfo(saveFileDialog.SafeFileName);
+                        package.SaveAs(xlsxFile);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.Show(ex.Message);
+            }
+        }
+
+        //导入Excel数据
+        private void ImportExcelData()
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Excel文件|*.xls;*.xlsx;*.csv";
+                if (openFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                {
+                    FileStream fs = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (ExcelPackage package = new ExcelPackage(fs))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        var ss = worksheet.Name;
+                        int minColumNum = worksheet.Dimension.Start.Column; //开始列
+                        int maxColumNum = worksheet.Dimension.End.Column; //结束列
+                        int minRowNum = worksheet.Dimension.Start.Row; //开始行
+                        int maxRowNum = worksheet.Dimension.End.Row; //结束行
+                     
+                        for (int i = 2; i <= maxRowNum; i++)
+                        {
+                            Type type = typeof(PatientExtention);
+                            var instance = Activator.CreateInstance<PatientExtention>();
+                            var hh = type.GetProperties().ExceptKey().ExcepteIgnoreProperty().ToList();
+                            for (int j = 1; j <= maxColumNum; j++)
+                            {
+                                var v = worksheet.Cells[i, j].Value;
+                                TypeConverterTo(hh[j - 1], instance, v);
+                            }
+                            //PatientsInformation.Add(instance);
+                            bool isInsert = ORMHelper.InsertData(instance);
+                        }
+                    }
+                    GetPatientData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.Show(ex.Message);
+            }
+        }
+
+        //类型转换
+        private void TypeConverterTo(PropertyInfo prop, PatientExtention p,object value)
+        {
+            if(prop.PropertyType == typeof(string))
+            {
+                prop.SetValue(p, Convert.ToString(value));
+            }
+            else if (prop.PropertyType == typeof(int))
+            {
+                prop.SetValue(p, Convert.ToInt32(value));
+            }
+            else if (prop.PropertyType == typeof(Gender))
+            {
+                if(value.ToString() == "男")
+                    prop.SetValue(p, Gender.Male);
+                else if (value.ToString() == "女")
+                    prop.SetValue(p, Gender.Female);
+                else
+                    prop.SetValue(p, Gender.Unknow);
+            }
+            else if (prop.PropertyType == typeof(DiagnoseState))
+            {
+                if (value.ToString() == "未诊断")
+                    prop.SetValue(p, DiagnoseState.Undiagnose);
+                else if (value.ToString() == "已诊断")
+                    prop.SetValue(p, DiagnoseState.Diagnosed);
+                else if(value.ToString() == "已复核")
+                    prop.SetValue(p, DiagnoseState.Reviewered);
+            }
+            else if (prop.PropertyType == typeof(DateTime))
+            {
+                prop.SetValue(p, Convert.ToDateTime(value.ToString()));
+            }
+            else
+                prop.SetValue(p, (string)value);
+        }
+
+        //导出Excel数据
+        private void ExportExcelData()
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel文件|*.xls;*.xlsx;*.csv";
+                saveFileDialog.DefaultExt = ".xlsx";
+                saveFileDialog.Title = "Excel模板";
+                saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "Excel模板";
+                //saveFileDialog.CheckFileExists = true;
+                saveFileDialog.CheckPathExists = true;
+                saveFileDialog.FileName = "Excel模板" + DateTime.Now.ToString("yyyy年MM月dd日HH时mm分ss秒");
+
+                if (saveFileDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(saveFileDialog.FileName))
+                {
+                    FileOutputUtil.OutputDir = Directory.GetParent(saveFileDialog.FileName);
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (var package = new ExcelPackage())
+                    {
+                        var workSheet = package.Workbook.Worksheets.Add("病人信息统计表");
+                        for (int i = 1; i <= execelModelTitle.Count; i++)
+                        {
+                            workSheet.Cells[1, i].Value = execelModelTitle[i - 1];
+                        }
+
+                        //设置表头样式
+                        using (var range = workSheet.Cells[1, 1, 1, execelModelTitle.Count])
+                        {
+                            range.Style.Font.Bold = true;
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.BlueViolet);
+                            range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                        }
+
+                        for (int i = 0; i < PatientsInformation.Count; i++)
+                        {
+                            Type type = typeof(PatientExtention);
+                            var info = type.GetProperties().ExceptKey().ExcepteIgnoreProperty().ToList();
+                            for (int j = 1; j <= 16; j++)
+                            {
+                                workSheet.Cells[i + 2, j].Value = info[j - 1].GetValue(PatientsInformation[i]);
+                            }
+                        }
+
+                        //日期格式转换
+                        workSheet.Cells[$"N2:N{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+                        workSheet.Cells[$"O2:O{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+                        workSheet.Cells[$"P2:P{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+
+                        workSheet.Cells.AutoFitColumns();
+                        workSheet.View.PageLayoutView = true;
+                        var xlsxFile = FileOutputUtil.GetFileInfo(saveFileDialog.SafeFileName);
+                        package.SaveAs(xlsxFile);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.Show(ex.Message);
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -389,7 +626,8 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             ObservableCollection<PatientExtention> tsNew = new ObservableCollection<PatientExtention>();
             await Task.Factory.StartNew(() =>
             {
-                tsNew = GetPatientData();
+                //tsNew = GetPatientData(); //刷新后不记住选择
+                tsNew = PatientsInformation;
                 PatientsInformation = null;
                 Thread.Sleep(200);
                 PatientsInformation = tsNew;

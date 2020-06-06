@@ -83,11 +83,24 @@
                             Background="{TemplateBinding Background}" CornerRadius="1">
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ContentPresenter.LayoutTransform>
+                                <RotateTransform x:Name="angle" Angle="0" CenterX="10" CenterY="10"/>
+                            </ContentPresenter.LayoutTransform>
+                        </ContentPresenter>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="BlueViolet" TargetName="border"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="angle" 
+                                                         Storyboard.TargetProperty="Angle"
+                                                         From="0" To="180" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

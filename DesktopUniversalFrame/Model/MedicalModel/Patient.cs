@@ -46,11 +46,6 @@ namespace DesktopUniversalFrame.Model.MedicalModel
         /// 报告类型
         /// </summary>
         public string ReportType { get; set; }
-
-        /// <summary>
-        /// 挂号日期
-        /// </summary>
-        public DateTime RegisterTime { get; set; }
         
         /// <summary>
         /// 诊断状态
@@ -77,6 +72,11 @@ namespace DesktopUniversalFrame.Model.MedicalModel
         /// 门诊号
         /// </summary>
         public string OutDepartment { get; set; }
+
+        /// <summary>
+        /// 挂号日期
+        /// </summary>
+        public DateTime RegisterTime { get; set; }
 
         /// <summary>
         /// 导出日期
