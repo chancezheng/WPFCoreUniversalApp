@@ -76,7 +76,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         private void Loaded(Window win)
         {
-            var ss = ("Bob", 2);
+            //PatientRegister.RegisterTime = DateTime.Now;
         }
     }
 }

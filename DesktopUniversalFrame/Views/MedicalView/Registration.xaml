@@ -170,11 +170,14 @@
             <TextBlock Grid.Row="8" Grid.Column="2" Text="门诊号："/>
             <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding PatientRegister.OutDepartment,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Row="10" Grid.Column="2" Text="挂号日期："/>
-            <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding PatientRegister.RegisterTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+            <DatePicker Grid.Row="10" Grid.Column="3" Text="{Binding PatientRegister.RegisterTime,StringFormat={}{0:yyyy-MM-dd},UpdateSourceTrigger=PropertyChanged}"
+                        materialDesign:HintAssist.Hint="选择日期" Style="{StaticResource MaterialDesignDatePicker}"/>
             <TextBlock Grid.Row="12" Grid.Column="2" Text="导出日期："/>
-            <TextBox Grid.Row="12" Grid.Column="3" Text="{Binding PatientRegister.ExportTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+            <DatePicker Grid.Row="12" Grid.Column="3" Text="{Binding PatientRegister.ExportTime,StringFormat={}{0:yyyy-MM-dd},UpdateSourceTrigger=PropertyChanged}"
+                        materialDesign:HintAssist.Hint="选择日期" Style="{StaticResource MaterialDesignDatePicker}"/>
             <TextBlock Grid.Row="14" Grid.Column="2" Text="打印日期："/>
-            <TextBox Grid.Row="14" Grid.Column="3" Text="{Binding PatientRegister.PrintTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+            <DatePicker Grid.Row="14" Grid.Column="3" Text="{Binding PatientRegister.PrintTime,StringFormat={}{0:yyyy-MM-dd},UpdateSourceTrigger=PropertyChanged}"
+                        materialDesign:HintAssist.Hint="选择日期" Style="{StaticResource MaterialDesignDatePicker}"/>
         </Grid>
         <Button x:Name="submitInfo" Grid.Row="2" Width="300" Height="40" FontWeight="Bold" BorderBrush="Transparent"
                 IsEnabled="{Binding HasValidationError}" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Cursor="Hand"

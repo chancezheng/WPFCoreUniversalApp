@@ -1,5 +1,6 @@
 ﻿using DesktopUniversalFrame.Common;
 using DesktopUniversalFrame.Common.MappingAttribute;
+using DesktopUniversalFrame.Common.ValueConverter;
 using DesktopUniversalFrame.Entity;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace DesktopUniversalFrame.Model
     public abstract class BaseModel
     {
         [PrimaryKey]
-        public string id { get; set; }
+        public int id { get; set; }
 
     }
 

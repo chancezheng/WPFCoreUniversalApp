@@ -14,7 +14,7 @@ namespace DesktopUniversalFrame.Model.MedicalModel
     /// 病人信息
     /// </summary>
     //[TableMapping("patientinfo")]
-    [Table("patientinfo")]   
+    [Table("patientinfo")]
     [Serializable]
     public class Patient : BaseModel
     {
@@ -46,7 +46,7 @@ namespace DesktopUniversalFrame.Model.MedicalModel
         /// 报告类型
         /// </summary>
         public string ReportType { get; set; }
-        
+
         /// <summary>
         /// 诊断状态
         /// </summary>
@@ -76,16 +76,16 @@ namespace DesktopUniversalFrame.Model.MedicalModel
         /// <summary>
         /// 挂号日期
         /// </summary>
-        public DateTime RegisterTime { get; set; }
+        public DateTime RegisterTime { get => DateTime.Now; set => value = DateTime.Now; }
 
         /// <summary>
         /// 导出日期
         /// </summary>
-        public DateTime ExportTime { get; set; }
+        public DateTime ExportTime { get => DateTime.Now; set => value = DateTime.Now; }
 
         /// <summary>
         /// 打印日期
         /// </summary>
-        public DateTime PrintTime { get; set; }
+        public DateTime PrintTime { get => DateTime.Now; set => value = DateTime.Now; }
     }
 }

@@ -33,8 +33,9 @@ namespace DesktopUniversalFrame.Entity
                 while (reader.Read())
                 {
                     t = Activator.CreateInstance<T>();
-                    foreach (var prop in type.GetProperties().ExceptKey().ExcepteIgnoreProperty())
+                    foreach (var prop in type.GetProperties().ExcepteIgnoreProperty())
                     {
+                        var ss = reader[prop.GetAttributeMappingName()];
                         prop.SetValue(t, reader[prop.GetAttributeMappingName()] is DBNull ? null : reader[prop.GetAttributeMappingName()]);
                     }
                     list.Add(t);                

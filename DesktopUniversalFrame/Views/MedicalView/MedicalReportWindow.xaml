@@ -91,7 +91,12 @@
                             <MenuItem Header="主题"/>
                         </MenuItem>
                         <MenuItem Header="帮助" Height="30">
-                            <MenuItem Header="项目地址"/>
+                            <MenuItem Header="项目地址">
+                                <Hyperlink NavigateUri="https://gitee.com/ChanceZXY/WPFCoreUniversalApp" Foreground="White" x:Name="gitee"
+                                           Command="{Binding GiteeHyperlinkCommand}" CommandParameter="{Binding ElementName=gitee}">Gitee</Hyperlink>
+                                <Hyperlink NavigateUri="https://github.com/chancezheng/WpfCoreUniversalApp" Foreground="White" x:Name="github"
+                                           Command="{Binding GiteeHyperlinkCommand}" CommandParameter="{Binding ElementName=github}">Github</Hyperlink>
+                            </MenuItem>
                             <MenuItem Header="反馈"/>
                             <MenuItem Header="关于" x:Name="about" IsCheckable="True"/>
                         </MenuItem>
@@ -289,6 +294,7 @@
             </StackPanel>
         </Grid>
 
+        
         <!--关于-->
         <customCtl:CustomPopupEx x:Name="popVersion" IsOpen="{Binding ElementName=about,Path=IsChecked}" AllowsTransparency="True" Topmost="False"
                                        PopupAnimation="Scroll" Placement="Center" PlacementTarget="{Binding ElementName=medicalMainWindow}">
@@ -310,7 +316,7 @@
                             </Button.Content>
                         </Button>
                         <medicalCtl:HelpVersionControl Grid.Row="1"/>
-                        <TextBlock Grid.Row="2" Width="280" TextWrapping="Wrap" Foreground="White"
+                        <TextBlock Grid.Row="2" Width="280" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Center"
                                    Text="WPFCoreUniversalApp-Medical 版本1.0.1 ©2020 Chance保留所有权利"/>
                     </Grid>
                 </Border>

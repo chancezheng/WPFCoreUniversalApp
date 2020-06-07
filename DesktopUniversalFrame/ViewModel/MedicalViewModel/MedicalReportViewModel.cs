@@ -1,9 +1,6 @@
 ﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
-using DesktopUniversalFrame.Common;
 using DesktopUniversalFrame.Common.MappingAttribute;
-using DesktopUniversalFrame.Common.ValueConverter;
 using DesktopUniversalFrame.Entity;
-using DesktopUniversalFrame.Entity.CustomValidationRules;
 using DesktopUniversalFrame.Entity.FileUtils;
 using DesktopUniversalFrame.Model.MedicalModel;
 using DesktopUniversalFrame.Views.InterfaceView;
@@ -13,33 +10,19 @@ using Microsoft.Win32;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using Prism.Commands;
-using Prism.Modularity;
-using Prism.Regions;
-using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Permissions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Provider;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Documents;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Threading;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
@@ -49,6 +32,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         #region Command
 
+        private DelegateCommand<Hyperlink> _giteeHyperlinkCommand;
         private DelegateCommand<RadioButton> _functionTabSwitch;
         private DelegateCommand<DataGrid> _loadingRowCommand;
         private DelegateCommand<DataGrid> _selectionChangedCommand;
@@ -56,6 +40,15 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         private DelegateCommand<CheckBox> _selectedThisCommand;
         private DelegateCommand<MenuItem> _contextMenuItemSelectedCommand;
 
+
+        /// <summary>
+        /// Gitee
+        /// </summary>
+        public DelegateCommand<Hyperlink> GiteeHyperlinkCommand
+        {
+            get { return _giteeHyperlinkCommand; }
+            set { _giteeHyperlinkCommand = value; }
+        }
 
         /// <summary>
         /// 功能切换
@@ -131,17 +124,17 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             new ReportFunctionInfo{
                 Function = "诊断",FunctionItems =
                 new List<FunctionItems>{
-                    new FunctionItems { Icon = PackIconKind.LocalActivity, Operation = "本地诊断"},
-                    new FunctionItems { Icon = PackIconKind.Cloud, Operation = "云诊断"},
-                    new FunctionItems { Icon = PackIconKind.Plus, Operation = "自动诊断"},
+                    new FunctionItems { Icon = PackIconKind.Library, Operation = "本地诊断", Code = "Diagnose.local"},
+                    new FunctionItems { Icon = PackIconKind.Cloud, Operation = "云诊断", Code = "Diagnose.cloud"},
+                    new FunctionItems { Icon = PackIconKind.EyeCheck, Operation = "自动诊断", Code = "Diagnose.auto"},
                 },
             },
             new ReportFunctionInfo{
                 Function = "复核",FunctionItems =
                 new List<FunctionItems>{
-                    new FunctionItems { Icon = PackIconKind.Check, Operation = "本地复核"},
+                    new FunctionItems { Icon = PackIconKind.LocalActivity, Operation = "本地复核"},
                     new FunctionItems { Icon = PackIconKind.Cloud, Operation = "云复核"},
-                    new FunctionItems { Icon = PackIconKind.CheckAll, Operation = "自动复核"},
+                    new FunctionItems { Icon = PackIconKind.HeadCheck, Operation = "自动复核"},
                 },
             },
             new ReportFunctionInfo{
@@ -152,7 +145,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                     new FunctionItems { Icon = PackIconKind.FileWord, Operation = "Word"},
                 },
             },
-           new ReportFunctionInfo{
+            new ReportFunctionInfo{
                 Function = "更多",FunctionItems =
                 new List<FunctionItems>{
                     new FunctionItems { Icon = PackIconKind.Plus, Operation = "更多"},
@@ -206,6 +199,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         #region Fileds
 
         private static int selectedIndex = -1;
+        private static List<PatientExtention> selectedPatients = new List<PatientExtention>();
         private static int indexItem = 1;
         private List<string> execelModelTitle = new List<string>
         {
@@ -227,6 +221,16 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             SelectedAllCommand = new DelegateCommand<CheckBox>(SelectedAll);
             SelectedThisCommand = new DelegateCommand<CheckBox>(SelectedThisItem);
             //ContextMenuItemSelectedCommand = new DelegateCommand<MenuItem>(ContextMenuItemSelected);
+
+            GiteeHyperlinkCommand = new DelegateCommand<Hyperlink>(GitHyperink);
+        }
+
+        /// <summary>
+        /// 外网访问
+        /// </summary>
+        private void GitHyperink(Hyperlink hyperlink)
+        {
+            Process.Start(new ProcessStartInfo("explorer", hyperlink.NavigateUri.AbsoluteUri));
         }
 
         private void Loaded(Window win)
@@ -257,9 +261,12 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         private ObservableCollection<PatientExtention> GetPatientData()
         {
             ObservableCollection<PatientExtention> patientsInformation = new ObservableCollection<PatientExtention>();
-            var ss = ORMHelper.QueryData<PatientExtention>();
+            var Items = ORMHelper.QueryData<PatientExtention>();
+            if (Items == null)
+                return null;
 
-            foreach (var item in ss)
+            indexItem = 1;
+            foreach (var item in Items)
             {
                 item.IndexOfItem = indexItem++;
                 patientsInformation.Add(item);
@@ -304,12 +311,15 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         private void LoadingRow(DataGrid dg)
         {
-            //DataGridCheckBoxColumn dataGridCheckBoxColumn = new DataGridCheckBoxColumn();
-            //e.Row.MouseLeftButtonUp += (s, e) =>
+            //dg.LoadingRow += (sender, e) =>
             //{
-            //    (sender as DataGrid).SelectedIndex = (s as DataGridRow).GetIndex();
-            //    (s as DataGridRow).Focus();
-            //    e.Handled = true;
+            //    e.Row.MouseLeftButtonUp += (s, e) =>
+            //    {
+            //        (sender as DataGrid).SelectedIndex = (s as DataGridRow).GetIndex();
+            //        selectedIndex = (s as DataGridRow).GetIndex();
+            //        (s as DataGridRow).Focus();
+            //        e.Handled = true;
+            //    };
             //};
         }
 
@@ -343,6 +353,11 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         private void SelectionChanged(DataGrid dg)
         {
             selectedIndex = dg.SelectedIndex;
+            foreach (PatientExtention item in dg.SelectedItems)
+            {
+                if (!selectedPatients.Contains(item))
+                    selectedPatients.Add(item);
+            }
         }
 
         //菜单选择
@@ -388,17 +403,15 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                 case "update":
                     {
                         Refresh();
-                        selectedIndex = -1;
                     }
                     break;
                 case "delete":
                     {
-                        if (selectedIndex < 0)
+                        for (int i = 0; i < selectedPatients.Count; i++)
                         {
-                            MessageDialog.Show("未选中行");
-                            return;
+                            ORMHelper.Delete<PatientExtention>(selectedPatients[i]);
+                            PatientsInformation.Remove(selectedPatients[i]); //PatientInfomation每次更新都会引起SelectionChanged事件发生,所以这句话一定要在后面
                         }
-                        ORMHelper.Delete<PatientExtention>(PatientsInformation[selectedIndex]);
                         Refresh();
                     }
                     break;
@@ -411,7 +424,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         #region 挂号功能
 
-        ///创建Excel模板
+        //创建Excel模板
         private void CreateExcelModel()
         {
             try
@@ -507,7 +520,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                             bool isInsert = ORMHelper.InsertData(instance);
                         }
                     }
-                    GetPatientData();
+                    Refresh();
                 }
             }
             catch (Exception ex)
@@ -547,7 +560,8 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             }
             else if (prop.PropertyType == typeof(DateTime))
             {
-                prop.SetValue(p, Convert.ToDateTime(value.ToString()));
+                //prop.SetValue(p, Convert.ToDateTime(DateTime.Parse(value.ToString()));
+                prop.SetValue(p, DateTime.FromOADate((double)value));
             }
             else
                 prop.SetValue(p, (string)value);
@@ -599,9 +613,9 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         }
 
                         //日期格式转换
-                        workSheet.Cells[$"N2:N{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
-                        workSheet.Cells[$"O2:O{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
-                        workSheet.Cells[$"P2:P{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+                        workSheet.Cells[$"N2:N{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd";
+                        workSheet.Cells[$"O2:O{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd";
+                        workSheet.Cells[$"P2:P{PatientsInformation.Count + 1}"].Style.Numberformat.Format = "yyyy-MM-dd";
 
                         workSheet.Cells.AutoFitColumns();
                         workSheet.View.PageLayoutView = true;
@@ -622,12 +636,13 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         /// 刷新
         /// </summary>
         protected async void Refresh()
-        {
+        {         
             ObservableCollection<PatientExtention> tsNew = new ObservableCollection<PatientExtention>();
             await Task.Factory.StartNew(() =>
             {
-                //tsNew = GetPatientData(); //刷新后不记住选择
-                tsNew = PatientsInformation;
+                SelectedCount = 0;
+                tsNew = GetPatientData(); //刷新后不记住选择
+                //tsNew = PatientsInformation; //刷新后记住选择
                 PatientsInformation = null;
                 Thread.Sleep(200);
                 PatientsInformation = tsNew;
