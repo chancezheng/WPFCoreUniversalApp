@@ -55,7 +55,8 @@ WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式,目前连
 
 ### 3D图像切割效果（可任意角度去切割三维图形），项目中有例子，有兴趣的可自行查看
 以下示范立方体的，原理如下:假设平面内有一定点P(0)(该点也在三维图形空间内)，过定点P0的法向量为P(n),设该平面的任意一点坐标为P(x,y,z)，则通过法向量垂直平面即可求出平面方程，若P(0)=(0,0,0)，则切平面方程为：
-P(n).X*x + P(n).Y*y + P(n).Z*z = 0,若P(0)非原点，可通过在y轴上平移得到切平面方程式，即必存在一个常量N满足P(n).X*x + P(n).Y*y + P(n).Z*z + N = 0(即为切平面方程通用公式)。
+P(n).X*x + P(n).Y*y + P(n).Z*z = 0,若P(0)非原点，可通过在y轴上平移得到切平面方程式，即必存在一个常量N满足P(n).X*x + P(n).Y*y + P(n).Z*z + N = 0(即为切平面方程通用公式)。设切平面与XY轴面的夹角α[0,π]，切平面旋转的角度β[0,2π],最后我推导得到切平面通用用方程表达式如下(先计算过原点的，之后可通过平移得到)：
+![切平面通用方程式](DesktopUniversalFrame/Resource/Effect/planecutting.png)
 ![正方体](DesktopUniversalFrame/Resource/Effect/CubeCutting.gif)
 
 

@@ -6,164 +6,210 @@
         xmlns:local="clr-namespace:DesktopUniversalFrame.GraphicsCutting._3D"
         xmlns:helix="http://helix-toolkit.org/wpf"
         mc:Ignorable="d"
-        Title="DemoWindow" Height="450" Width="800">
+        Title="DemoWindow" Height="500" Width="800"
+        Loaded="Window_Loaded">
     <Grid>
-        <helix:HelixViewport3D InfiniteSpin="False" RotationSensitivity="0.2" Orthographic="True" ShowViewCube="False"
-                               Background="#D0000000" ShowCoordinateSystem="True">
-            <helix:DefaultLights/>
-            <helix:CuttingPlaneGroup>
-                <helix:CuttingPlaneGroup.CuttingPlanes>
-                    <helix:Plane3D Normal="5,5,5" Position="0,0,0"/>
-                </helix:CuttingPlaneGroup.CuttingPlanes>
-                <!--<helix:TruncatedConeVisual3D 
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Height="20" VerticalAlignment="Top" Margin="0,20,0,0">
+                <TextBlock Text="切平面与XY轴面的夹角α："/>
+                <TextBlock Text="{Binding ElementName=alpha,Path=Value,StringFormat={}{0:F2}}" Width="70" Foreground="White" Background="BlueViolet"/>
+                <Slider x:Name="alpha" Minimum="0" Maximum="180" Value="0" Width="150" ValueChanged="ValueChanged"/>
+                <TextBlock Text="切平面旋转的角度β："/>
+                <TextBlock Text="{Binding ElementName=beta,Path=Value,StringFormat={}{0:F2}}" Width="70" Foreground="White" Background="BlueViolet"/>
+                <Slider x:Name="beta" Minimum="0" Maximum="360" Value="0" Width="150" ValueChanged="ValueChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="P点为法向量与平面的交点坐标" Margin="0,0,10,0"/>
+                <TextBlock Text="P.X"/>
+                <TextBlock Text="{Binding ElementName=PX,Path=Value,StringFormat={}{0:F2}}" Width="50" Foreground="White" Background="BlueViolet"/>
+                <Slider x:Name="PX" Minimum="-10" Maximum="10" Value="0" Width="100" ValueChanged="ValueChanged" Margin="10,0,20,0"/>
+                <TextBlock Text="P.Y"/>
+                <TextBlock Text="{Binding ElementName=PY,Path=Value,StringFormat={}{0:F2}}" Width="50" Foreground="White" Background="BlueViolet"/>
+                <Slider x:Name="PY" Minimum="-10" Maximum="10" Value="0" Width="100" ValueChanged="ValueChanged" Margin="10,0,20,0"/>
+                <TextBlock Text="P.Z"/>
+                <TextBlock Text="{Binding ElementName=PZ,Path=Value,StringFormat={}{0:F2}}" Width="50" Foreground="White" Background="BlueViolet"/>
+                <Slider x:Name="PZ" Minimum="-10" Maximum="10" Value="0" Width="100" ValueChanged="ValueChanged" Margin="10,0,20,0"/>
+            </StackPanel>
+            <Grid Height="500" Background="#A0000000">
+                <helix:HelixViewport3D InfiniteSpin="False" RotationSensitivity="0.2" Orthographic="True" ShowViewCube="False"
+                                ShowCoordinateSystem="True" IsHeadLightEnabled="True">
+                    <helix:DefaultLights/>
+                    <helix:CuttingPlaneGroup x:Name="CuttingPlaneGroup" IsEnabled="False">
+                        <helix:CuttingPlaneGroup.CuttingPlanes>
+                            <helix:Plane3D x:Name="PlaneVector3D" Position="0,0,0"/>
+                        </helix:CuttingPlaneGroup.CuttingPlanes>
+                        
+                        <!--<helix:TruncatedConeVisual3D 
                     Material="{helix:ImageMaterial 'pack://application:,,,/Earth.jpg'}"
                     BackMaterial="{helix:Material Red}"
                     Fill="BlueViolet" ThetaDiv="90" TopRadius="1" BaseRadius="3"/>-->
-                <helix:MeshVisual3D>
-                    <ModelVisual3D>
-                        <ModelVisual3D.Content>
-                            <Model3DGroup>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="10,-10,20 10,-10,0 10,10,0 10,10,20"
-                                                    TriangleIndices="0,1,2 0,2,3" TextureCoordinates="0,0 0,1 1,1 1,0"/>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <MaterialGroup>
-                                            <DiffuseMaterial AmbientColor="LimeGreen">
-                                                <DiffuseMaterial.Brush>
-                                                    <VisualBrush Stretch="Fill" AutoLayoutContent="True" TileMode="FlipX">
-                                                        <VisualBrush.Visual>
-                                                            <Label Content="正面" Background="LimeGreen" Foreground="White"/>
-                                                        </VisualBrush.Visual>
-                                                    </VisualBrush>
-                                                </DiffuseMaterial.Brush>
-                                            </DiffuseMaterial>
-                                        </MaterialGroup>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="BlueViolet"/>
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
 
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="10,10,20 10,10,0 -10,10,0 -10,10,20" 
+                        <helix:MeshVisual3D >
+                            <ModelVisual3D x:Name="CubeModelVisual3D">
+                                <ModelVisual3D.Content>
+                                    <Model3DGroup>
+                                        <GeometryModel3D >
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D Positions="10,-10,20 10,-10,0 10,10,0 10,10,20" 
                                                     TriangleIndices="0,1,2 0,2,3" TextureCoordinates="0,0 0,1 1,1 1,0"/>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial AmbientColor="Yellow">
-                                            <DiffuseMaterial.Brush>
-                                                <VisualBrush>
-                                                    <VisualBrush.Visual>
-                                                        <Border>
-                                                            <Label Content="右侧面" Background="Yellow" Foreground="White"/>
-                                                        </Border>
-                                                    </VisualBrush.Visual>
-                                                </VisualBrush>
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="BlueViolet"/>
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <MaterialGroup>
+                                                    <DiffuseMaterial AmbientColor="LimeGreen">
+                                                        <DiffuseMaterial.Brush>
+                                                            <VisualBrush Stretch="Fill" AutoLayoutContent="True" TileMode="FlipX">
+                                                                <VisualBrush.Visual>
+                                                                    <Label Content="正面" Background="LimeGreen" Foreground="White"/>
+                                                                </VisualBrush.Visual>
+                                                            </VisualBrush>
+                                                        </DiffuseMaterial.Brush>
+                                                    </DiffuseMaterial>
+                                                </MaterialGroup>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="BlueViolet"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
 
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="-10,10,20 -10,10,0 -10,-10,0 -10,-10,20" 
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D Positions="10,10,20 10,10,0 -10,10,0 -10,10,20" 
                                                     TriangleIndices="0,1,2 0,2,3" TextureCoordinates="0,0 0,1 1,1 1,0"/>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <VisualBrush>
-                                                    <VisualBrush.Visual>
-                                                        <Border>
-                                                            <Label Content="反面" Background="DarkRed" Foreground="White"/>
-                                                        </Border>
-                                                    </VisualBrush.Visual>
-                                                </VisualBrush>
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="BlueViolet"/>
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial AmbientColor="Yellow">
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border>
+                                                                    <Label Content="右侧面" Background="Yellow" Foreground="White"/>
+                                                                </Border>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="BlueViolet"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
 
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="-10,-10,20 -10,-10,0 10,-10,0 10,-10,20" 
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D Positions="-10,10,20 -10,10,0 -10,-10,0 -10,-10,20" 
                                                     TriangleIndices="0,1,2 0,2,3" TextureCoordinates="0,0 0,1 1,1 1,0"/>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <VisualBrush>
-                                                    <VisualBrush.Visual>
-                                                        <Border>
-                                                            <Label Content="左侧面" Background="Blue" Foreground="White"/>
-                                                        </Border>
-                                                    </VisualBrush.Visual>
-                                                </VisualBrush>
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="BlueViolet"/>
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border>
+                                                                    <Label Content="反面" Background="DarkRed" Foreground="White"/>
+                                                                </Border>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="BlueViolet"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
 
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="10,-10,20 10,10,20 -10,10,20 -10,-10,20" 
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D Positions="-10,-10,20 -10,-10,0 10,-10,0 10,-10,20" 
                                                     TriangleIndices="0,1,2 0,2,3" TextureCoordinates="0,0 0,1 1,1 1,0"/>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <VisualBrush>
-                                                    <VisualBrush.Visual>
-                                                        <Border>
-                                                            <Label Content="上面" Background="Purple" Foreground="White"/>
-                                                        </Border>
-                                                    </VisualBrush.Visual>
-                                                </VisualBrush>
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="BlueViolet"/>
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border>
+                                                                    <Label Content="左侧面" Background="Blue" Foreground="White"/>
+                                                                </Border>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="BlueViolet"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
 
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D Positions="10,-10,0 10,10,0 -10,10,0 -10,-10,0" 
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D Positions="10,-10,20 10,10,20 -10,10,20 -10,-10,20" 
+                                                    TriangleIndices="0,1,2 0,2,3" TextureCoordinates="0,0 0,1 1,1 1,0"/>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border>
+                                                                    <Label Content="上面" Background="Purple" Foreground="White"/>
+                                                                </Border>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="BlueViolet"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
+
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D Positions="10,-10,0 10,10,0 -10,10,0 -10,-10,0" 
                                                     TriangleIndices="0,3,2 0,2,1" TextureCoordinates="0,0 0,1 1,1 1,0"/>
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <VisualBrush>
-                                                    <VisualBrush.Visual>
-                                                        <Border>
-                                                            <Label Content="底面" Background="Black" Foreground="White"/>
-                                                        </Border>
-                                                    </VisualBrush.Visual>
-                                                </VisualBrush>
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="BlueViolet"/>
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                            </Model3DGroup>
-                        </ModelVisual3D.Content>
-                    </ModelVisual3D>
-                    <ModelVisual3D>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border>
+                                                                    <Label Content="底面" Background="Black" Foreground="White"/>
+                                                                </Border>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="BlueViolet"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
+                                        
+                                        <!--切平面-->
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D x:Name="cuttingMeshGeometry"/>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush AutoLayoutContent="True">
+                                                            <VisualBrush.Visual>
+                                                                <Label Content="切平面" Background="DeepPink" Foreground="White"/>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial Brush="DeepPink"/>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
+                                    </Model3DGroup>
+                                </ModelVisual3D.Content>
+                            </ModelVisual3D>
+                            <!--<ModelVisual3D>
                         <ModelVisual3D.Content>
                             <GeometryModel3D>
                                 <GeometryModel3D.Geometry>
@@ -186,23 +232,25 @@
                                 </GeometryModel3D.BackMaterial>
                             </GeometryModel3D>
                         </ModelVisual3D.Content>
-                    </ModelVisual3D>
-                    <helix:MeshVisual3D.Transform>
-                        <ScaleTransform3D ScaleX="1.0" ScaleY="1.0" ScaleZ="1.0" x:Name="Scale"/>
-                    </helix:MeshVisual3D.Transform>
-                </helix:MeshVisual3D>
-            </helix:CuttingPlaneGroup>
-            <helix:HelixViewport3D.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Duration="0:0:0.5" To="0.2" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX"/>
-                            <DoubleAnimation Duration="0:0:0.5" To="0.2" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY"/>
-                            <DoubleAnimation Duration="0:0:0.5" To="0.2" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleZ"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </helix:HelixViewport3D.Triggers>
-        </helix:HelixViewport3D>
+                    </ModelVisual3D>-->
+                            <helix:MeshVisual3D.Transform>
+                                <ScaleTransform3D ScaleX="1.0" ScaleY="1.0" ScaleZ="1.0" x:Name="Scale"/>
+                            </helix:MeshVisual3D.Transform>
+                        </helix:MeshVisual3D>
+                    </helix:CuttingPlaneGroup>
+                    <helix:HelixViewport3D.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0:0:0.5" To="0.2" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX"/>
+                                    <DoubleAnimation Duration="0:0:0.5" To="0.2" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY"/>
+                                    <DoubleAnimation Duration="0:0:0.5" To="0.2" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleZ"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </helix:HelixViewport3D.Triggers>
+                </helix:HelixViewport3D>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>
