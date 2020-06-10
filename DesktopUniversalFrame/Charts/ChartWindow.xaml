@@ -1,0 +1,85 @@
+﻿<Window x:Class="DesktopUniversalFrame.Charts.ChartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopUniversalFrame.Charts"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="ChartWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="15">
+                <Button Command="{Binding ReadCommand}">Start</Button>
+                <Button Command="{Binding StopCommand}" Margin="5,0,5,0">Stop</Button>
+                <Button Command="{Binding CleaCommand}">Clear</Button>
+                <TextBlock VerticalAlignment="Center" Margin="15 0" Text="{Binding Count, StringFormat=点数量: {0}}"></TextBlock>
+            </StackPanel>
+            <lvc:CartesianChart Grid.Row="1" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" 
+                                Zoom="X" AnimationsSpeed="200">
+                <lvc:CartesianChart.Resources>
+                    <Style TargetType="lvc:LineSeries">
+                        <Setter Property="StrokeThickness" Value="2"/>
+                        <Setter Property="Stroke" Value="BlueViolet"/>
+                        <Setter Property="Fill" Value="#BBFF0000"/>
+                        <Setter Property="LineSmoothness" Value="1"/>
+                        <Setter Property="AreaLimit" Value="1"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsHot}" Value="true">
+                                <Setter Property="Fill" Value="LimeGreen"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="lvc:Separator">
+                        <Setter Property="Stroke" Value="#804A4A4A"></Setter>
+                        <Setter Property="StrokeThickness" Value="2"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="AxisOrientation" Value="X">
+                                <Setter Property="IsEnabled" Value="False"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </lvc:CartesianChart.Resources>
+                <lvc:CartesianChart.Series>
+                    <lvc:LineSeries Values="{Binding LineValues}" PointGeometry="{x:Null}"/>
+                </lvc:CartesianChart.Series>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis MaxValue="20500" ShowLabels="False"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis>
+                        <lvc:Axis.Sections>
+                            <lvc:AxisSection Value="0"  StrokeThickness="3" Stroke="#303030"/>
+                        </lvc:Axis.Sections>
+                    </lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+            <TextBlock Grid.Row="1" Text="{Binding CurrentLecture,StringFormat={}{0:F2}°}"  
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="20,20"             
+                   FontSize="50" Foreground="#72000000"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <lvc:PieChart LegendLocation="Bottom" Hoverable="True" DataTooltip="{x:Null}">
+                <lvc:PieChart.Series>
+                    <lvc:PieSeries Values="1" DataLabels="True" Title="Apple" LabelPoint="{Binding PointLabel}"/>
+                    <lvc:PieSeries Values="2" DataLabels="True" Title="Orange" LabelPoint="{Binding PointLabel}"/>
+                    <lvc:PieSeries Values="3" DataLabels="True" Title="Pear" LabelPoint="{Binding PointLabel}"/>
+                    <lvc:PieSeries Values="4" DataLabels="True" Title="Banana" LabelPoint="{Binding PointLabel}"/>
+                </lvc:PieChart.Series>
+            </lvc:PieChart>
+        </Grid>
+    </Grid>
+    
+</Window>
