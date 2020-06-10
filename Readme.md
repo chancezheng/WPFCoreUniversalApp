@@ -59,7 +59,7 @@ P(n).X*x + P(n).Y*y + P(n).Z*z = 0,若P(0)非原点，可通过在y轴上平移�
 ![切平面通用方程式](DesktopUniversalFrame/Resource/Effect/planecutting.png)
 ![正方体](DesktopUniversalFrame/Resource/Effect/CubeCutting.gif)
 
-### 图表控件
+### 图表控件(图像理论上可绘制达1000万个点)
 ![图表控件](DesktopUniversalFrame/Resource/Effect/Charts.gif)
 
 
