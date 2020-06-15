@@ -1,9 +1,8 @@
-﻿<Window x:Class="DesktopUniversalFrame.GraphicsCutting._3D.DemoWindow"
+﻿<Window x:Class="DesktopUniversalFrame.Graphics.GraphicsCutting._3D.DemoWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DesktopUniversalFrame.GraphicsCutting._3D"
         xmlns:helix="http://helix-toolkit.org/wpf"
         mc:Ignorable="d"
         Title="DemoWindow" Height="500" Width="800"
@@ -38,12 +37,7 @@
                         <helix:CuttingPlaneGroup.CuttingPlanes>
                             <helix:Plane3D x:Name="PlaneVector3D" Position="0,0,0"/>
                         </helix:CuttingPlaneGroup.CuttingPlanes>
-                        
-                        <!--<helix:TruncatedConeVisual3D 
-                    Material="{helix:ImageMaterial 'pack://application:,,,/Earth.jpg'}"
-                    BackMaterial="{helix:Material Red}"
-                    Fill="BlueViolet" ThetaDiv="90" TopRadius="1" BaseRadius="3"/>-->
-
+                       
                         <helix:MeshVisual3D >
                             <ModelVisual3D x:Name="CubeModelVisual3D">
                                 <ModelVisual3D.Content>

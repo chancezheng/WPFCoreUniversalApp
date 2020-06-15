@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
-namespace DesktopUniversalFrame.GraphicsCutting._3D
+namespace DesktopUniversalFrame.Graphics.GraphicsCutting._3D
 {
     /// <summary>
     /// DemoWindow.xaml 的交互逻辑

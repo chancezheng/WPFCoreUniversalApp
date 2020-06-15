@@ -1,0 +1,56 @@
+﻿<RibbonWindow x:Class="DesktopUniversalFrame.Graphics.GraphicsCuttingStitching.GraphicsCuttingStitching"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        Title="图像处理" Height="450" Width="800">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="{x:Static shell:WindowChrome.GlassFrameCompleteThickness}"/>
+    </WindowChrome.WindowChrome>
+    
+    <Grid>
+        <Ribbon AllowDrop="True" Background="Transparent" VerticalAlignment="Top" 
+                BorderThickness="0" BorderBrush="Red" Visibility="Collapsed" WindowIconVisibility="Collapsed">
+            <Ribbon.QuickAccessToolBar>
+                <RibbonQuickAccessToolBar>
+                    <RibbonMenuButton SmallImageSource="/DesktopUniversalFrame;component/logo.jpg">
+                        <RibbonMenuItem Header="ZZZ"/>
+                        <RibbonMenuItem Header="XXX"/>
+                        <RibbonMenuItem Header="YYY"/>
+                    </RibbonMenuButton>
+                    <RibbonButton Content="开始" SmallImageSource="/DesktopUniversalFrame;component/logo.jpg"/>
+                    <RibbonSplitButton SmallImageSource="/DesktopUniversalFrame;component/logo.jpg">
+                        <RibbonMenuItem Header="AAA"/>
+                        <RibbonMenuItem Header="BBB"/>
+                        <RibbonMenuItem Header="CCC"/>
+                    </RibbonSplitButton>
+                </RibbonQuickAccessToolBar>
+            </Ribbon.QuickAccessToolBar>
+
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu>
+                    <RibbonMenuItem Header="000" ImageSource="/DesktopUniversalFrame;component/logo.jpg"/>
+                    <RibbonMenuItem Header="111" ImageSource="/DesktopUniversalFrame;component/logo.jpg"/>
+                    <RibbonMenuItem Header="222" ImageSource="/DesktopUniversalFrame;component/logo.jpg"/>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+           
+            <RibbonTab Header="图像拼接" KeyTip="S">
+                <RibbonGroup Header="拼接"></RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="图像切割" KeyTip="C">
+
+            </RibbonTab>
+        </Ribbon>
+        <TabControl TabStripPlacement="Left" Margin="0,30,0,0">
+            <TabItem Header="图像拼接" Loaded="TabItem_Loaded">
+                <Image x:Name="imgStitching"/>
+            </TabItem>
+            <TabItem Header="图像分割"/>
+        </TabControl>
+    </Grid>
+</RibbonWindow>

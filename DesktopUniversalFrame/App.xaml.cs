@@ -20,9 +20,10 @@ namespace DesktopUniversalFrame
 
             //App.Current.StartupUri = new Uri("Views/MedicalView/MedicalReportWindow.xaml", UriKind.Relative);
 
-            //App.Current.StartupUri = new Uri("GraphicsCutting/3D/DemoWindow.xaml", UriKind.Relative);
+            //App.Current.StartupUri = new Uri("Graphics/GraphicsCutting/3D/DemoWindow.xaml", UriKind.Relative);
+            App.Current.StartupUri = new Uri("Graphics/GraphicsCuttingStitching/GraphicsCuttingStitching.xaml", UriKind.Relative);
 
-            App.Current.StartupUri = new Uri("Charts/ChartWindow.xaml", UriKind.Relative);
+            //App.Current.StartupUri = new Uri("Charts/ChartWindow.xaml", UriKind.Relative);
         }
     }
 }
