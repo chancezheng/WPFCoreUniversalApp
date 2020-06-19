@@ -19,9 +19,7 @@ WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式,目前连
 - 软件自动更新------------------------x（之前写过，我就直接拷贝过来再改下得了）
 - 想到什么补充什么吧。。。。。。
 
-第一次效果图(2D)：
-![系统登录效果](DesktopUniversalFrame/Resource/Effect/Login.gif)
-第二次效果图(3D)：
+登陆效果图(2D/3D)：
 ![系统登录效果](DesktopUniversalFrame/Resource/Effect/Login3D.gif)
 
 ### 登陆界面切换3D动画核心代码如下：
@@ -47,11 +45,15 @@ WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式,目前连
 ### 医疗报告系统效果图(布局完成，功能模块一部分)
 - 查看、登记、编辑、刷新、删除-----------------√
 - Excel模板、 导入、导出(Excel、Word)--------------------------√
+- 诊断-------------------------------------------------完成一半
 - 数据转PDF，XML，Json-----------------------------近期完成
 - 转为图形统计(2D、3D)-----------------------------√
 - 。。。。。。
 ![医疗报告系统界面效果](DesktopUniversalFrame/Resource/Effect/MedicalPredium3.gif)
 ![医疗报告系统界面效果](DesktopUniversalFrame/Resource/Effect/effect1.png)
+
+#### 诊断可实现图片轮播浏览，还可以查看360度全景详细图片
+![诊断效果图](DesktopUniversalFrame/Resource/Effect/CarouselView.gif)
 
 ### 3D图像平面切割效果（可任意角度去切割三维图形），项目中有例子，有兴趣的可自行查看
 以下示范立方体的，原理如下:假设平面内有一定点P(0)(该点也在三维图形空间内)，过定点P0的法向量为P(n),设该平面的任意一点坐标为P(x,y,z)，则通过法向量垂直平面即可求出平面方程，若P(0)=(0,0,0)，则切平面方程为：

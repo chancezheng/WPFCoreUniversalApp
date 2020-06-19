@@ -1,0 +1,43 @@
+﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              ColumnWidth="400" FontSize="14" FontFamily="Georgia"
+              xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.MedicalViewModel">
+
+    <!--<FlowDocument.DataContext>
+        <vm:DiagnoseViewModel/>
+    </FlowDocument.DataContext>-->
+    
+    <Paragraph>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=Patient.PatientName,StringFormat=姓名：{0}}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=Patient.Age,StringFormat=年龄：{0}}"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Patient.Gender,StringFormat=性别：{0}}"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Patient.PhoneNumber,StringFormat=电话号码：{0}}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Patient.SampleNumber,StringFormat=样本号：{0}}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Patient.SampleBarCode,StringFormat=条码号：{0}}"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Patient.SampleType,StringFormat=样本类型：{0}}"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Path=Patient.ReportType,StringFormat=报告类型：{0}}"/>
+            </Grid>
+        </Grid>
+    </Paragraph>
+    
+</FlowDocument>

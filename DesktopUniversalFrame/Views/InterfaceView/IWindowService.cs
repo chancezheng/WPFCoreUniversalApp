@@ -10,6 +10,6 @@ namespace DesktopUniversalFrame.Views.InterfaceView
     /// </summary>
     public interface IWindowService
     {
-        void ShowWindow(object ViewModel, FrameworkElement frameworkElement);
+        void ShowWindow<T>(object ViewModel, FrameworkElement frameworkElement) where T : Window;
     }
 }

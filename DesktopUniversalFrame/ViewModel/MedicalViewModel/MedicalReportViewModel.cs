@@ -27,8 +27,12 @@ using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 {
+    public delegate void MessengerViewModel(List<PatientExtention> patients);
+
     public class MedicalReportViewModel : WindowCommandBaseModel, IWindowService
     {
+        public MessengerViewModel MessengerViewModelDelegate { get; set; }
+        private DiagnoseViewModel DiagnoseViewModel { get; set; }
 
         #region Command
 
@@ -164,7 +168,12 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         public ObservableCollection<PatientExtention> PatientsInformation
         {
             get => _patientsInformation;
-            set => SetProperty(ref _patientsInformation, value);
+            set 
+            {
+                if (_patientsInformation == value) return;              
+                SetProperty(ref _patientsInformation, value);
+                MessengerViewModelDelegate?.Invoke(PatientsInformation.ToList());
+            }
         }
 
         /// <summary>
@@ -214,6 +223,8 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         public MedicalReportViewModel()
         {
+            SubscriptionEvent();
+
             LoadedWindowCommand = new DelegateCommand<Window>(Loaded);
             FunctionTabSwitch = new DelegateCommand<RadioButton>(SelectTabItem);
             LoadingRowCommand = new DelegateCommand<DataGrid>(LoadingRow);
@@ -222,15 +233,14 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             SelectedThisCommand = new DelegateCommand<CheckBox>(SelectedThisItem);
             //ContextMenuItemSelectedCommand = new DelegateCommand<MenuItem>(ContextMenuItemSelected);
 
-            GiteeHyperlinkCommand = new DelegateCommand<Hyperlink>(GitHyperink);
+            GiteeHyperlinkCommand = new DelegateCommand<Hyperlink>(GitHyperink);            
         }
 
-        /// <summary>
-        /// 外网访问
-        /// </summary>
-        private void GitHyperink(Hyperlink hyperlink)
+        //订阅事件
+        private void SubscriptionEvent()
         {
-            Process.Start(new ProcessStartInfo("explorer", hyperlink.NavigateUri.AbsoluteUri));
+            DiagnoseViewModel = new DiagnoseViewModel();
+            MessengerViewModelDelegate += DiagnoseViewModel.MessengerViewModelDelegate;
         }
 
         private void Loaded(Window win)
@@ -254,7 +264,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                 }
             }
 
-            PatientsInformation = GetPatientData();
+            PatientsInformation = GetPatientData();          
         }
 
         //获取病人信息数据
@@ -284,7 +294,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                         registrationViewModel.PatientRegister = new PatientExtention();
                         registrationViewModel.IsUIVisible = true;
-                        ShowWindow(registrationViewModel, rb);
+                        ShowWindow<Registration>(registrationViewModel, rb);
                     }
                     break;
                 case "Registration.excel":
@@ -300,6 +310,22 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                 case "Registration.export":
                     {
                         ExportExcelData();
+                    }
+                    break;
+                case "Diagnose.local":
+                    {
+                        DiagnoseViewModel diagnoseViewModel = new DiagnoseViewModel();
+                        ShowWindow<DiagnoseView>(diagnoseViewModel, rb);
+                    }
+                    break;
+                case "Diagnose.cloud":
+                    {
+
+                    }
+                    break;
+                case "Diagnose.auto":
+                    {
+
                     }
                     break;
                 default:
@@ -375,7 +401,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                         registrationViewModel.PatientRegister = PatientsInformation[selectedIndex];
                         registrationViewModel.IsUIVisible = false;
-                        ShowWindow(registrationViewModel, item);
+                        ShowWindow<Registration>(registrationViewModel, item);
                     }
                     break;
                 case "register":
@@ -383,7 +409,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                         registrationViewModel.PatientRegister = new PatientExtention();
                         registrationViewModel.IsUIVisible = true;
-                        ShowWindow(registrationViewModel, item);
+                        ShowWindow<Registration>(registrationViewModel, item);
                     }
                     break;
                 case "editor":
@@ -396,7 +422,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                         RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                         registrationViewModel.PatientRegister = PatientsInformation[selectedIndex];
                         registrationViewModel.IsUIVisible = true;
-                        ShowWindow(registrationViewModel, item);
+                        ShowWindow<Registration>(registrationViewModel, item);
 
                     }
                     break;
@@ -632,6 +658,12 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 
         #endregion
 
+        #region 诊断
+
+
+
+        #endregion
+
         /// <summary>
         /// 刷新
         /// </summary>
@@ -656,12 +688,13 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         /// <summary>
         /// 开启窗口
         /// </summary>
-        public void ShowWindow(object ViewModel, FrameworkElement frameworkElement)
+        public void ShowWindow<T>(object ViewModel, FrameworkElement frameworkElement) where T : Window
         {
-            Registration registration = new Registration();
-            registration.DataContext = ViewModel;
-            registration.Owner = Window.GetWindow(frameworkElement) as MedicalReportWindow;
-            registration.Show();
+            Type type = typeof(T);
+            T instance = (T)Activator.CreateInstance(type);
+            instance.DataContext = ViewModel;
+            instance.Owner = Window.GetWindow(frameworkElement) as MedicalReportWindow;
+            instance.Show();
         }
 
         /// <summary>
@@ -671,6 +704,25 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         public static void Action(Action action)
         {
             App.Current.Dispatcher.BeginInvoke(action = () => { });
+        }
+
+        /// <summary>
+        /// 外网访问
+        /// </summary>
+        private void GitHyperink(Hyperlink hyperlink)
+        {
+            Process.Start(new ProcessStartInfo("explorer", hyperlink.NavigateUri.AbsoluteUri));
+        }
+
+        /// <summary>
+        /// 得到与bin文件同级的目录
+        /// </summary>
+        /// <returns></returns>
+        public static string GetBinPath()
+        {
+            var path = Directory.GetCurrentDirectory();
+            path = Directory.GetParent(path).Parent.Parent.FullName;
+            return path;
         }
     }
 }

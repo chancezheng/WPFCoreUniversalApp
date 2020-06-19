@@ -26,12 +26,23 @@
     <None Remove="Resource\Medical\Images\about.png" />
     <None Remove="Resource\Medical\Images\background.png" />
     <None Remove="Resource\Medical\Images\Medical.png" />
+    <None Remove="Resource\Medical\Images\xindian1.jpg" />
+    <None Remove="Resource\Medical\Images\xindian2.jpg" />
+    <None Remove="Resource\Medical\Images\xindian3.jpg" />
+    <None Remove="Resource\Medical\Images\xindian4.jpg" />
+    <None Remove="Resource\Medical\Images\xindian5.jpg" />
     <None Remove="UserCtl\Login\AdvertisingControl.xaml~RF3524167.TMP" />
     <None Remove="ViewModel\UserInfoModel.cs~RF141e8df.TMP" />
+    <None Remove="Views\MedicalView\DiagnoseView.xaml~RF34e86ff.TMP" />
     <Resource Include="C:\Users\Administrator\Desktop\logo.jpg">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </Resource>
+    <Resource Include="Resource\Medical\Images\xindian1.jpg" />
+    <Resource Include="Resource\Medical\Images\xindian2.jpg" />
+    <Resource Include="Resource\Medical\Images\xindian3.jpg" />
+    <Resource Include="Resource\Medical\Images\xindian4.jpg" />
+    <Resource Include="Resource\Medical\Images\xindian5.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DesktopUniversalCustomControl" Version="1.0.3.2" />
     <PackageReference Include="EPPlus" Version="5.1.2" />
     <PackageReference Include="Esri.ArcGISRuntime" Version="100.8.0" />
     <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.12.0" />
@@ -60,6 +70,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="DesktopUniversalCustomControl">
+      <HintPath>..\..\DesktopUniversalCustomControl\DesktopUniversalCustomControl\bin\Debug\netcoreapp3.1\DesktopUniversalCustomControl.dll</HintPath>
+    </Reference>
     <Reference Include="LiveCharts.Geared">
       <HintPath>bin\Debug\netcoreapp3.1\LiveCharts.Geared.dll</HintPath>
     </Reference>

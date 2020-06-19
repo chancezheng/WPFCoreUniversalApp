@@ -1,0 +1,76 @@
+﻿<Window x:Class="DesktopUniversalFrame.Views.MedicalView.DiagnoseView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:DesktopUniversalFrame.ViewModel.MedicalViewModel"
+        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent;assembly=DesktopUniversalCustomControl"
+        mc:Ignorable="d" x:Name="diagnoseWin"
+        Title="DiagnoseView" Height="800" Width="1500" Background="#3C3C3C"
+        WindowStartupLocation="CenterScreen" Style="{StaticResource NoneWindow}">
+
+    <Window.DataContext>
+        <vm:DiagnoseViewModel/>
+    </Window.DataContext>
+
+    <behavior:Interaction.Triggers>
+        <behavior:EventTrigger EventName="MouseMove">
+            <behavior:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=diagnoseWin}"/>
+        </behavior:EventTrigger>
+        <behavior:EventTrigger EventName="Loaded">
+            <behavior:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=diagnoseWin}"/>
+        </behavior:EventTrigger>
+    </behavior:Interaction.Triggers>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--<DocumentViewer Grid.Column="0" Document="{Binding FlowDocument}" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Margin="5,1,0,1" Background="Transparent" Zoom="65" Visibility="Collapsed"/>-->
+        <Border Grid.Column="0" BorderThickness="1" BorderBrush="Gray"
+                CornerRadius="5" Margin="50" Background="White">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="5" Direction="-20" Color="Black" Opacity="0.5"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=Patient.PatientName,StringFormat=姓名：{0}}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=Patient.Age,StringFormat=年龄：{0}}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Patient.Gender,StringFormat=性别：{0}}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Patient.PhoneNumber,StringFormat=电话：{0}}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Patient.SampleNumber,StringFormat=样本号：{0}}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Patient.SampleBarCode,StringFormat=条码号：{0}}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=Patient.SampleType,StringFormat=样本类型：{0}}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Patient.ReportType,StringFormat=报告类型：{0}}"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <customCtl:CarouselControl Grid.Column="1" Height="500" ItemsSource="{Binding ImageItems}" 
+                                   TopMostIndex="{Binding ImageIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   ImageItemWidth="450" ImageItemHeight="450" Style="{x:Null}" x:Name="WholeScene"/>
+    </Grid>
+    
+</Window>

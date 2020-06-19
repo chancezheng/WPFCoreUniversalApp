@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:attached="clr-namespace:DesktopUniversalFrame.Common"
-                    xmlns:common="clr-namespace:DesktopUniversalFrame.Common"  >
+                    xmlns:common="clr-namespace:DesktopUniversalFrame.Common">
 
     <Style x:Key="NoneWindow" TargetType="{x:Type Window}">
         <Setter Property="WindowState" Value="Normal"/>
@@ -76,6 +76,7 @@
                                     </LinearGradientBrush>
                                 </ScrollViewer.Background>
                             </ScrollViewer>
+                            <!--<ContentControl x:Name="PART_FindToolBarHost"/>-->
                         </Grid>
                     </Border>
                 </ControlTemplate>
