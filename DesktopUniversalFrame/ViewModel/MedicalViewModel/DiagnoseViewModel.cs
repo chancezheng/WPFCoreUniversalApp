@@ -51,7 +51,6 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         }
 
 
-
         public DiagnoseViewModel()
         {
             string baseUri = AppDomain.CurrentDomain.BaseDirectory;
@@ -71,7 +70,6 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
                     scenePath = list3[i],
                 });
             }
-
 
             LoadedWindowCommand = new DelegateCommand<Window>(Loaded);
         }

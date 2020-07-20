@@ -172,7 +172,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             {
                 if (_patientsInformation == value) return;              
                 SetProperty(ref _patientsInformation, value);
-                MessengerViewModelDelegate?.Invoke(PatientsInformation.ToList());
+                MessengerViewModelDelegate?.Invoke(PatientsInformation?.ToList());
             }
         }
 

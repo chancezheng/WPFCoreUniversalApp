@@ -6,14 +6,14 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
 {
     public class ViewModelBase : WindowCommandBaseModel
     {
-        //private MedicalReportViewModel MedicalReportViewModel { get; set; }
-        //private DiagnoseViewModel DiagnoseViewModel { get; set; }
+        private MedicalReportViewModel MedicalReportViewModel { get; set; }
+        private DiagnoseViewModel DiagnoseViewModel { get; set; }
 
-        //public ViewModelBase()
-        //{
-        //    MedicalReportViewModel = new MedicalReportViewModel();
-        //    DiagnoseViewModel = new DiagnoseViewModel();
-        //    MedicalReportViewModel.MessengerViewModelDelegate += DiagnoseViewModel.MessengerViewModelDelegate;
-        //}
+        public ViewModelBase()
+        {
+            MedicalReportViewModel = new MedicalReportViewModel();
+            DiagnoseViewModel = new DiagnoseViewModel();
+            MedicalReportViewModel.MessengerViewModelDelegate += DiagnoseViewModel.MessengerViewModelDelegate;
+        }
     }
 }

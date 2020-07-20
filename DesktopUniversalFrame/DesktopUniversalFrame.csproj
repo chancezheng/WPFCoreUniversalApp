@@ -34,10 +34,6 @@
     <None Remove="UserCtl\Login\AdvertisingControl.xaml~RF3524167.TMP" />
     <None Remove="ViewModel\UserInfoModel.cs~RF141e8df.TMP" />
     <None Remove="Views\MedicalView\DiagnoseView.xaml~RF34e86ff.TMP" />
-    <Resource Include="C:\Users\Administrator\Desktop\logo.jpg">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </Resource>
     <Resource Include="Resource\Medical\Images\xindian1.jpg" />
     <Resource Include="Resource\Medical\Images\xindian2.jpg" />
     <Resource Include="Resource\Medical\Images\xindian3.jpg" />
