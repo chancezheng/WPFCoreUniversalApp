@@ -23,6 +23,11 @@ namespace DesktopUniversalFrame.Views.MedicalView
         {
             InitializeComponent();
         }
+
+        private void PatientDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
     /// <summary>

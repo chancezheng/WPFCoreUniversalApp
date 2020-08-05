@@ -29,15 +29,15 @@
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </ControlTemplate.Resources>
-                    <Grid x:Name="TemplateRoot" Margin="5">
+                    <Grid x:Name="TemplateRoot" Margin="5" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                         <Grid.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform x:Name="st" ScaleX="1" ScaleY="1"/>
                                 <RotateTransform Angle="0" CenterX="350" CenterY="200"/>
-                                <TranslateTransform x:Name="trt" X="10"/>
+                                <TranslateTransform x:Name="trt" X="0"/>
                             </TransformGroup>
                         </Grid.RenderTransform>
-                        <Rectangle Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" RadiusX="10" RadiusY="10">
+                        <Rectangle Fill="Transparent" RadiusX="10" RadiusY="10">
                             <Rectangle.Effect>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="DarkSeaGreen" Opacity="0.8" RenderingBias="Performance"/>
                             </Rectangle.Effect>
@@ -70,14 +70,14 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Storyboard.TargetName="TemplateRoot">
-                                        <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="450"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="800"/>
-                                    </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Height" Storyboard.TargetName="TemplateRoot">
                                         <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="450"/>
+                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="440"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Storyboard.TargetName="TemplateRoot">
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="440"/>
+                                        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="790"/>
                                     </DoubleAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>

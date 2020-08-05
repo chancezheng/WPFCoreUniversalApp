@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>update.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>E:\DesktopUniversalFrame\DesktopUniversalFrame\bin\Debug\netcoreapp3.1\AppUpdate\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="UpdateWindow.xaml~RF423784d.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DesktopUniversalCustomControl" Version="1.0.3.4" />
+  </ItemGroup>
+
+</Project>

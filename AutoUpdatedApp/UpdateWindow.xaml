@@ -1,0 +1,23 @@
+﻿<Window x:Class="AutoUpdatedApp.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdatedApp"
+        xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent;assembly=DesktopUniversalCustomControl"
+        mc:Ignorable="d" WindowStyle="None" AllowsTransparency="True"
+        Title="检查更新" Height="200" Width="500"
+        WindowState="Normal" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded" Background="#3C3C3C">
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="{Binding ProcessInfo}" FontSize="16" FontWeight="Bold" Foreground="White" Margin="20,0,0,20"/>
+            <StackPanel Orientation="Horizontal">
+                <customCtl:CustomProgressBar Value="{Binding CurrentValue}" Width="350" Height="30" Margin="20,0"/>
+                <customCtl:ImageButton ImageButtonContent="完成" Width="50" Height="30" Click="ImageButton_Click"
+                                   Background="BlueViolet" Foreground="White" Margin="20,0"
+                                   ImageVisibility="Collapsed" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

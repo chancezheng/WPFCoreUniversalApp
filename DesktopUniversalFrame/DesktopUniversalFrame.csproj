@@ -17,9 +17,16 @@
     <FileVersion>1.0.0.1</FileVersion>
     <Version>1.0.1</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <StartupObject>DesktopUniversalFrame.App</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AutoUpdate\netcoreapp3.1\**" />
+    <EmbeddedResource Remove="AutoUpdate\netcoreapp3.1\**" />
+    <None Remove="AutoUpdate\netcoreapp3.1\**" />
+    <Page Remove="AutoUpdate\netcoreapp3.1\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Model\BaseModel.cs~RFe8116c.TMP" />
@@ -54,8 +61,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DesktopUniversalCustomControl" Version="1.0.3.4" />
     <PackageReference Include="EPPlus" Version="5.1.2" />
     <PackageReference Include="Esri.ArcGISRuntime" Version="100.8.0" />
+    <PackageReference Include="GMap.NET.Windows" Version="2.0.1" />
     <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.12.0" />
     <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.7" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0-ci1494" />
@@ -66,9 +75,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DesktopUniversalCustomControl">
-      <HintPath>..\..\DesktopUniversalCustomControl\DesktopUniversalCustomControl\bin\Debug\netcoreapp3.1\DesktopUniversalCustomControl.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\AutoUpdatedApp\AutoUpdatedApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="LiveCharts.Geared">
       <HintPath>bin\Debug\netcoreapp3.1\LiveCharts.Geared.dll</HintPath>
     </Reference>

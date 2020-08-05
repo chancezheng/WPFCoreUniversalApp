@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         Title="Login" x:Name="loginWindow"
         Width="800" Height="450" ResizeMode="NoResize"
-        WindowState="Normal" WindowStyle="None"  Background="{DynamicResource BackgroundBrush}"
+        WindowState="Normal" WindowStyle="None" Background="{DynamicResource BackgroundBrush}"
         WindowStartupLocation="CenterScreen" AllowsTransparency="True">
 
     <Window.DataContext>

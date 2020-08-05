@@ -98,6 +98,7 @@
                                            Command="{Binding GiteeHyperlinkCommand}" CommandParameter="{Binding ElementName=github}">Github</Hyperlink>
                             </MenuItem>
                             <MenuItem Header="反馈"/>
+                            <MenuItem Header="检查更新" x:Name="checkUpdate" Command="{Binding CheckUpdateCommand}" CommandParameter="{Binding ElementName=checkUpdate}"/>
                             <MenuItem Header="关于" x:Name="about" IsCheckable="True"/>
                         </MenuItem>
                     </Menu>
@@ -203,7 +204,7 @@
             </Grid.RowDefinitions>
             <DataGrid ItemsSource="{Binding PatientsInformation}" RowHeaderWidth="0" x:Name="PatientDataGrid" 
                       BorderThickness="0,0,0,1" BorderBrush="DeepSkyBlue" IsReadOnly="True" SelectionMode="Extended"
-                      AutoGenerateColumns="False" CanUserSortColumns="True" CanUserAddRows="False" HeadersVisibility="All" Grid.ColumnSpan="2" Margin="0,0,0,30" Grid.RowSpan="2">
+                      AutoGenerateColumns="False" CanUserSortColumns="True" CanUserAddRows="False" HeadersVisibility="All" Grid.ColumnSpan="2" Margin="0,0,0,30" Grid.RowSpan="2" SelectionChanged="PatientDataGrid_SelectionChanged">
                 <behavior:Interaction.Triggers>
                     <behavior:EventTrigger EventName="SelectionChanged">
                         <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand,Source={StaticResource MedicalReportViewModel}}" 

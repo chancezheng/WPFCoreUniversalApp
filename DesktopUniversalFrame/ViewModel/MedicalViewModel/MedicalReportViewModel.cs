@@ -1,4 +1,5 @@
 ﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
+using DesktopUniversalFrame.AutoUpdate;
 using DesktopUniversalFrame.Common.MappingAttribute;
 using DesktopUniversalFrame.Entity;
 using DesktopUniversalFrame.Entity.FileUtils;
@@ -22,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Markup;
 using System.Windows.Media.Animation;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
@@ -37,6 +39,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         #region Command
 
         private DelegateCommand<Hyperlink> _giteeHyperlinkCommand;
+        private DelegateCommand<MenuItem> _checkUpdateCommand;
         private DelegateCommand<RadioButton> _functionTabSwitch;
         private DelegateCommand<DataGrid> _loadingRowCommand;
         private DelegateCommand<DataGrid> _selectionChangedCommand;
@@ -52,6 +55,15 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         {
             get { return _giteeHyperlinkCommand; }
             set { _giteeHyperlinkCommand = value; }
+        }
+
+        /// <summary>
+        /// 检查更新
+        /// </summary>
+        public DelegateCommand<MenuItem> CheckUpdateCommand
+        {
+            get => _checkUpdateCommand;
+            set => SetProperty(ref _checkUpdateCommand, value);
         }
 
         /// <summary>
@@ -232,8 +244,9 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
             SelectedAllCommand = new DelegateCommand<CheckBox>(SelectedAll);
             SelectedThisCommand = new DelegateCommand<CheckBox>(SelectedThisItem);
             //ContextMenuItemSelectedCommand = new DelegateCommand<MenuItem>(ContextMenuItemSelected);
-
-            GiteeHyperlinkCommand = new DelegateCommand<Hyperlink>(GitHyperink);            
+           
+            GiteeHyperlinkCommand = new DelegateCommand<Hyperlink>(GitHyperink);
+            CheckUpdateCommand = new DelegateCommand<MenuItem>(CheckUpdate);
         }
 
         //订阅事件
@@ -287,7 +300,7 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         //功能选择器
         private void SelectTabItem(RadioButton rb)
         {
-            switch (rb.Tag.ToString())
+            switch (rb.Tag?.ToString())
             {
                 case "Registration.register":
                     {
@@ -712,6 +725,16 @@ namespace DesktopUniversalFrame.ViewModel.MedicalViewModel
         private void GitHyperink(Hyperlink hyperlink)
         {
             Process.Start(new ProcessStartInfo("explorer", hyperlink.NavigateUri.AbsoluteUri));
+        }
+
+        /// <summary>
+        /// 软件更新
+        /// </summary>
+        /// <param name="item"></param>
+        private void CheckUpdate(MenuItem item)
+        {
+            UpdateProcess updateProcess = new UpdateProcess();
+            updateProcess.CheckAppVersion();  //检查版本是否最新
         }
 
         /// <summary>

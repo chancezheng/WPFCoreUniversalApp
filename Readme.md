@@ -1,6 +1,6 @@
-[![Fork me on Gitee](https://gitee.com/ChanceZXY/DesktopCustomControl/widgets/widget_3.svg)](https://gitee.com/ChanceZXY/DesktopCustomControl)
+[![Fork me on Gitee](https://gitee.com/ChanceZXY/DesktopCustomControl/widgets/widget_3.svg)](https://gitee.com/ChanceZXY/WPFCoreUniversalApp)
 # 项目由来
-本人一直从事PC端开发工作，主要集中在医疗和工业软件开发，所以就想写一款通用的PC端模板，包括医疗系统，工业控件，会涉及到比较多的2D,3D图像，可能会涉及到算法，便于以后快速开发，之前也写过一些自定义控件和视图，现在正好用到这个项目模板中。
+本人一直从事PC端开发工作，主要集中在医疗和工业软件开发，所以就想写一款通用的PC端模板，包括医疗系统，工业控件，教育，会涉及到比较多的2D,3D图像，可能会涉及到算法，便于以后快速开发，之前也写过一些自定义控件和视图，现在正好用到这个项目模板中，有问题可加QQ群交流：658794308。
 # 项目介绍
 WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式,目前连接的是Mysql数据库，准备分为两大块：医疗(Medical),工业（Factory）,其中包含UserControl,CustomControl,Animation,2D,ViewPor3D,日志记录，Excel文档交互，二维码控件，手写的ORM，IOC，权限认证和管理等等。另外我写了一些常用的控件[桌面自定义控件(基于.Net Core3.1)](https://gitee.com/ChanceZXY/DesktopCustomControl)，比如二维码控件(配置即可生成想要的任意二维码)，MessageDialog（弹窗提示View）等。
 
@@ -16,7 +16,7 @@ WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式,目前连
 - 日志文件-----------------------------×
 - Excel文档交互------------------------√
 - 图形(折线、曲线、饼图、柱状图等)-------------------√
-- 软件自动更新------------------------x（之前写过，我就直接拷贝过来再改下得了）
+- 软件自动更新------------------------√
 - 想到什么补充什么吧。。。。。。
 
 登陆效果图(2D/3D)：
@@ -45,8 +45,8 @@ WPFCoreUniversalApp是从零开始，基于.NetCore31,采用MVVM模式,目前连
 ### 医疗报告系统效果图(布局完成，功能模块一部分)
 - 查看、登记、编辑、刷新、删除-----------------√
 - Excel模板、 导入、导出(Excel、Word)--------------------------√
-- 诊断-------------------------------------------------完成一半
-- 数据转PDF，XML，Json-----------------------------近期完成
+- 诊断-------------------------------------------------√
+- 数据转PDF，XML，Json-----------------------------×
 - 转为图形统计(2D、3D)-----------------------------√
 - 。。。。。。
 ![医疗报告系统界面效果](DesktopUniversalFrame/Resource/Effect/MedicalPredium3.gif)
